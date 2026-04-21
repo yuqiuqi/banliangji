@@ -70,10 +70,10 @@ created: 2026-04-21
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or manual UAT rows above
+- [x] All tasks have `<automated>` verify or manual UAT rows above
 - [ ] Sampling continuity: code tasks chained with typecheck/lint
 - [ ] Wave 0 covers all MISSING references
 - [ ] No watch-mode flags in plan verify steps
 - [ ] `nyquist_compliant: true` set in frontmatter **after** Phase 2 execution sign-off
 
-**Approval:** pending
+**Approval:** pending → 2026-04-21 reviewed
