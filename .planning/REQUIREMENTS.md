@@ -26,9 +26,9 @@
 
 ### 工程质量 (QA)
 
-- [ ] **QA-01**: `npm run typecheck` 无错误
-- [ ] **QA-02**: `npm run lint` 无错误（含禁止 `any`）
-- [ ] **QA-03**: 关键路径有人工 UAT 记录（记一笔、编辑、删、日历、图表）
+- [x] **QA-01**: `npm run typecheck` 无错误
+- [x] **QA-02**: `npm run lint` 无错误（含禁止 `any`）
+- [x] **QA-03**: 关键路径有人工 UAT 记录（记一笔、编辑、删、日历、图表）
 
 ## v2.0 本里程碑（SharkBook 融合 — Active）
 
@@ -83,9 +83,9 @@
 | FEAT-05 | Phase 2 | Complete |
 | CHART-01 | Phase 3 | Complete |
 | CHART-02 | Phase 3 | Complete |
-| QA-01 | Phase 4 | Pending |
-| QA-02 | Phase 4 | Pending |
-| QA-03 | Phase 4 | Pending |
+| QA-01 | Phase 4 | Complete |
+| QA-02 | Phase 4 | Complete |
+| QA-03 | Phase 4 | Complete |
 | REF-01 | Phase 5 | Pending |
 | REF-02 | Phase 5 | Pending |
 | REF-03 | Phase 7 | Pending |

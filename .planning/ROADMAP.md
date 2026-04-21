@@ -9,7 +9,7 @@
 - [x] **Phase 1: 数据层与基线验证** — SQLite 契约、回归检查、关键路径文档化   (completed 2026-04-21)
 - [x] **Phase 2: 核心用户流程 UAT** — 明细/记一笔/详情/编辑/删除/日历走查与缺陷修复   (completed 2026-04-21)
 - [x] **Phase 3: 图表与分析一致性** — 周/月/年支出聚合与分类展示对齐产品预期   (completed 2026-04-21)
-- [ ] **Phase 4: 质量门禁与发布准备** — typecheck/lint/手工 UAT 清单与版本说明  
+- [x] **Phase 4: 质量门禁与发布准备** — typecheck/lint/手工 UAT 清单与版本说明   (completed 2026-04-21)
 - [ ] **Phase 5: 预算与资产管家 MVP（v2）** — REF-01 / REF-02；SQLite 扩展与 Tab/导航  
 - [ ] **Phase 6: 全局 UI 与动效精研（v2）** — REF-04；Clay+ 层级、转场与关键屏改版  
 - [x] **Phase 7: 图表 Shark 级表现层（v2）** — REF-03；依赖 Phase 3 数据正确   (completed 2026-04-21)
@@ -90,8 +90,8 @@ Plans:
 
 Plans:
 
-- [ ] 04-01: 脚本与文档：质量门禁、运行方式  
-- [ ] 04-02: 发布检查清单（Expo EAS 或侧载所需项勾选）  
+- [x] 04-01: 脚本与文档：质量门禁、运行方式  
+- [x] 04-02: 发布检查清单（Expo EAS 或侧载所需项勾选）  
 
 ### Phase 5: 预算与资产管家 MVP（v2）
 
@@ -159,7 +159,7 @@ Plans:
 | 1. 数据层与基线验证 | 2/2 | Complete    | 2026-04-21 |
 | 2. 核心用户流程 UAT | 3/3 | Complete    | 2026-04-21 |
 | 3. 图表与分析一致性 | 2/2 | Complete    | 2026-04-21 |
-| 4. 质量门禁与发布准备 | 0/2 | Not started | - |
+| 4. 质量门禁与发布准备 | 2/2 | Complete    | 2026-04-21 |
 | 5. 预算与资产 MVP（v2） | 0/2 | Not started | - |
 | 6. 全局 UI 精研（v2） | 0/2 | Not started | - |
 | 7. 图表表现层（v2） | 0/2 | Not started | - |

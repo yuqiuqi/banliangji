@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: —
-last_updated: "2026-04-21T09:59:15.938Z"
+last_updated: "2026-04-21T10:02:21.000Z"
 last_activity: 2026-04-21
 progress:
   total_phases: 7
-  completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
+  completed_phases: 4
+  total_plans: 9
+  completed_plans: 9
   percent: 100
 ---
 
@@ -21,22 +21,22 @@ progress:
 See: .planning/PROJECT.md
 
 **Core value:** 离线「记一笔 → 明细/日历/图表即时一致」闭环稳定可靠  
-**Current focus:** Phase 3 — 图表与分析一致性
+**Current focus:** Phase 5 — 预算与资产管家 MVP（v2）
 
 ## Current Position
 
-Phase: 4
+Phase: 5
 Plan: Not started
-Status: Executing Phase 3
+Status: Ready to plan
 Last activity: 2026-04-21
 
-Progress: v1 路线图 Phase 3–4 仍待执行；v2 路线图 Phase 5–7 已写入 `ROADMAP.md`。
+Progress: v1 已收口（Phase 1–4 Complete）。下一步：v2 Phase 5 讨论与计划；Roadmap 见 `ROADMAP.md`。
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 7（milestone v1.0 Phase 1–2）
+- Total plans completed: 9（Phase 1–4）
 - Average duration: —  
 - Total execution time: —  
 
@@ -47,6 +47,7 @@ Progress: v1 路线图 Phase 3–4 仍待执行；v2 路线图 Phase 5–7 已�
 | 1 | 2 | - | - |
 | 2 | 3 | - | - |
 | 3 | 2 | - | - |
+| 4 | 2 | - | - |
 
 **Recent Trend:**
 
@@ -61,7 +62,7 @@ Progress: v1 路线图 Phase 3–4 仍待执行；v2 路线图 Phase 5–7 已�
 
 ### Pending Todos
 
-执行顺序建议：`/gsd-execute-phase 3` → `4` → 再 `5`–`7`（或按 ROADMAP 依赖调整）。
+执行顺序建议：Phase 5 走 `/gsd-discuss-phase 5` → `/gsd-plan-phase 5` → `/gsd-execute-phase 5`，随后 Phase 6–7（或按 ROADMAP 依赖调整）。
 
 ### Blockers/Concerns
 
