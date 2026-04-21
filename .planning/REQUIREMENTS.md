@@ -21,8 +21,8 @@
 
 ### 图表 (CHART)
 
-- [ ] **CHART-01**: 图表 Tab 提供周/月/年维度切换，并仅对**支出**做聚合展示
-- [ ] **CHART-02**: 用户可看到所选区间内分类支出占比或排序列表（与当前 `ChartScreen` 行为一致）
+- [x] **CHART-01**: 图表 Tab 提供周/月/年维度切换，并仅对**支出**做聚合展示
+- [x] **CHART-02**: 用户可看到所选区间内分类支出占比或排序列表（与当前 `ChartScreen` 行为一致）
 
 ### 工程质量 (QA)
 
@@ -81,8 +81,8 @@
 | FEAT-03 | Phase 2 | Complete |
 | FEAT-04 | Phase 2 | Complete |
 | FEAT-05 | Phase 2 | Complete |
-| CHART-01 | Phase 3 | Pending |
-| CHART-02 | Phase 3 | Pending |
+| CHART-01 | Phase 3 | Complete |
+| CHART-02 | Phase 3 | Complete |
 | QA-01 | Phase 4 | Pending |
 | QA-02 | Phase 4 | Pending |
 | QA-03 | Phase 4 | Pending |
