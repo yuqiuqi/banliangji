@@ -1,10 +1,11 @@
 ---
 phase: 02
 slug: core-user-flow-uat
-status: draft
+status: approved
 shadcn_initialized: false
 preset: clay-rn
 created: 2026-04-21
+reviewed: 2026-04-21
 ---
 
 # Phase 2 — UI Design Contract (React Native / Clay)
@@ -22,6 +23,19 @@ created: 2026-04-21
 | Component library | React Native core + React Navigation |
 | Icon library | `@expo/vector-icons`（与现有一致） |
 | Font | **System**（SF Pro / Roboto）；字重层次：标题偏粗、正文 regular、标签 medium |
+
+---
+
+## Visual hierarchy（主路径锚点）
+
+| Screen | Primary focal（第一眼） | Secondary |
+|--------|-------------------------|-----------|
+| **Home（明细）** | 当月 **总收入 / 总支出** 汇总区（Lemon 条或卡片顶区） | 其下账单 **列表**（白卡行，可滚动） |
+| **记一笔** | **金额显示 + 计算器** 区域 | 类别网格 / 保存操作条 |
+| **详情** | **金额行** 与类型（支出/收入） | 备注与元数据 |
+| **日历** | **当前月标题 + 网格** | 选中日期的明细预览或入口 |
+
+图标型 Tab / header 按钮：保留 `accessibilityLabel`（或等价），避免纯图标无读屏文案。
 
 ---
 
@@ -43,17 +57,19 @@ Declared values（4px 基准；与现有屏内 padding 对齐时可微调）：
 
 ## Typography
 
-| Role | Size | Weight | Notes |
-|------|------|--------|-------|
-| Screen title / 大标题 | 20–22 | 600 | `colors.title` |
-| Section / 卡片标题 | 17–18 | 600 | |
-| Body | 15–16 | 400 | 主列表次要信息 `colors.lightTitle` |
-| Label / 按钮 | 15–16 | 500 | |
-| Tab label | 11–12 | 500–600 | 与 `tabbarTint` 激活态 |
+| Role | Size | Weight | Line height | Notes |
+|------|------|--------|-------------|-------|
+| Screen title / 大标题 | 21 | 600 | 28 | `colors.title`（固定一档，避免区间漂移） |
+| Section / 卡片标题 | 17 | 600 | 24 | |
+| **Body（列表主行）** | **16** | **400** | **24（1.5）** | 次要信息仍用 `colors.lightTitle`，**同字号** |
+| Label / 按钮 | 16 | 500 | 24 | |
+| Tab label | 12 | 500–600 | 16 | 与 `tabbarTint` 激活态 |
 
 ---
 
 ## Color（与 `colors.ts` 一致）
+
+**60 / 30 / 10（Clay on RN）：** 约 **60%** 暖色画布 + 白卡（`canvas` + `white` 列表面）；**30%** 结构中性（`body` 边框、`light` 条带、`lightTitle` 字）；**10%** 品牌/语义强调（`main` 顶栏、`income`/Tab 的 Matcha、必要时 **destructive**）。
 
 | Role | Token / Hex | Usage |
 |------|-------------|-------|
@@ -66,6 +82,7 @@ Declared values（4px 基准；与现有屏内 padding 对齐时可微调）：
 | Muted text | `colors.lightTitle` `#9f9b93` | |
 | Income / positive | `colors.income` / `tabbarTint` `#078a52` | 收入、Tab 激活（Matcha） |
 | On-main secondary | `colors.onMainSecondary` `#55534e` | 黄条上的次要字 |
+| **Destructive** | `#dc3545`（或 `Platform.select` 使用系统红） | **删除账单**、不可逆操作按钮与确认文案强调；**不**用于普通导航 |
 
 **Accent 使用：** Matcha 用于收入与 Tab 强调；**禁止**把所有可点元素都改成高饱和色块。
 
@@ -118,11 +135,11 @@ Declared values（4px 基准；与现有屏内 padding 对齐时可微调）：
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS（抽查）
-- [ ] Dimension 2 Visuals: PASS（圆角/边框/层次）
-- [ ] Dimension 3 Color: PASS（仅 tokens，无硬编码散落新增）
-- [ ] Dimension 4 Typography: PASS（系统字体层次）
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: PASS（含主路径视觉锚点表）
+- [x] Dimension 3 Color: PASS（60/30/10 + destructive）
+- [x] Dimension 4 Typography: PASS（Body 16 / lh 24）
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending（Plan 03 UAT 后由执行者勾选）
+**Approval:** approved 2026-04-21（`/gsd-ui-phase 2` 校验并入 FLAG 修复）
