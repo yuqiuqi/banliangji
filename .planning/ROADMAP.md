@@ -2,7 +2,7 @@
 
 ## Overview
 
-在已实现的 Expo + TS + SQLite 基线上，按「数据可信 → 功能验收 → 图表一致 → 质量门禁」顺序收敛到可发布的 v1；优先保证离线闭环与类型/静态检查。
+在已实现的 Expo + TS + SQLite 基线上，按「数据可信 → 功能验收 → 图表一致 → 质量门禁」顺序收敛到可发布的 **v1.0**；随后以 **milestone v2.0** 融合 [SharkBookProject](https://github.com/MichaelFeng823/SharkBookProject) 所代表的 **预算、资产、图表精美度与全局 UI**（不引入 Qt）。优先保证离线闭环与类型/静态检查。
 
 ## Phases
 
@@ -10,6 +10,9 @@
 - [x] **Phase 2: 核心用户流程 UAT** — 明细/记一笔/详情/编辑/删除/日历走查与缺陷修复   (completed 2026-04-21)
 - [ ] **Phase 3: 图表与分析一致性** — 周/月/年支出聚合与分类展示对齐产品预期  
 - [ ] **Phase 4: 质量门禁与发布准备** — typecheck/lint/手工 UAT 清单与版本说明  
+- [ ] **Phase 5: 预算与资产管家 MVP（v2）** — REF-01 / REF-02；SQLite 扩展与 Tab/导航  
+- [ ] **Phase 6: 全局 UI 与动效精研（v2）** — REF-04；Clay+ 层级、转场与关键屏改版  
+- [ ] **Phase 7: 图表 Shark 级表现层（v2）** — REF-03；依赖 Phase 3 数据正确  
 
 ## Phase Details
 
@@ -90,9 +93,66 @@ Plans:
 - [ ] 04-01: 脚本与文档：质量门禁、运行方式  
 - [ ] 04-02: 发布检查清单（Expo EAS 或侧载所需项勾选）  
 
+### Phase 5: 预算与资产管家 MVP（v2）
+
+**Goal**: 对标 SharkBook 的「预算」「资产管家」子模块，提供 **MVP 可验收** 的离线能力。  
+**Depends on**: Phase 2  
+**Requirements**: REF-01, REF-02  
+**UI hint**: yes  
+**Success Criteria** (what must be TRUE):
+
+1. 用户可创建/编辑**至少一种**预算周期（建议：按月）并看到**进度**  
+2. 用户可维护**至少一个**资产账户并看到**余额或快照**  
+3. 与现有 `bill_list` **不破坏**兼容；迁移策略写在 `PROJECT.md` 或 ADR 短节  
+
+**Plans**: 2 plans（占位 — 由 `/gsd-plan-phase 5` 生成）  
+
+Plans:
+
+- [ ] 05-01: 数据模型与持久化（预算/资产表或安全扩展）  
+- [ ] 05-02: 预算页 + 资产页 + Tab 导航接入  
+
+### Phase 6: 全局 UI 与动效精研（v2）
+
+**Goal**: 在 Clay 基线上达到 SharkBook README 所展示方向的 **精美度**（层级、微交互、信息密度）。  
+**Depends on**: Phase 5  
+**Requirements**: REF-04  
+**UI hint**: yes  
+**Success Criteria** (what must be TRUE):
+
+1. 关键屏（明细、记一笔、预算、资产、图表壳）有统一的 **UI-SPEC 增量** 与实现对照清单  
+2. 按压/列表/卡片层次有可感知的 **动效或过渡**（不要求 1:1 抄 Qt）  
+3. `npm run typecheck` / `lint` 仍通过  
+
+**Plans**: 2 plans（占位）  
+
+Plans:
+
+- [ ] 06-01: UI-SPEC v2 + Design token 扩展（radii/shadow/motion）  
+- [ ] 06-02: 逐屏改版与回归 UAT  
+
+### Phase 7: 图表 Shark 级表现层（v2）
+
+**Goal**: 在 Phase 3 **图表数据逻辑**验收通过后，对标 SharkBook **图表界面** 的表现层。  
+**Depends on**: Phase 3, Phase 6  
+**Requirements**: REF-03, CHART-01, CHART-02  
+**UI hint**: yes  
+**Success Criteria** (what must be TRUE):
+
+1. 与 Phase 3 同一数据集下图表 **数字一致**  
+2. 空态/有数据/切换周月年 的 **布局与动效** 达到产品认可的「Shark 向」标准（以 `UI-SPEC` 为准）  
+3. 无未关闭的 P0 图表展示缺陷  
+
+**Plans**: 2 plans（占位）  
+
+Plans:
+
+- [ ] 07-01: 图表组件结构与主题绑定  
+- [ ] 07-02: 动效、图例、空态与高对比可读性  
+
 ## Progress
 
-**Execution Order:** 1 → 2 → 3 → 4  
+**Execution Order（建议）:** 1 → 2 → **3 → 4**（v1 收口）→ **5 → 6 → 7**（v2）  
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -100,3 +160,6 @@ Plans:
 | 2. 核心用户流程 UAT | 3/3 | Complete    | 2026-04-21 |
 | 3. 图表与分析一致性 | 0/2 | Not started | - |
 | 4. 质量门禁与发布准备 | 0/2 | Not started | - |
+| 5. 预算与资产 MVP（v2） | 0/2 | Not started | - |
+| 6. 全局 UI 精研（v2） | 0/2 | Not started | - |
+| 7. 图表表现层（v2） | 0/2 | Not started | - |

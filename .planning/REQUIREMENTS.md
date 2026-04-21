@@ -30,7 +30,26 @@
 - [ ] **QA-02**: `npm run lint` 无错误（含禁止 `any`）
 - [ ] **QA-03**: 关键路径有人工 UAT 记录（记一笔、编辑、删、日历、图表）
 
-## v2 Requirements
+## v2.0 本里程碑（SharkBook 融合 — Active）
+
+> 体验参考：[SharkBookProject](https://github.com/MichaelFeng823/SharkBookProject) README；技术栈仍为 Expo/RN，不引入 Qt。
+
+### 参考级功能 (REF)
+
+- [ ] **REF-01**: 用户可设置**月度（或分类）预算**，主界面或独立页展示**消耗进度**，超支时有可辨别的提示（文案/色/角标其一即可）
+- [ ] **REF-02**: 用户可使用**资产管家 MVP**：至少一个「账户/资产」列表，展示余额或净值快照，并可与记账入口共存（是否联动流水由实现定，需文档说明）
+- [ ] **REF-03**: **图表 Tab** 在 CHART-01/02 已满足的前提下，**布局、动效、空态、标签层次**对标 SharkBook README 所述「高度还原」所表达的**信息密度**（非像素级抄屏）
+- [ ] **REF-04**: **全局 UI/动效**：在现有 Clay 主题上，统一**按压/转场/列表层次**，关键屏（明细、记一笔、预算、资产、图表）**视觉层级**与 SharkBook 演示一致的方向（可交付 `UI-SPEC` 增量）
+
+### 暂缓 / 可选（本里程碑默认不做）
+
+- **REF-OPT-01**: 发现页 / **通讯录**（模糊搜索）  
+- **REF-OPT-02**: **网络图片**浏览 API  
+- **REF-OPT-03**: **万年历**等在线 API  
+
+（若要做，须单独开 REQ + 威胁模型 + 网络权限策略。）
+
+## v2 远期（原 backlog，未纳入 v2.0 必达）
 
 ### 同步与账户 (SYNC)
 
@@ -67,13 +86,18 @@
 | QA-01 | Phase 4 | Pending |
 | QA-02 | Phase 4 | Pending |
 | QA-03 | Phase 4 | Pending |
+| REF-01 | Phase 5 | Pending |
+| REF-02 | Phase 5 | Pending |
+| REF-03 | Phase 7 | Pending |
+| REF-04 | Phase 6 | Pending |
 
 **Coverage:**
 
 - v1 requirements: 12 total  
 - Mapped to phases: 12  
 - Unmapped: 0 ✓  
+- v2.0 REF: 4 total — mapped to Phases 5–7 ✓  
 
 ---
 *Requirements defined: 2026-04-21*  
-*Last updated: 2026-04-21 after roadmap creation*
+*Last updated: 2026-04-21 — milestone v2.0 + SharkBook 融合*
