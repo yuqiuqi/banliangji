@@ -13,11 +13,11 @@
 
 ### 核心功能 (FEAT)
 
-- [ ] **FEAT-01**: 用户可在明细首页切换月份并查看该月总收入与总支出
-- [ ] **FEAT-02**: 用户可打开「记一笔」，选择支出或收入、类别，输入金额并保存
-- [ ] **FEAT-03**: 用户可编辑已有账单并保存，列表与详情展示一致更新
-- [ ] **FEAT-04**: 用户可删除账单并在列表中消失
-- [ ] **FEAT-05**: 用户可从明细进入日历，按日查看记录并从日历发起记账
+- [x] **FEAT-01**: 用户可在明细首页切换月份并查看该月总收入与总支出
+- [x] **FEAT-02**: 用户可打开「记一笔」，选择支出或收入、类别，输入金额并保存
+- [x] **FEAT-03**: 用户可编辑已有账单并保存，列表与详情展示一致更新
+- [x] **FEAT-04**: 用户可删除账单并在列表中消失
+- [x] **FEAT-05**: 用户可从明细进入日历，按日查看记录并从日历发起记账
 
 ### 图表 (CHART)
 
@@ -57,11 +57,11 @@
 | DATA-01 | Phase 1 | Complete |
 | DATA-02 | Phase 1 | Partial — 待设备冒烟 |
 | DATA-03 | Phase 1 | Complete |
-| FEAT-01 | Phase 2 | Pending |
-| FEAT-02 | Phase 2 | Pending |
-| FEAT-03 | Phase 2 | Pending |
-| FEAT-04 | Phase 2 | Pending |
-| FEAT-05 | Phase 2 | Pending |
+| FEAT-01 | Phase 2 | Complete |
+| FEAT-02 | Phase 2 | Complete |
+| FEAT-03 | Phase 2 | Complete |
+| FEAT-04 | Phase 2 | Complete |
+| FEAT-05 | Phase 2 | Complete |
 | CHART-01 | Phase 3 | Pending |
 | CHART-02 | Phase 3 | Pending |
 | QA-01 | Phase 4 | Pending |
