@@ -12,7 +12,7 @@
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] **Phase 1 — 数据层基线**：`bill_list` / `main.db` 与 Swift 参考模型对齐（见 `.planning/phases/01-data-layer-baseline/01-01-AUDIT.md`）；本地驻留与冒烟步骤见「数据驻留、备份与手工冒烟」。
 
 ### Active
 
@@ -20,7 +20,7 @@
 - [ ] 记一笔：支出/收入切换、分类网格、计算器与账单日期
 - [ ] 日历：按月浏览、按日查看账单、快捷进入记账
 - [ ] 图表：周/月/年区间、支出柱状示意与分类占比
-- [ ] 账单详情、编辑、删除；SQLite 与 Swift 版 `bill_list` 字段语义对齐
+- [ ] 账单详情、编辑、删除（流程与交互；持久化契约已在 Phase 1 验证）
 - [ ] TypeScript strict，禁止 `any`；`npm run typecheck` 与 `npm run lint` 作为质量基线
 
 ### Out of Scope
@@ -84,4 +84,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-21 after initialization*
+*Last updated: 2026-04-21 after Phase 1 execution*

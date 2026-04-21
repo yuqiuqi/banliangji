@@ -7,9 +7,9 @@
 
 ### 数据与持久化 (DATA)
 
-- [ ] **DATA-01**: 应用使用 SQLite（`main.db` / `bill_list`）持久化账单，字段语义与参考 Swift 模型一致
-- [ ] **DATA-02**: 用户记账后杀进程再启动，明细与图表数据不丢失
-- [ ] **DATA-03**: 支持按日/按月/按时间区间查询账单（与仓库内 `billRepo` 能力一致）
+- [x] **DATA-01**: 应用使用 SQLite（`main.db` / `bill_list`）持久化账单，字段语义与参考 Swift 模型一致
+- [ ] **DATA-02**: 用户记账后杀进程再启动，明细与图表数据不丢失（文档与步骤已交付；**设备上杀进程冒烟待执行并记录**）
+- [x] **DATA-03**: 支持按日/按月/按时间区间查询账单（与仓库内 `billRepo` 能力一致）
 
 ### 核心功能 (FEAT)
 
@@ -54,9 +54,9 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 1 | Pending |
-| DATA-02 | Phase 1 | Pending |
-| DATA-03 | Phase 1 | Pending |
+| DATA-01 | Phase 1 | Complete |
+| DATA-02 | Phase 1 | Partial — 待设备冒烟 |
+| DATA-03 | Phase 1 | Complete |
 | FEAT-01 | Phase 2 | Pending |
 | FEAT-02 | Phase 2 | Pending |
 | FEAT-03 | Phase 2 | Pending |

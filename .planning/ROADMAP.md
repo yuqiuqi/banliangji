@@ -6,7 +6,7 @@
 
 ## Phases
 
-- [ ] **Phase 1: 数据层与基线验证** — SQLite 契约、回归检查、关键路径文档化  
+- [x] **Phase 1: 数据层与基线验证** — SQLite 契约、回归检查、关键路径文档化   (completed 2026-04-21)
 - [ ] **Phase 2: 核心用户流程 UAT** — 明细/记一笔/详情/编辑/删除/日历走查与缺陷修复  
 - [ ] **Phase 3: 图表与分析一致性** — 周/月/年支出聚合与分类展示对齐产品预期  
 - [ ] **Phase 4: 质量门禁与发布准备** — typecheck/lint/手工 UAT 清单与版本说明  
@@ -29,8 +29,8 @@
 
 Plans:
 
-- [ ] 01-01: 对照 Swift `THomeBillModel` 与 RN `billRepo` 做一次字段与查询语义审查  
-- [ ] 01-02: 补充或更新面向开发者的数据层说明（可放在 `PROJECT.md` Context 或短 README 节）  
+- [x] 01-01: 对照 Swift `THomeBillModel` 与 RN `billRepo` 做一次字段与查询语义审查  
+- [x] 01-02: 补充或更新面向开发者的数据层说明（可放在 `PROJECT.md` Context 或短 README 节）  
 
 ### Phase 2: 核心用户流程 UAT
 
@@ -96,7 +96,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. 数据层与基线验证 | 0/2 | Not started | - |
+| 1. 数据层与基线验证 | 2/2 | Complete    | 2026-04-21 |
 | 2. 核心用户流程 UAT | 0/3 | Not started | - |
 | 3. 图表与分析一致性 | 0/2 | Not started | - |
 | 4. 质量门禁与发布准备 | 0/2 | Not started | - |
