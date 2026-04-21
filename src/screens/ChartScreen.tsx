@@ -27,6 +27,8 @@ import {
   rangeForChartPeriod,
 } from "../utils/dates";
 import { formatAmountDisplay } from "../utils/money";
+import { addDays, format } from "date-fns";
+import { zhCN } from "date-fns/locale";
 
 const CHART_W = Dimensions.get("window").width - 32;
 
@@ -102,6 +104,17 @@ export function ChartScreen(): React.ReactElement {
     [points],
   );
 
+  const rangeHint = useMemo(() => {
+    const a = range.start;
+    const b = addDays(range.endExclusive, -1);
+    if (granularity === "year") {
+      return `${a.getFullYear()}年`;
+    }
+    return `${format(a, "M月d日", { locale: zhCN })} — ${format(b, "M月d日", { locale: zhCN })}`;
+  }, [granularity, range.endExclusive, range.start]);
+
+  const chartEmpty = maxAmount <= 0;
+
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <View style={styles.segBar}>
@@ -150,6 +163,11 @@ export function ChartScreen(): React.ReactElement {
         <Text style={styles.cardTitle}>
           {labelP} · 支出分布
         </Text>
+        <Text style={styles.cardSubtitle}>仅统计支出 · 与下方分类列表同一筛选范围</Text>
+        <Text style={styles.cardRange}>{rangeHint}</Text>
+        {chartEmpty ? (
+          <Text style={styles.chartEmpty}>该时间段暂无支出记录</Text>
+        ) : null}
         <View style={styles.chartRow}>
           {points.map((pt, idx) => {
             const h = maxAmount > 0 ? (pt.amount / maxAmount) * 120 : 0;
@@ -178,7 +196,10 @@ export function ChartScreen(): React.ReactElement {
           </View>
         ))}
         {categories.length === 0 ? (
-          <Text style={styles.empty}>本区间暂无支出</Text>
+          <View style={styles.emptyWrap}>
+            <Text style={styles.empty}>本区间暂无支出</Text>
+            <Text style={styles.emptyHint}>切换周/月/年或左右滑动选择其他区间</Text>
+          </View>
         ) : null}
       </View>
     </SafeAreaView>
@@ -218,7 +239,15 @@ const styles = StyleSheet.create({
     ...hairlineBorder,
     ...shadows.card,
   },
-  cardTitle: { marginBottom: 12, fontSize: 14, color: colors.title },
+  cardTitle: { marginBottom: 4, fontSize: 15, fontWeight: "600", color: colors.title },
+  cardSubtitle: { fontSize: 12, color: colors.lightTitle, marginBottom: 4 },
+  cardRange: { fontSize: 11, color: colors.onMainSecondary, marginBottom: 8 },
+  chartEmpty: {
+    fontSize: 13,
+    color: colors.lightTitle,
+    textAlign: "center",
+    marginBottom: 8,
+  },
   chartRow: {
     flexDirection: "row",
     alignItems: "flex-end",
@@ -243,5 +272,7 @@ const styles = StyleSheet.create({
   },
   progressFg: { height: 6, backgroundColor: colors.main },
   catAmt: { marginLeft: 8, fontSize: 15, color: colors.title, minWidth: 72, textAlign: "right" },
-  empty: { textAlign: "center", color: colors.lightTitle, marginTop: 24 },
+  emptyWrap: { marginTop: 24, paddingHorizontal: 8 },
+  empty: { textAlign: "center", color: colors.title, fontSize: 15, fontWeight: "500" },
+  emptyHint: { textAlign: "center", color: colors.lightTitle, fontSize: 12, marginTop: 8 },
 });
