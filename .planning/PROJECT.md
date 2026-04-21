@@ -86,6 +86,7 @@
 | GSD `.planning/` 放在本 Git 仓库根（SwiftCostRN） | 与工作区上级无 `.git` 分离，便于 `gsd-tools commit` 与版本一致 | — Pending |
 | 跳过初始 `/gsd-map-codebase` | 代码量可控且已有实现；若架构文档化不足可后补 | — Pending |
 | 研究阶段跳过（本轮） | 栈已选定并落地；后续阶段按需补 `.planning/research/` | — Pending |
+| Phase 5 预算 / 资产表 | 在 `main.db` 内新增 `budget_cap` 与 `asset_account`，不改动 `bill_list`；语义与备份见 ADR | `.planning/ADR-2026-04-21-budget-assets-sqlite.md` |
 
 ## Evolution
 

@@ -5,7 +5,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { BillsRefreshProvider } from "../context/BillsRefreshContext";
+import { AssetScreen } from "../screens/AssetScreen";
 import { BillDetailScreen } from "../screens/BillDetailScreen";
+import { BudgetScreen } from "../screens/BudgetScreen";
 import { CalendarScreen } from "../screens/CalendarScreen";
 import { ChartScreen } from "../screens/ChartScreen";
 import { CreateBillScreen } from "../screens/CreateBillScreen";
@@ -88,6 +90,22 @@ function Tabs(): React.ReactElement {
         options={{
           title: "图表",
           tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="chart-arc" color={color} size={size} />,
+        }}
+      />
+      <Tab.Screen
+        name="BudgetTab"
+        component={BudgetScreen}
+        options={{
+          title: "预算",
+          tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="chart-pie" color={color} size={size} />,
+        }}
+      />
+      <Tab.Screen
+        name="AssetTab"
+        component={AssetScreen}
+        options={{
+          title: "资产",
+          tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="wallet" color={color} size={size} />,
         }}
       />
       <Tab.Screen
