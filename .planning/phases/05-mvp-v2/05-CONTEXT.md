@@ -55,7 +55,7 @@
 - `.planning/phases/01-data-layer-baseline/01-CONTEXT.md` — 数据层边界
 - `.planning/phases/01-data-layer-baseline/01-01-AUDIT.md` — `bill_list` 字段与语义
 - `.planning/phases/02-core-user-flow-uat/02-CONTEXT.md` — **Clay / DESIGN.md** 视觉约束
-- `.planning/phases/03-chart-consistency/03-CONTEXT.md` — 图表与支出口径（若存在与预算对齐）
+- `.planning/phases/03-chart-consistency/03-CONTEXT.md` — 图表支出口径（CHART-01/02），预算进度需与同口径 **仅支出（type 1）** 对齐
 
 ### 实现锚点
 - `src/db/database.ts` — `main.db`、`bill_list` 初始化模式
