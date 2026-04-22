@@ -3,7 +3,7 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../theme/colors";
-import { hairlineBorder, radii, shadows } from "../theme/layout";
+import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
 
 export function MineScreen(): React.ReactElement {
   return (
@@ -12,7 +12,7 @@ export function MineScreen(): React.ReactElement {
         <Text style={styles.title}>我的</Text>
       </View>
       <Pressable
-        style={({ pressed }) => [styles.card, pressed ? { opacity: 0.96 } : null]}
+        style={({ pressed }) => [styles.card, pressed ? { opacity: pressedOpacity } : null]}
         accessibilityRole="button"
         accessibilityLabel="关于本应用"
         onPress={() => {}}

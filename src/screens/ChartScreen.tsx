@@ -19,7 +19,7 @@ import {
 import { queryAllBills } from "../db/billRepo";
 import type { ChartGranularity } from "../types/models";
 import { colors } from "../theme/colors";
-import { hairlineBorder, radii, shadows } from "../theme/layout";
+import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
 import {
   chartMonthPeriods,
   chartWeekPeriods,
@@ -127,7 +127,7 @@ export function ChartScreen(): React.ReactElement {
               style={({ pressed }) => [
                 styles.segBtn,
                 on ? styles.segOn : null,
-                pressed ? { opacity: 0.94 } : null,
+                pressed ? { opacity: pressedOpacity } : null,
               ]}
               onPress={() => {
                 setGranularity(g);
@@ -148,7 +148,7 @@ export function ChartScreen(): React.ReactElement {
               style={({ pressed }) => [
                 styles.tabChip,
                 on ? styles.tabChipOn : null,
-                pressed ? { opacity: 0.94 } : null,
+                pressed ? { opacity: pressedOpacity } : null,
               ]}
               onPress={() => {
                 setPeriodIndex(i);
@@ -159,7 +159,7 @@ export function ChartScreen(): React.ReactElement {
           );
         })}
       </ScrollView>
-      <View style={styles.card}>
+      <View style={[styles.card, shadows.raised]}>
         <Text style={styles.cardTitle}>
           {labelP} · 支出分布
         </Text>
@@ -213,8 +213,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.main,
     padding: 10,
     gap: 8,
+    borderRadius: radii.chip,
   },
-  segBtn: { flex: 1, paddingVertical: 8, borderRadius: radii.card, alignItems: "center" },
+  segBtn: { flex: 1, paddingVertical: 8, borderRadius: radii.chip, alignItems: "center" },
   segOn: { backgroundColor: "rgba(255,255,255,0.35)" },
   segText: { color: colors.title, fontSize: 15 },
   segTextOn: { fontWeight: "700" },
@@ -237,7 +238,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: radii.card,
     ...hairlineBorder,
-    ...shadows.card,
   },
   cardTitle: { marginBottom: 4, fontSize: 15, fontWeight: "600", color: colors.title },
   cardSubtitle: { fontSize: 12, color: colors.lightTitle, marginBottom: 4 },

@@ -11,7 +11,7 @@
 - [x] **Phase 3: 图表与分析一致性** — 周/月/年支出聚合与分类展示对齐产品预期   (completed 2026-04-21)
 - [x] **Phase 4: 质量门禁与发布准备** — typecheck/lint/手工 UAT 清单与版本说明   (completed 2026-04-21)
 - [x] **Phase 5: 预算与资产管家 MVP（v2）** — REF-01 / REF-02；SQLite 扩展与 Tab/导航   (completed 2026-04-21)
-- [ ] **Phase 6: 全局 UI 与动效精研（v2）** — REF-04；Clay+ 层级、转场与关键屏改版  
+- [x] **Phase 6: 全局 UI 与动效精研（v2）** — REF-04；Clay+ 层级、转场与关键屏改版   (completed 2026-04-22)
 - [x] **Phase 7: 图表 Shark 级表现层（v2）** — REF-03；依赖 Phase 3 数据正确   (completed 2026-04-21)
 
 ## Phase Details
@@ -128,8 +128,8 @@ Plans:
 
 Plans:
 
-- [ ] 06-01: UI-SPEC v2 + Design token 扩展（radii/shadow/motion）  
-- [ ] 06-02: 逐屏改版与回归 UAT  
+- [x] 06-01: UI-SPEC v2 + Design token 扩展（radii/shadow/motion）  
+- [x] 06-02: 逐屏改版与回归 UAT  
 
 ### Phase 7: 图表 Shark 级表现层（v2）
 
@@ -161,5 +161,5 @@ Plans:
 | 3. 图表与分析一致性 | 2/2 | Complete    | 2026-04-21 |
 | 4. 质量门禁与发布准备 | 2/2 | Complete    | 2026-04-21 |
 | 5. 预算与资产 MVP（v2） | 2/2 | Complete    | 2026-04-21 |
-| 6. 全局 UI 精研（v2） | 0/2 | Not started | - |
+| 6. 全局 UI 精研（v2） | 2/2 | Complete    | 2026-04-22 |
 | 7. 图表表现层（v2） | 0/2 | Not started | - |

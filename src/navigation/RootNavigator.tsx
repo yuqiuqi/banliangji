@@ -1,7 +1,11 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  createBottomTabNavigator,
+  type BottomTabBarButtonProps,
+} from "@react-navigation/bottom-tabs";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { PlatformPressable } from "@react-navigation/elements";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { BillsRefreshProvider } from "../context/BillsRefreshContext";
@@ -14,7 +18,13 @@ import { CreateBillScreen } from "../screens/CreateBillScreen";
 import { HomeScreen } from "../screens/HomeScreen";
 import { MineScreen } from "../screens/MineScreen";
 import { colors } from "../theme/colors";
+import { pressedOpacity } from "../theme/layout";
 import type { HomeStackParamList, RootTabParamList } from "./types";
+
+/** Tab bar press feedback — `PlatformPressable` is built on RN `Pressable`; uses theme `pressedOpacity`. */
+function ClayTabBarButton(props: BottomTabBarButtonProps): React.ReactElement {
+  return <PlatformPressable {...props} pressOpacity={pressedOpacity} />;
+}
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -74,6 +84,7 @@ function Tabs(): React.ReactElement {
           backgroundColor: colors.white,
           borderTopColor: colors.body,
         },
+        tabBarButton: (props) => <ClayTabBarButton {...props} />,
       }}
     >
       <Tab.Screen

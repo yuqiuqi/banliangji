@@ -19,7 +19,7 @@ import {
   updateAssetAccount,
 } from "../db/assetRepo";
 import { colors } from "../theme/colors";
-import { hairlineBorder, radii, shadows } from "../theme/layout";
+import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
 
 export function AssetScreen(): React.ReactElement {
@@ -99,7 +99,7 @@ export function AssetScreen(): React.ReactElement {
             <Text style={styles.emptyTitle}>暂无账户</Text>
             <Text style={styles.emptyHint}>添加一个资产账户并记录当前余额。</Text>
             <Pressable
-              style={({ pressed }) => [styles.primaryBtn, pressed ? { opacity: 0.92 } : null]}
+              style={({ pressed }) => [styles.primaryBtn, pressed ? { opacity: pressedOpacity } : null]}
               onPress={openAdd}
               accessibilityRole="button"
               accessibilityLabel="添加账户"
@@ -110,7 +110,7 @@ export function AssetScreen(): React.ReactElement {
         }
         renderItem={({ item }) => (
           <Pressable
-            style={({ pressed }) => [styles.rowCard, pressed ? { opacity: 0.96 } : null]}
+            style={({ pressed }) => [styles.rowCard, pressed ? { opacity: pressedOpacity } : null]}
             onPress={() => openEdit(item)}
             onLongPress={() => confirmDelete(item)}
             accessibilityRole="button"
@@ -123,7 +123,7 @@ export function AssetScreen(): React.ReactElement {
         ListFooterComponent={
           accounts.length > 0 ? (
             <Pressable
-              style={({ pressed }) => [styles.footerAdd, pressed ? { opacity: 0.92 } : null]}
+              style={({ pressed }) => [styles.footerAdd, pressed ? { opacity: pressedOpacity } : null]}
               onPress={openAdd}
               accessibilityRole="button"
               accessibilityLabel="添加账户"
@@ -156,10 +156,18 @@ export function AssetScreen(): React.ReactElement {
               placeholderTextColor={colors.lightTitle}
             />
             <View style={styles.modalActions}>
-              <Pressable onPress={() => setModalOpen(false)} style={styles.modalCancel} accessibilityRole="button">
+              <Pressable
+                onPress={() => setModalOpen(false)}
+                style={({ pressed }) => [styles.modalCancel, pressed ? { opacity: pressedOpacity } : null]}
+                accessibilityRole="button"
+              >
                 <Text style={styles.modalCancelText}>取消</Text>
               </Pressable>
-              <Pressable onPress={save} style={styles.modalSave} accessibilityRole="button">
+              <Pressable
+                onPress={save}
+                style={({ pressed }) => [styles.modalSave, pressed ? { opacity: pressedOpacity } : null]}
+                accessibilityRole="button"
+              >
                 <Text style={styles.modalSaveText}>保存</Text>
               </Pressable>
             </View>

@@ -17,7 +17,7 @@ import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { getBudgetCap, upsertBudgetCap } from "../db/budgetRepo";
 import { queryBillsForMonth } from "../db/billRepo";
 import { colors } from "../theme/colors";
-import { hairlineBorder, radii, shadows } from "../theme/layout";
+import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
 
 const OVER_BUDGET_COLOR = "#dc3545";
@@ -84,7 +84,7 @@ export function BudgetScreen(): React.ReactElement {
             <Text style={styles.emptyTitle}>尚未设置本月预算</Text>
             <Text style={styles.emptyHint}>设置后，将按支出账单统计进度（与图表支出口径一致）。</Text>
             <Pressable
-              style={({ pressed }) => [styles.primaryBtn, pressed ? { opacity: 0.92 } : null]}
+              style={({ pressed }) => [styles.primaryBtn, pressed ? { opacity: pressedOpacity } : null]}
               onPress={openModal}
               accessibilityRole="button"
               accessibilityLabel="设置本月预算"
@@ -110,7 +110,7 @@ export function BudgetScreen(): React.ReactElement {
               <Text style={styles.warn}>已超出预算</Text>
             ) : null}
             <Pressable
-              style={({ pressed }) => [styles.secondaryBtn, pressed ? { opacity: 0.92 } : null]}
+              style={({ pressed }) => [styles.secondaryBtn, pressed ? { opacity: pressedOpacity } : null]}
               onPress={openModal}
               accessibilityRole="button"
               accessibilityLabel="修改本月预算"
@@ -136,7 +136,7 @@ export function BudgetScreen(): React.ReactElement {
             <View style={styles.modalActions}>
               <Pressable
                 onPress={() => setModalOpen(false)}
-                style={styles.modalCancel}
+                style={({ pressed }) => [styles.modalCancel, pressed ? { opacity: pressedOpacity } : null]}
                 accessibilityRole="button"
                 accessibilityLabel="取消"
               >
@@ -144,7 +144,7 @@ export function BudgetScreen(): React.ReactElement {
               </Pressable>
               <Pressable
                 onPress={saveCap}
-                style={styles.modalSave}
+                style={({ pressed }) => [styles.modalSave, pressed ? { opacity: pressedOpacity } : null]}
                 accessibilityRole="button"
                 accessibilityLabel="保存预算"
               >

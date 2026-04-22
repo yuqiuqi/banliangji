@@ -10,7 +10,7 @@ import { groupBillsByDayKey, queryBillsForMonth } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { Bill } from "../types/models";
 import { colors } from "../theme/colors";
-import { hairlineBorder, radii, shadows } from "../theme/layout";
+import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
 import {
   addCalendarMonth,
   formatBillDayKey,
@@ -50,7 +50,7 @@ export function CalendarScreen(): React.ReactElement {
         <Pressable
           hitSlop={8}
           accessibilityLabel="上一月"
-          style={({ pressed }) => (pressed ? { opacity: 0.92 } : null)}
+          style={({ pressed }) => (pressed ? { opacity: pressedOpacity } : null)}
           onPress={() => {
             setMonth((m) => addCalendarMonth(m, -1));
             setSelectedKey(null);
@@ -64,7 +64,7 @@ export function CalendarScreen(): React.ReactElement {
         <Pressable
           hitSlop={8}
           accessibilityLabel="下一月"
-          style={({ pressed }) => (pressed ? { opacity: 0.92 } : null)}
+          style={({ pressed }) => (pressed ? { opacity: pressedOpacity } : null)}
           onPress={() => {
             setMonth((m) => addCalendarMonth(m, 1));
             setSelectedKey(null);
@@ -96,7 +96,7 @@ export function CalendarScreen(): React.ReactElement {
                 styles.dayCell,
                 { width: DAY_CELL, height: DAY_CELL },
                 sel ? styles.daySel : null,
-                pressed ? { opacity: 0.94 } : null,
+                pressed ? { opacity: pressedOpacity } : null,
               ]}
               onPress={() => {
                 setSelectedKey(key);
@@ -126,7 +126,7 @@ export function CalendarScreen(): React.ReactElement {
           const prefix = isExpense ? "-" : "+";
           return (
             <Pressable
-              style={({ pressed }) => [styles.row, pressed ? { opacity: 0.94 } : null]}
+              style={({ pressed }) => [styles.row, pressed ? { opacity: pressedOpacity } : null]}
               onPress={() => {
                 navigation.navigate("BillDetail", { billId: item.id });
               }}
@@ -149,7 +149,7 @@ export function CalendarScreen(): React.ReactElement {
         />
       </View>
       <Pressable
-        style={({ pressed }) => [styles.fab, pressed ? { opacity: 0.92 } : null]}
+        style={({ pressed }) => [styles.fab, pressed ? { opacity: pressedOpacity } : null]}
         accessibilityLabel="记一笔"
         onPress={onCreate}
       >

@@ -19,7 +19,7 @@ import { createBillNow, getBillById, updateBill } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { BillAmountKind, CategoryItem } from "../types/models";
 import { colors } from "../theme/colors";
-import { hairlineBorder, radii, shadows } from "../theme/layout";
+import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
 import { formatAmountDisplay } from "../utils/money";
 
 export function CreateBillScreen(): React.ReactElement {
@@ -147,7 +147,7 @@ export function CreateBillScreen(): React.ReactElement {
           style={({ pressed }) => [
             styles.tab,
             kind === 1 ? styles.tabOn : null,
-            pressed ? { opacity: 0.94 } : null,
+            pressed ? { opacity: pressedOpacity } : null,
           ]}
           onPress={() => {
             setKind(1);
@@ -161,7 +161,7 @@ export function CreateBillScreen(): React.ReactElement {
           style={({ pressed }) => [
             styles.tab,
             kind === 2 ? styles.tabOn : null,
-            pressed ? { opacity: 0.94 } : null,
+            pressed ? { opacity: pressedOpacity } : null,
           ]}
           onPress={() => {
             setKind(2);
@@ -187,7 +187,7 @@ export function CreateBillScreen(): React.ReactElement {
                   styles.cell,
                   on ? styles.cellOn : null,
                   { borderRadius: radii.card },
-                  pressed ? { opacity: 0.94 } : null,
+                  pressed ? { opacity: pressedOpacity } : null,
                 ]}
                 onPress={() => {
                   setSelected(item);
@@ -214,7 +214,10 @@ export function CreateBillScreen(): React.ReactElement {
         <View style={styles.pickerOverlay}>
           <View style={styles.pickerCard}>
             <View style={styles.pickerToolbar}>
-              <Pressable onPress={() => setIosDateOpen(false)}>
+              <Pressable
+                onPress={() => setIosDateOpen(false)}
+                style={({ pressed }) => [pressed ? { opacity: pressedOpacity } : null]}
+              >
                 <Text style={styles.pickerDone}>完成</Text>
               </Pressable>
             </View>

@@ -7,7 +7,7 @@ import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { deleteBillById, getBillById } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import { colors } from "../theme/colors";
-import { hairlineBorder, radii, shadows } from "../theme/layout";
+import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
 import { formatDetailDate } from "../utils/dates";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
 
@@ -62,7 +62,7 @@ export function BillDetailScreen(): React.ReactElement {
         <View style={styles.footerDivider} />
         <View style={styles.footerBtns}>
           <Pressable
-            style={({ pressed }) => [styles.footerHalf, pressed ? { opacity: 0.94 } : null]}
+            style={({ pressed }) => [styles.footerHalf, pressed ? { opacity: pressedOpacity } : null]}
             onPress={() => {
               navigation.navigate("CreateBill", { billId: bill.id });
             }}
@@ -70,7 +70,7 @@ export function BillDetailScreen(): React.ReactElement {
             <Text style={styles.footerText}>编辑</Text>
           </Pressable>
           <Pressable
-            style={({ pressed }) => [styles.footerHalf, pressed ? { opacity: 0.94 } : null]}
+            style={({ pressed }) => [styles.footerHalf, pressed ? { opacity: pressedOpacity } : null]}
             onPress={() => {
               Alert.alert("删除账单", "确定删除这条记录？", [
                 { text: "取消", style: "cancel" },

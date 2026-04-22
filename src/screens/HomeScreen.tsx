@@ -17,7 +17,7 @@ import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { groupBillsByDayKey, queryBillsForMonth } from "../db/billRepo";
 import type { Bill } from "../types/models";
 import { colors } from "../theme/colors";
-import { hairlineBorder, radii, shadows } from "../theme/layout";
+import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
 import {
   formatHeaderMonth,
   formatHeaderYear,
@@ -44,7 +44,7 @@ export function HomeScreen(): React.ReactElement {
           }}
           hitSlop={12}
           accessibilityLabel="记一笔"
-          style={({ pressed }) => [styles.headerBtn, pressed ? { opacity: 0.92 } : null]}
+          style={({ pressed }) => [styles.headerBtn, pressed ? { opacity: pressedOpacity } : null]}
         >
           <MaterialCommunityIcons name="plus-circle-outline" size={26} color={colors.title} />
         </Pressable>
@@ -56,7 +56,7 @@ export function HomeScreen(): React.ReactElement {
           }}
           hitSlop={12}
           accessibilityLabel="打开日历"
-          style={({ pressed }) => [styles.headerBtn, pressed ? { opacity: 0.92 } : null]}
+          style={({ pressed }) => [styles.headerBtn, pressed ? { opacity: pressedOpacity } : null]}
         >
           <MaterialCommunityIcons name="calendar-month" size={26} color={colors.title} />
         </Pressable>
@@ -122,7 +122,7 @@ export function HomeScreen(): React.ReactElement {
       const prefix = isExpense ? "-" : "+";
       return (
         <Pressable
-          style={({ pressed }) => [styles.row, pressed ? { opacity: 0.94 } : null]}
+          style={({ pressed }) => [styles.row, pressed ? { opacity: pressedOpacity } : null]}
           onPress={() => {
             navigation.navigate("BillDetail", { billId: item.id });
           }}
@@ -144,9 +144,9 @@ export function HomeScreen(): React.ReactElement {
 
   return (
     <SafeAreaView style={styles.safe} edges={["bottom"]}>
-      <View style={styles.headerBanner}>
+      <View style={[styles.headerBanner, shadows.raised]}>
         <Pressable
-          style={({ pressed }) => [styles.headerLeft, pressed ? { opacity: 0.92 } : null]}
+          style={({ pressed }) => [styles.headerLeft, pressed ? { opacity: pressedOpacity } : null]}
           onPress={openMonthPicker}
         >
           <Text style={styles.yearText}>{formatHeaderYear(monthAnchor)}</Text>
@@ -189,7 +189,10 @@ export function HomeScreen(): React.ReactElement {
         <View style={styles.pickerOverlay}>
           <View style={styles.pickerCard}>
             <View style={styles.pickerToolbar}>
-              <Pressable onPress={() => setIosPickerOpen(false)}>
+              <Pressable
+                onPress={() => setIosPickerOpen(false)}
+                style={({ pressed }) => [pressed ? { opacity: pressedOpacity } : null]}
+              >
                 <Text style={styles.pickerDone}>完成</Text>
               </Pressable>
             </View>

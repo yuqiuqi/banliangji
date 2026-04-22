@@ -4,10 +4,17 @@
 import { Platform, type ViewStyle } from "react-native";
 import { colors } from "./colors";
 
+/** Press / motion tokens — see `.planning/phases/06-ui-v2/06-UI-SPEC.md` */
+export const pressedOpacity = 0.92;
+export const pressScale = 0.98;
+export const pressTranslateY = 1;
+export const pressDurationMs = 100;
+
 export const radii = {
   card: 12,
   sheet: 16,
   pill: 999,
+  chip: 10,
 } as const;
 
 export const shadows = {
@@ -17,6 +24,16 @@ export const shadows = {
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.08,
       shadowRadius: 8,
+    },
+    android: { elevation: 3 },
+    default: {},
+  }),
+  raised: Platform.select<ViewStyle>({
+    ios: {
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 10,
     },
     android: { elevation: 3 },
     default: {},
