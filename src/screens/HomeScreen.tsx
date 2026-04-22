@@ -185,6 +185,7 @@ export function HomeScreen(): React.ReactElement {
         <SectionList
           sections={sections}
           keyExtractor={(item) => String(item.id)}
+          contentInsetAdjustmentBehavior={Platform.OS === "ios" ? "automatic" : undefined}
           renderItem={renderItem}
           renderSectionHeader={({ section }) => (
             <View style={styles.sectionHead}>

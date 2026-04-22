@@ -281,7 +281,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
     marginTop: 8,
     marginBottom: 8,
-    backgroundColor: colors.createBody,
   },
   grid: { paddingVertical: 12 },
   row: { justifyContent: "flex-start" },

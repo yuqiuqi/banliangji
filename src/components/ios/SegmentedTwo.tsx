@@ -1,9 +1,15 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
+import {
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  type StyleProp,
+  type ViewStyle,
+} from "react-native";
 import { colors } from "../../theme/colors";
-import { pressedOpacity, radii } from "../../theme/layout";
-
-const ON_BG = "rgba(0, 122, 255, 0.12)";
+import { pressedOpacity } from "../../theme/layout";
 
 type Props = {
   leftLabel: string;
@@ -50,31 +56,44 @@ export function SegmentedTwo({
   );
 }
 
+const segOnLift = Platform.select({
+  ios: {
+    backgroundColor: colors.surface,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+  },
+  android: {
+    backgroundColor: colors.surface,
+    elevation: 2,
+  },
+  default: { backgroundColor: colors.surface },
+});
+
 const styles = StyleSheet.create({
+  /** tertiarySystemFill 轨道 — 贴近 UISegmentedControl */
   track: {
     flexDirection: "row",
-    backgroundColor: colors.surface,
-    borderRadius: radii.card,
-    padding: 4,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.body,
+    backgroundColor: colors.light,
+    borderRadius: 9,
+    padding: 2,
   },
   seg: {
     flex: 1,
     paddingVertical: 10,
     alignItems: "center",
-    borderRadius: 8,
+    borderRadius: 7,
   },
-  segOn: {
-    backgroundColor: ON_BG,
-  },
+  segOn: segOnLift,
   text: {
     fontSize: 15,
     fontWeight: "500",
     color: colors.lightTitle,
   },
+  /** 选中段：主字色（label），非仅描蓝 */
   textOn: {
-    color: colors.accent,
+    color: colors.title,
     fontWeight: "600",
   },
 });

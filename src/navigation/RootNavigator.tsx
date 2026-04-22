@@ -44,40 +44,50 @@ const navTheme = {
   },
 };
 
+const homeStackDefaultOptions = {
+  headerTintColor: colors.onMain,
+  headerTitleStyle: { color: colors.onMain },
+  contentStyle: { backgroundColor: colors.canvas },
+  ...Platform.select({
+    ios: {
+      headerTransparent: true,
+      headerBlurEffect: "systemChromeMaterial" as const,
+      headerStyle: { backgroundColor: "transparent" },
+      headerShadowVisible: false,
+    },
+    default: {
+      headerStyle: { backgroundColor: colors.main },
+      headerShadowVisible: true,
+    },
+  }),
+};
+
 function HomeStackNavigator(): React.ReactElement {
   return (
-    <HomeStack.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: colors.main },
-        headerTintColor: colors.onMain,
-        headerTitleStyle: { color: colors.onMain },
-        contentStyle: { backgroundColor: colors.canvas },
-      }}
-    >
+    <HomeStack.Navigator screenOptions={homeStackDefaultOptions}>
       <HomeStack.Screen
         name="HomeMain"
         component={HomeScreen}
         options={{
           title: "明细",
-          headerShadowVisible: true,
+          headerLargeTitle: true,
         }}
       />
-      <HomeStack.Screen
-        name="BillQuery"
-        component={BillQueryScreen}
-        options={{ title: "账单", headerShadowVisible: true }}
-      />
+      <HomeStack.Screen name="BillQuery" component={BillQueryScreen} options={{ title: "账单" }} />
       <HomeStack.Screen
         name="BillDetail"
         component={BillDetailScreen}
-        options={{ title: "账单详情", headerShadowVisible: true }}
+        options={{ title: "账单详情" }}
       />
       <HomeStack.Group
         screenOptions={{
           presentation: "modal",
+          headerTransparent: false,
+          headerBlurEffect: undefined,
           headerStyle: { backgroundColor: colors.main },
           headerTintColor: colors.onMain,
           headerTitleStyle: { color: colors.onMain },
+          headerShadowVisible: true,
         }}
       >
         <HomeStack.Screen name="CreateBill" component={CreateBillScreen} options={{ title: "记一笔" }} />
