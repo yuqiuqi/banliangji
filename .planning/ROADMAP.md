@@ -8,17 +8,31 @@
 | v2.0 | SharkBook 体验融合 | Phases 5–7 | 2026-04-22 |
 | v2.1 | 账单流 · 查账 · 我的 | Phase 8 | 2026-04-22 |
 | ✅ **v2.2** | **iOS 26 全局 Chrome（Liquid Glass）** | **Phase 9** | **2026-04-22** |
+| **v2.3** | **质量验证与系统外观** | **Phases 10–11** | — |
 
-- **完整路线图（v1–v9 全文）：** [`.planning/milestones/v2.2-ROADMAP.md`](milestones/v2.2-ROADMAP.md)（里程碑封板快照）
-- **需求快照（至 v2.2）：** [`.planning/milestones/v2.2-REQUIREMENTS.md`](milestones/v2.2-REQUIREMENTS.md)
+- **完整路线图（v1–v9 全文）：** [`.planning/milestones/v2.2-ROADMAP.md`](milestones/v2.2-ROADMAP.md)  
+- **需求快照（至 v2.2）：** [`.planning/milestones/v2.2-REQUIREMENTS.md`](milestones/v2.2-REQUIREMENTS.md)  
+- **当前里程碑需求：** [`.planning/REQUIREMENTS.md`](REQUIREMENTS.md)
 
-## Next milestone
+## Active phases（v2.3）
 
-**当前无活动 Phase。** 下一版需求与阶段由 **`/gsd-new-milestone`** 生成；届时将新建根目录 `.planning/REQUIREMENTS.md` 与更新本文件。
+编号自上一里程碑 **Phase 9** 延续：**10–11**。需求与阶段映射见 `REQUIREMENTS.md` Traceability。
 
-### 已知技术债（封板时登记）
+### Phase 10 — 持久化与 UAT 闭环
 
-- **DATA-02**：杀进程再启动数据仍在 — 文档与步骤已有，**设备冒烟记录**仍建议在下一里程碑或补丁中补齐（见归档需求中未勾选项）。
+| 项 | 内容 |
+|----|------|
+| **Goal** | 用可引用证据关闭 **DATA-02**；**QA-04** 使 08/09 UAT 与验证文档一致。 |
+| **Requirements** | DATA-02, QA-04 |
+| **Success criteria** | 1) 至少在一种目标环境（真机或官方模拟器）完成杀进程冒烟，步骤与截图/日志摘要写入 `.planning/phases/10-*/` 或等价位置。 2) `REQUIREMENTS.md` 中 DATA-02 可勾选或明确记录阻塞原因与跟进取证计划。 3) 相关 UAT Markdown 中无未解释的 `pending`；与 `09-VERIFICATION` 冲突处已 resolution 或 Accepted deviation。 4) `npm run verify` 仍通过。 |
+
+### Phase 11 — 深色模式与辅助功能
+
+| 项 | 内容 |
+|----|------|
+| **Goal** | **THEME-01**：系统深色下关键屏可读、语义一致。**A11Y-01**：降低透明度下毛玻璃降级可辨识、主路径可用。 |
+| **Requirements** | THEME-01, A11Y-01 |
+| **Success criteria** | 1) 深色外观下 Tab/明细/记一笔/账单/设置无不可读主文案（对比度可人工 spot-check）。 2) 开启「降低透明度」后，原先 Blur 主导航或关键容器仍有可见背景/边框，记一笔与返回主列表可完成。 3) 行为与 `UI-SPEC.md` 一致或偏差已记在 Phase 11 文档。 4) `npm run verify` 通过。 |
 
 ## Phases（摘要）
 
@@ -35,7 +49,7 @@
 - [x] Phase 8 — 账单流 / 查账 / 我的 v2.1（2026-04-22）
 - [x] Phase 9 — iOS 26 全局 Chrome v2.2（2026-04-22）
 
-细则、计划与成功标准见 **里程碑归档** `v2.2-ROADMAP.md`。
+细则见 **里程碑归档** `v2.2-ROADMAP.md`。
 
 </details>
 
@@ -44,7 +58,8 @@
 | Phase | Plans | Status | Completed |
 |-------|-------|--------|-----------|
 | 1–9 | 24/24 | Complete | 2026-04-22 |
+| 10–11 | 0/? | Not started | — |
 
 ---
 
-*Active roadmap 在里程碑之间保持简短；历史全文在 `.planning/milestones/`。*
+*Phase 1–9 历史目录保留在 `.planning/phases/`；v2.3 请新建 `10-*` / `11-*` 子目录承载计划与 UAT。*
