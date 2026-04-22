@@ -1,41 +1,45 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.2
-milestone_name: iOS 26 Chrome
+milestone: v2.3
+milestone_name: 质量验证与系统外观
 current_phase: null
-status: milestone_shipped_awaiting_next
-last_updated: "2026-04-22T12:00:00.000Z"
+status: milestone_initialized
+last_updated: "2026-04-22T08:30:00.000Z"
 progress:
-  note: "v2.2 已封板；下一里程碑由 /gsd-new-milestone 创建"
+  note: "v2.3 需求与路线图已写入；下一步 /gsd-discuss-phase 10 或 /gsd-plan-phase 10"
 ---
 
 # Project State
 
+## Current Position
+
+- **Phase:** 未开始（路线图已写 Phase 10–11）  
+- **Plan:** —  
+- **Status:** 可进入 Phase 10 规划或执行  
+- **Last activity:** 2026-04-22 — Milestone **v2.3** 启动（`/gsd-new-milestone v2.3`）
+
 ## Current Status
 
-- **已交付里程碑：** **v2.2**（Phase 9 — iOS 26 全局 Chrome）— 2026-04-22  
-- **当前动作：** 规划 **下一里程碑**（`/gsd-new-milestone`）；根目录 **`REQUIREMENTS.md`** 已移除，将在新里程碑流程中重建。  
-- **可选后续：** 真机跑完 `08-UAT.md` / `09-UAT.md` 与 `09-VERIFICATION.md` 对齐；DATA-02 杀进程冒烟记录。
+- **上一已交付里程碑：** v2.2（Phase 9 — iOS 26 Chrome）  
+- **本里程碑焦点：** DATA-02 设备记录、UAT/验证对齐、深色模式、降低透明度降级  
 
 ## Progress Summary
 
-- 代码与主题：`09-SUMMARY.md`、`UI-SPEC.md`、仓库 `src/`。  
-- 归档：`.planning/milestones/v2.2-*.md`；活动路线图已折叠为简短 `ROADMAP.md`。
+- 需求：`.planning/REQUIREMENTS.md`（4 条 REQ）  
+- 路线图：`.planning/ROADMAP.md`（Phase 10–11）  
 
 ## Blockers
 
 - 无。
 
-## Deferred Items（封板登记）
+## Accumulated Context
 
-| 类别 | 项 | 说明 |
-|------|----|------|
-| 需求 | DATA-02 | 设备杀进程再启动数据仍在 — 文档已有，**执行记录**待补 |
-| UAT | 08/09-UAT | 多项 `result: pending`，待人工勾选 |
+- 历史阶段目录 **保留**于 `.planning/phases/`（未执行 `phases clear`，以免删除 01–09 文档）。  
+- v2.2 归档：`.planning/milestones/v2.2-*.md`  
 
 ## When User Says "where were we?"
 
-- **v2.2 已 ship**；下一版从 **`/gsd-new-milestone`** 开始。
+- 在 **v2.3**；先做 **Phase 10**（数据与 UAT 闭环），再做 **Phase 11**（深色与无障碍）。
 
 ---
-*Last updated: 2026-04-22 — after v2.2 milestone close*
+*Last updated: 2026-04-22 — milestone v2.3 initialized*

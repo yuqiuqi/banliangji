@@ -1,5 +1,11 @@
 # Milestones: SwiftCostRN
 
+## v2.3 — 质量验证与系统外观（进行中）
+
+**Started:** 2026-04-22 · **Scope:** Phases 10–11（DATA-02、UAT 对齐、深色、降低透明度）— 见 `.planning/ROADMAP.md`、`.planning/REQUIREMENTS.md`。
+
+---
+
 ## v2.2 — iOS 26 全局 Chrome（Liquid Glass）
 
 **Shipped:** 2026-04-22  
@@ -43,4 +49,4 @@
 
 ---
 
-*下一里程碑：`*`/gsd-new-milestone`*`*
+*当前里程碑：v2.3（进行中）。*

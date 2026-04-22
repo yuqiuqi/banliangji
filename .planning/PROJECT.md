@@ -14,9 +14,17 @@
 
 **v2.2 — iOS 26 全局 Chrome（2026-04-22）** 已封板：全站语义色与 Liquid Glass 取向、`src/components/ios/` 原语、根目录 **`UI-SPEC.md`**、宽屏居中；归档见 `.planning/milestones/v2.2-ROADMAP.md` / `v2.2-REQUIREMENTS.md`。
 
-## Next Milestone Goals
+## Current Milestone: v2.3 — 质量验证与系统外观
 
-**待定。** 运行 **`/gsd-new-milestone`** 建立下一版本目标与新的 `.planning/REQUIREMENTS.md`。候选强化项（非承诺）：DATA-02 设备杀进程记录、UAT 表与 VERIFICATION 对齐、Dark Mode、无障碍（降低透明度）全链路。
+**Goal:** 在 iOS 26 Chrome 已交付前提下，**关闭可验证债务**（DATA-02、UAT/验证一致），并交付**深色外观**与**降低透明度**下的可读与可操作为基线。
+
+**Target features:**
+
+- **DATA-02**：设备上杀进程冒烟，结果可引用、需求可勾选。  
+- **QA-04**：08/09 UAT 与 `09-VERIFICATION` 对齐，无悬空 pending。  
+- **THEME-01 / A11Y-01**：系统深色与降低透明度下的语义色与毛玻璃降级。
+
+**范围说明：** 不新增业务大功能；持久化层 schema 不变；云同步仍 Out of Scope。
 
 ---
 
@@ -30,13 +38,13 @@
 - [x] **v2.1（Phase 8）— 账单流 · 查账 · 我的**：V21-01～03、V21Q-01（账单子流、按日/区间查账、本地我的；当时 UI 为 Tesla，已由 v2.2 覆盖为 iOS 26 Chrome）。
 - [x] **v2.2（Phase 9）— iOS 26 全局 Chrome**：IOS26-CHROME / UX / COMP / IPAD / VERIFY（工程交付见 `09-SUMMARY.md`；设备与 Figma 像素对照可为后续补丁）。
 
-### Active
+### Active（v2.3）
 
-- （空）— 下一里程碑由 `/gsd-new-milestone` 写入新需求文件。
+- 以 `.planning/REQUIREMENTS.md` 为准：**DATA-02**、**QA-04**、**THEME-01**、**A11Y-01**。
 
-### Follow-up / 未在需求表关闭
+### Follow-up（并入 v2.3 后，此处仅作历史提示）
 
-- [ ] **DATA-02（执行记录）**：杀进程再启动数据仍在 — 步骤见下文「数据驻留」；**建议在下一补丁或里程碑中补一次设备记录并勾选归档需求**。
+- **DATA-02**、**08/09-UAT** 原列于 v2.2 封板债务，现由 v2.3 REQ 承接。
 
 ### Out of Scope
 
@@ -96,4 +104,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state  
 
 ---
-*Last updated: 2026-04-22 — after v2.2 milestone complete（/gsd-complete-milestone）*
+*Last updated: 2026-04-22 — milestone v2.3 started（/gsd-new-milestone v2.3）*
