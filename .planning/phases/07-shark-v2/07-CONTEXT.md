@@ -85,6 +85,7 @@
 
 ### Integration Points
 - `useBillsRefresh` → `generation` 驱动 `queryAllBills`；动画不得破坏依赖数组与 memo 语义  
+- **当前实现锚点（再验 `ChartScreen.tsx`）：** 顶部分段 `segBar`（`granularity`）、**横向** `ScrollView` 周期 chips（`periodIndex`）、主图区 `styles.chartRow` + `bar` / `barOn` 归一化高度 `*(120 / maxAmount)` 且 **最小 4px**；`chartEmpty` 与列表空态 `emptyWrap` 文案分路。
 
 </code_context>
 

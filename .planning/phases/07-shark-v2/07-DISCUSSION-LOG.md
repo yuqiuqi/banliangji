@@ -88,3 +88,12 @@
 ## Folded Todos
 
 无（`todo match-phase 7` 空）
+
+---
+
+## Re-validation（本次 `/gsd-discuss-phase 7 --auto --analyze`）
+
+- **[auto]** 已有 `07-CONTEXT.md` — 按工作流选 **Update**，不重问交互项。  
+- **Todo：** `todo match-phase 7` → `todo_count: 0`，无折叠项。  
+- **代码再验：** `src/screens/ChartScreen.tsx` 结构仍为「分段器 → 周期 chips → 主卡片柱图 → 分类列表」；`chartAggregate` 未在本会话修改。  
+- **结论：** 既有 D-07-* 决策与 `07-UI-SPEC.md` 仍适用；`code_context` 已补一行**实现锚点**供执行与 PLAN 引用。
