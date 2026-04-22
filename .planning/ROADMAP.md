@@ -12,7 +12,7 @@
 - [x] **Phase 4: 质量门禁与发布准备** — typecheck/lint/手工 UAT 清单与版本说明   (completed 2026-04-21)
 - [x] **Phase 5: 预算与资产管家 MVP（v2）** — REF-01 / REF-02；SQLite 扩展与 Tab/导航   (completed 2026-04-21)
 - [x] **Phase 6: 全局 UI 与动效精研（v2）** — REF-04；Clay+ 层级、转场与关键屏改版   (completed 2026-04-22)
-- [x] **Phase 7: 图表 Shark 级表现层（v2）** — REF-03；依赖 Phase 3 数据正确   (completed 2026-04-21)
+- [ ] **Phase 7: 图表 Shark 级表现层（v2）** — REF-03；依赖 Phase 3 数据正确  
 
 ## Phase Details
 
