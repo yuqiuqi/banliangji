@@ -11,19 +11,20 @@ updated: 2026-04-22
 
 > **平台：** Expo 54 / React Native。在 **明亮 Tesla 变体** 上，锁定 **V21-01~03** 的导航、查账、我的屏 **布局与文案**。
 
-## 颜色契约（`src/theme/colors.ts` 唯一来源，2026-04-22 修订）
+## 颜色契约（`src/theme/colors.ts` 唯一来源）
 
 | Token | 值 / 说明 |
 |-------|-----------|
-| `canvas` | 浅底 `#FAFAFA`，整体更亮 |
-| `main` | **白** `#FFFFFF` — 顶栏、内部标题带（**不再** 使用深色炭条） |
-| `onMain` / `onMainSecondary` | 深字 `#171A20` / 灰次字 `#6B7280` |
-| `accent` / `tabbarTint` | 饱和蓝 `#2563EB`（比旧 Electric Blue 略亮） |
-| `onAccent` | `#FFFFFF` — 主按钮/强调键上的字 |
-| `income` | `#059669` — 与强调蓝区分，保持可读 |
-| 图表内 **周期 chips** 选中态 | 浅蓝底 `rgba(37,99,235,0.12)`，选中字色 `accent`（见 `ChartScreen`） |
+| `canvas` | 冷浅底 `#F0F9FF`（sky-50） |
+| `main` | 白 `#FFFFFF` |
+| `onMain` / `title` | **天青系主字** `#0C4A6E`（**不用** #171A20 等炭黑） |
+| `onMainSecondary` | `#0369A1`；`lightTitle` `#0284C7` |
+| `accent` / `tabbarTint` | 高饱和天青 `#0EA5E9` |
+| `onAccent` | `#FFFFFF` |
+| `income` | 鲜绿 `#10B981`（与主青区分） |
+| 图表 **周期 chips 选中** | `rgba(14,165,233,0.16)` + 字色 `accent`；**有数据柱** 用 `accent` |
 
-**非目标：** 不回到高饱和暖黄/Clay 主色；不引入第二套主强调色（除收入绿）。
+**非目标：** 主字与图标不走纯黑/纯炭灰；不回到 Clay 黄主色。
 
 ## 非目标
 
