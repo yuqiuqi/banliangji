@@ -1,41 +1,41 @@
 ---
 gsd_state_version: 1.0
 milestone: v2.2
-milestone_name: milestone
-current_phase: Phase 9 **执行已完成**（7 plans）
-status: Complete
-last_updated: "2026-04-22T00:00:00.000Z"
+milestone_name: iOS 26 Chrome
+current_phase: null
+status: milestone_shipped_awaiting_next
+last_updated: "2026-04-22T12:00:00.000Z"
 progress:
-  total_phases: 9
-  completed_phases: 9
-  total_plans: 24
-  completed_plans: 24
-  percent: 100
+  note: "v2.2 已封板；下一里程碑由 /gsd-new-milestone 创建"
 ---
 
 # Project State
 
 ## Current Status
 
-- **Milestone / version:** **v2.2** — iOS 26 全局 Chrome **已合入**  
-- **What we're doing now:** 可选真机勾选 `09-VERIFICATION.md` 余项（日历/预算/资产/共享）；Figma MCP 像素对照为增强项。  
-- **Current phase:** Phase 9 **Complete** — 见 `09-SUMMARY.md`
+- **已交付里程碑：** **v2.2**（Phase 9 — iOS 26 全局 Chrome）— 2026-04-22  
+- **当前动作：** 规划 **下一里程碑**（`/gsd-new-milestone`）；根目录 **`REQUIREMENTS.md`** 已移除，将在新里程碑流程中重建。  
+- **可选后续：** 真机跑完 `08-UAT.md` / `09-UAT.md` 与 `09-VERIFICATION.md` 对齐；DATA-02 杀进程冒烟记录。
 
 ## Progress Summary
 
-- **Phase 9**：`iosSemantic`、`ios/` 原语、逐屏 GroupedInset/SegmentedTwo、`App` 宽屏居中、`DESIGN.md`/`PROJECT.md` 更新；`npm run verify` 绿。
+- 代码与主题：`09-SUMMARY.md`、`UI-SPEC.md`、仓库 `src/`。  
+- 归档：`.planning/milestones/v2.2-*.md`；活动路线图已折叠为简短 `ROADMAP.md`。
 
 ## Blockers
 
 - 无。
 
+## Deferred Items（封板登记）
+
+| 类别 | 项 | 说明 |
+|------|----|------|
+| 需求 | DATA-02 | 设备杀进程再启动数据仍在 — 文档已有，**执行记录**待补 |
+| UAT | 08/09-UAT | 多项 `result: pending`，待人工勾选 |
+
 ## When User Says "where were we?"
 
-- Phase 9 代码与文档已交付；余下为设备上 UAT 与可选 Figma 对照。
-
-## Notes
-
-- ROADMAP Phase 9 已标 Complete（2026-04-22）。
+- **v2.2 已 ship**；下一版从 **`/gsd-new-milestone`** 开始。
 
 ---
-*Last updated: 2026-04-22*
+*Last updated: 2026-04-22 — after v2.2 milestone close*

@@ -10,21 +10,13 @@
 
 **离线可用的「记一笔 → 立刻在明细/日历/图表中看到」闭环必须稳定可靠**；数据仅存本机、可预期、可维护。
 
-## Current Milestone: v2.2 Phase 9 — iOS 26 全局 Chrome
+## Current State（shipped）
 
-**Goal:** **全部屏** UI/UX 收敛至 iOS 26 语义色与 Liquid Glass；共享原语 `src/components/ios/`；宽屏 `maxWidth` 居中。功能里程碑 v2.1（Phase 8）已交付，本里程碑 **不重加业务**，以视觉与交互一致性为主。
+**v2.2 — iOS 26 全局 Chrome（2026-04-22）** 已封板：全站语义色与 Liquid Glass 取向、`src/components/ios/` 原语、根目录 **`UI-SPEC.md`**、宽屏居中；归档见 `.planning/milestones/v2.2-ROADMAP.md` / `v2.2-REQUIREMENTS.md`。
 
-**上一里程碑（已交付）v2.1 — 账单流 · 查账 · 我的**
+## Next Milestone Goals
 
-**Goal（历史）:** Phase 8 交付账单子流、按日/区间查账、本地我的；当时 UI 约束为 Tesla 极简。
-
-**Target features:**
-
-- **账单子页 / 账单流**：独立可到达的「账单」信息架构（入口、列表、进详情/编辑；与「明细」关系在 UI-SPEC/ROADMAP 写清）。
-- **按日期查账**：支持**单日**与**时间区间**筛选（在现有 `bill_list` / `billRepo` 语义上），与日历/月份其它入口 **数字可追溯一致**。
-- **我的与设置（本地）**：数据位置、关于、基础偏好/占位；**不**将云账号/多用户作为本里程碑必达；登录若未来做，另开里程碑。
-
-**参考只读：** `https://github.com/MichaelFeng823/SharkBookProject`（README 功能向）；`https://getdesign.md/tesla/design-md`。
+**待定。** 运行 **`/gsd-new-milestone`** 建立下一版本目标与新的 `.planning/REQUIREMENTS.md`。候选强化项（非承诺）：DATA-02 设备杀进程记录、UAT 表与 VERIFICATION 对齐、Dark Mode、无障碍（降低透明度）全链路。
 
 ---
 
@@ -34,11 +26,17 @@
 
 - [x] **Phase 1 — 数据层基线**：`bill_list` / `main.db` 与 Swift 参考模型对齐；本地驻留与冒烟步骤见「数据驻留、备份与手工冒烟」。
 - [x] **Phase 2 — 核心用户流程**：明细 / 记一笔 / 详情 / 编辑 / 删除 / 日历主路径 UAT（见 `.planning/phases/02-core-user-flow-uat/`）。
-- [x] **v2.0 里程碑（Phase 3–7）**：CHART/QA/REF-01~04 等已按 `ROADMAP` 与 `REQUIREMENTS` 收束；图表数据层与 Shark 向表现层、预算/资产 MVP、全局 UI 精研、图表表现层已交付（见 `MILESTONES.md` / 各相 `*SUMMARY.md`）。
+- [x] **v2.0 里程碑（Phase 3–7）**：CHART/QA/REF-01~04 等已收束（见 `MILESTONES.md` / 各相 `*SUMMARY.md`）。
+- [x] **v2.1（Phase 8）— 账单流 · 查账 · 我的**：V21-01～03、V21Q-01（账单子流、按日/区间查账、本地我的；当时 UI 为 Tesla，已由 v2.2 覆盖为 iOS 26 Chrome）。
+- [x] **v2.2（Phase 9）— iOS 26 全局 Chrome**：IOS26-CHROME / UX / COMP / IPAD / VERIFY（工程交付见 `09-SUMMARY.md`；设备与 Figma 像素对照可为后续补丁）。
 
-### Active（v2.1 本里程碑）
+### Active
 
-- 以 `.planning/REQUIREMENTS.md` 中 **V21-*** 需求条为准（账单流、日期查询、我的与设置）。
+- （空）— 下一里程碑由 `/gsd-new-milestone` 写入新需求文件。
+
+### Follow-up / 未在需求表关闭
+
+- [ ] **DATA-02（执行记录）**：杀进程再启动数据仍在 — 步骤见下文「数据驻留」；**建议在下一补丁或里程碑中补一次设备记录并勾选归档需求**。
 
 ### Out of Scope
 
@@ -76,7 +74,7 @@
 | GSD `.planning/` 在仓库根 | 与代码同版本、便于 `gsd-tools commit` | 沿用 |
 | v2.1 不拆多 Phase 编号 | 产品希望同一发布列车交付 V21-01~03 | 单 **Phase 8** 内以多 plan 切波 |
 | 视觉 Tesla 向 | 用户选定 getdesign Tesla，替代黄/Clay 主色 | 见 `DESIGN.md`、`colors.ts`（v2.2 起由 Phase 9 过渡到 **iOS 26 Chrome**） |
-| v2.2 全站 iOS 26 Chrome | 全屏 UI/UX 与 Figma / HIG 对齐，作为下一突破 | 见 `09-BREAKTHROUGH-SPEC`、`ROADMAP` Phase 9 |
+| v2.2 全站 iOS 26 Chrome | 全屏 UI/UX 与 Figma / HIG 对齐，作为下一突破 | **已 ship**；`UI-SPEC.md`、`09-SUMMARY.md` |
 
 ## Evolution
 
@@ -98,4 +96,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state  
 
 ---
-*Last updated: 2026-04-22 — milestone v2.1 启动（/gsd-new-milestone v2.1）*
+*Last updated: 2026-04-22 — after v2.2 milestone complete（/gsd-complete-milestone）*

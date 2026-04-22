@@ -1,36 +1,46 @@
 # Milestones: SwiftCostRN
 
+## v2.2 — iOS 26 全局 Chrome（Liquid Glass）
+
+**Shipped:** 2026-04-22  
+**Scope:** Phase 9 only（全屏 UI/UX 收敛至 iOS / iPadOS 26 语义与 Liquid Glass 取向）
+
+**Stats:** 9 cumulative phases, 24 plans（本里程碑交付 Phase 9 / 7 plans + 阶段总结）
+
+**Key accomplishments:**
+
+- `iosSemantic`、`src/components/ios/`（GroupedInset、ListRow、SegmentedTwo、Fab）与根目录 **`UI-SPEC.md`** 设计契约。
+- 逐屏分组列表、导航 Tab `BlurView`、栈顶阴影、记一笔计算器毛玻璃 Dock、宽屏 `App` **maxWidth 720** 居中。
+- `DESIGN.md` / `PROJECT.md` 单一视觉来源切换为 **iOS 26 Chrome**；`npm run verify` 持续绿。
+
+**Known gaps at close:**
+
+- **DATA-02** 设备杀进程冒烟记录仍未在需求表中勾选（见 `v2.2-REQUIREMENTS.md`）。
+- **09-UAT.md / 08-UAT.md** 仍有多项人工 `pending`，与 `09-VERIFICATION.md` 部分 Pass 需后续对齐。
+
+**Archive:** [v2.2-ROADMAP.md](milestones/v2.2-ROADMAP.md) · [v2.2-REQUIREMENTS.md](milestones/v2.2-REQUIREMENTS.md)
+
+---
+
+## v2.1 — 账单流 · 查账 · 我的
+
+**Shipped:** 2026-04-22（Phase 8）  
+**Goal:** V21-01～03、V21Q-01；当时主视觉为 Tesla，已由 v2.2 替代为 iOS 26 Chrome。
+
+---
+
+## v2.0 — SharkBook 体验融合
+
+**封板:** 2026-04-22（Phases 5–7）  
+**Goal:** 预算、资产、图表表现、全局 UI 精研（REF-01～04）。
+
+---
+
 ## v1.0 — 离线记账 MVP
 
-**目标：** 数据可信 → 主路径 UAT → 图表一致 → 质量门禁。
-
-| 状态 | 说明 |
-|------|------|
-| Phase 1–4 | **Complete**（2026-04-21）— 数据层、主路径 UAT、图表、QA/发布门禁 |
-
-**参考实现：** [IANIx/SwiftCost](https://github.com/IANIx/SwiftCost)（流程/信息架构）。
+**封板:** 2026-04-21（Phases 1–4）  
+**Goal:** 数据可信、主路径 UAT、图表一致、质量门禁。
 
 ---
 
-## v2.0 — SharkBook 体验融合（已封板至 Phase 7）
-
-**启动：** 2026-04-21  
-**封板：** 2026-04-22（Phases 5–7 与 REF-01~04 已收束，见 `ROADMAP` / `*SUMMARY`）
-
-**曾达成目标：** 在 **不移植 Qt/C++** 的前提下，将 [SharkBookProject](https://github.com/MichaelFeng823/SharkBookProject) 所代表的 **预算、资产、图表精美度、全局动效/层级** 融合进 **Expo + TypeScript + SQLite**；后序视觉已迁移为 **Tesla 向**（由 v2.1 在文档与全站收束中明确）。
-
-**原则（历史不变）：** 参考交互与信息架构；`bill_list` 为主；网络-only 功能 defer/可选。
-
----
-
-## v2.1 — 账单流 · 查账 · 我的（**当前里程碑**）
-
-**启动：** 2026-04-22（`/gsd-new-milestone v2.1`）
-
-**目标：** 在 **单 Phase 8** 内交付 **V21-01 账单子流/导航**、**V21-02 按日/区间查账与一致**、**V21-03 本地我的/设置/关于**；**V21Q-01** 质量与 Tesla 可读性；功能面对齐 SharkBook 能力、**不**以云多用户为必达。
-
-**下一动作：** `/gsd-plan-phase 8`
-
----
-
-*Format: GSD milestone log — update on `/gsd-complete-milestone`.*
+*下一里程碑：`*`/gsd-new-milestone`*`*
