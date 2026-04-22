@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoryIcon } from "../components/CategoryIcon";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   aggregateExpenseByCategory,
   chartPointsWeekOrMonth,
@@ -28,11 +29,16 @@ import {
   chartYearPeriods,
   rangeForChartPeriod,
 } from "../utils/dates";
-import { formatAmountDisplay } from "../utils/money";
+import { formatAmountDisplay, parseAmount } from "../utils/money";
 import { addDays, format } from "date-fns";
 import { zhCN } from "date-fns/locale";
 
-const CHART_W = Dimensions.get("window").width - 32;
+const PAGE_H_PAD = 16;
+const CHART_W = Dimensions.get("window").width - PAGE_H_PAD * 2;
+
+/** 与 `colors.accent` #4A8B6A 一致的半透明选态，禁止硬编码天蓝 */
+const ACCENT_FILL_12 = "rgba(74, 139, 106, 0.12)";
+const ACCENT_FILL_16 = "rgba(74, 139, 106, 0.16)";
 
 export function ChartScreen(): React.ReactElement {
   const { generation } = useBillsRefresh();
@@ -89,6 +95,11 @@ export function ChartScreen(): React.ReactElement {
 
   const categories = useMemo(() => aggregateExpenseByCategory(billsInRange), [billsInRange]);
 
+  const periodTotal = useMemo(
+    () => billsInRange.reduce((s, b) => s + parseAmount(b.amount), 0),
+    [billsInRange],
+  );
+
   const points = useMemo(() => {
     if (granularity === "year") {
       return chartPointsYear(startP, billsInRange);
@@ -141,173 +152,274 @@ export function ChartScreen(): React.ReactElement {
 
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
-      <View style={styles.segBar}>
-        {(["week", "month", "year"] as const).map((g) => {
-          const on = granularity === g;
-          const title = g === "week" ? "周" : g === "month" ? "月" : "年";
-          return (
-            <Pressable
-              key={g}
-              style={({ pressed }) => [
-                styles.segBtn,
-                on ? styles.segOn : null,
-                pressed ? { opacity: pressedOpacity } : null,
-              ]}
-              onPress={() => {
-                setGranularity(g);
-                setPeriodIndex(0);
-              }}
-            >
-              <Text style={[styles.segText, on ? styles.segTextOn : null]}>{title}</Text>
-            </Pressable>
-          );
-        })}
-      </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tabs}>
-        {periods.map((p, i) => {
-          const on = i === safeIndex;
-          return (
-            <Pressable
-              key={`${p.label}-${i}`}
-              style={({ pressed }) => [
-                styles.tabChip,
-                on ? styles.tabChipOn : null,
-                pressed ? { opacity: pressedOpacity } : null,
-              ]}
-              onPress={() => {
-                setPeriodIndex(i);
-              }}
-            >
-              <Text style={[styles.tabChipText, on ? styles.tabChipTextOn : null]}>{p.label}</Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
-      <View style={[styles.card, shadows.raised]}>
-        <Text style={styles.cardTitle}>
-          {labelP} · 支出分布
-        </Text>
-        <Text style={styles.cardSubtitle}>仅统计支出 · 与下方分类列表同一筛选范围</Text>
-        <Text style={styles.cardRange}>{rangeHint}</Text>
-        <Animated.View style={{ opacity: chartOpacity }}>
-          {chartEmpty ? (
-            <Text style={styles.chartEmpty}>该时间段暂无支出记录</Text>
-          ) : null}
-          <View style={styles.chartRow}>
-            {points.map((pt, idx) => {
-              const h = maxAmount > 0 ? (pt.amount / maxAmount) * 120 : 0;
+      <ScrollView
+        contentContainerStyle={styles.pageScroll}
+        showsVerticalScrollIndicator={false}
+        nestedScrollEnabled
+      >
+        <View style={styles.pagePad}>
+          <View style={[styles.segBar, shadows.card, hairlineBorder]}>
+            {(["week", "month", "year"] as const).map((g) => {
+              const on = granularity === g;
+              const title = g === "week" ? "周" : g === "month" ? "月" : "年";
               return (
-                <View key={`${pt.label}-${idx}`} style={styles.barCol}>
-                  <View
-                    style={[styles.bar, { height: Math.max(4, h) }, pt.hasData ? styles.barOn : null]}
-                  />
-                  <Text style={styles.barLabel} numberOfLines={1}>
-                    {pt.label}
-                  </Text>
-                </View>
+                <Pressable
+                  key={g}
+                  style={({ pressed }) => [
+                    styles.segBtn,
+                    on ? styles.segOn : null,
+                    pressed ? { opacity: pressedOpacity } : null,
+                  ]}
+                  onPress={() => {
+                    setGranularity(g);
+                    setPeriodIndex(0);
+                  }}
+                >
+                  <Text style={[styles.segText, on ? styles.segTextOn : null]}>{title}</Text>
+                </Pressable>
               );
             })}
           </View>
-        </Animated.View>
-      </View>
-      <View style={styles.list}>
-        {categories.map((c) => (
-          <View key={c.categoryId} style={styles.catRow}>
-            <CategoryIcon categoryId={c.categoryId} />
-            <View style={styles.catMid}>
-              <Text style={styles.catName}>{c.name}</Text>
-              <View style={styles.progressBg}>
-                <View style={[styles.progressFg, { width: `${Math.round(c.ratio * 100)}%` }]} />
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.tabs}
+            contentContainerStyle={styles.tabsInner}
+            nestedScrollEnabled
+          >
+            {periods.map((p, i) => {
+              const on = i === safeIndex;
+              return (
+                <Pressable
+                  key={`${p.label}-${i}`}
+                  style={({ pressed }) => [
+                    styles.tabChip,
+                    on ? styles.tabChipOn : null,
+                    pressed ? { opacity: pressedOpacity } : null,
+                  ]}
+                  onPress={() => {
+                    setPeriodIndex(i);
+                  }}
+                >
+                  <Text style={[styles.tabChipText, on ? styles.tabChipTextOn : null]}>{p.label}</Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+          <View style={[styles.kpiCard, shadows.raised, hairlineBorder]}>
+            <Text style={styles.kpiLabel}>本期支出</Text>
+            <Text style={styles.kpiValue} numberOfLines={1} adjustsFontSizeToFit>
+              ¥{formatAmountDisplay(periodTotal)}
+            </Text>
+            <Text style={styles.kpiHint}>{labelP} · 仅统计支出</Text>
+          </View>
+          <Text style={styles.sectionTitle}>支出趋势</Text>
+          <View style={[styles.trendCard, shadows.raised, hairlineBorder]}>
+            <Text style={styles.cardRange}>{rangeHint}</Text>
+            <Text style={styles.cardSubtitle}>
+              与下方「分类构成」同一筛选；柱高为区间内相对值
+            </Text>
+            <Animated.View style={{ opacity: chartOpacity }}>
+              {chartEmpty ? (
+                <View style={styles.chartEmptyBlock}>
+                  <MaterialCommunityIcons name="chart-timeline-variant" size={36} color={colors.lightTitle} />
+                  <Text style={styles.chartEmpty}>该时间段暂无支出记录</Text>
+                </View>
+              ) : null}
+              <View style={styles.chartPlot}>
+                <View style={styles.chartBaseline} />
+                <View style={styles.chartRow}>
+                  {points.map((pt, idx) => {
+                    const h = maxAmount > 0 ? (pt.amount / maxAmount) * 132 : 0;
+                    return (
+                      <View key={`${pt.label}-${idx}`} style={styles.barCol}>
+                        <View
+                          style={[
+                            styles.bar,
+                            { height: Math.max(4, h) },
+                            pt.hasData ? styles.barOn : null,
+                          ]}
+                        />
+                        <Text style={styles.barLabel} numberOfLines={1}>
+                          {pt.label}
+                        </Text>
+                      </View>
+                    );
+                  })}
+                </View>
               </View>
-            </View>
-            <Text style={styles.catAmt}>{formatAmountDisplay(c.amount)}</Text>
+            </Animated.View>
           </View>
-        ))}
-        {categories.length === 0 ? (
-          <View style={styles.emptyWrap}>
-            <Text style={styles.empty}>本区间暂无支出</Text>
-            <Text style={styles.emptyHint}>切换周/月/年或左右滑动选择其他区间</Text>
+          <Text style={styles.sectionTitleSpaced}>分类构成</Text>
+          <View style={[styles.listCard, shadows.card, hairlineBorder]}>
+            {categories.map((c, i) => (
+              <View
+                key={c.categoryId}
+                style={[
+                  styles.catRow,
+                  i < categories.length - 1 ? styles.catRowBorder : null,
+                ]}
+              >
+                <View style={styles.iconRim}>
+                  <CategoryIcon categoryId={c.categoryId} />
+                </View>
+                <View style={styles.catMid}>
+                  <Text style={styles.catName}>{c.name}</Text>
+                  <View style={styles.progressBg}>
+                    <View style={[styles.progressFg, { width: `${Math.round(c.ratio * 100)}%` }]} />
+                  </View>
+                </View>
+                <Text style={styles.catAmt}>¥{formatAmountDisplay(c.amount)}</Text>
+              </View>
+            ))}
+            {categories.length === 0 ? (
+              <View style={styles.emptyWrap}>
+                <MaterialCommunityIcons name="chart-donut" size={40} color={colors.lightTitle} />
+                <Text style={styles.empty}>本区间暂无支出</Text>
+                <Text style={styles.emptyHint}>切换周/月/年或选择其他周期试试</Text>
+              </View>
+            ) : null}
           </View>
-        ) : null}
-      </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.canvas },
+  pageScroll: { paddingBottom: 40 },
+  pagePad: { paddingHorizontal: PAGE_H_PAD, paddingTop: 8 },
   segBar: {
     flexDirection: "row",
-    backgroundColor: colors.main,
-    padding: 10,
+    backgroundColor: colors.surface,
+    padding: 8,
     gap: 8,
     borderRadius: radii.chip,
   },
   segBtn: { flex: 1, paddingVertical: 8, borderRadius: radii.chip, alignItems: "center" },
-  segOn: { backgroundColor: "rgba(14, 165, 233, 0.16)" },
+  segOn: { backgroundColor: ACCENT_FILL_16 },
   segText: { color: colors.onMain, fontSize: 15 },
   segTextOn: { fontWeight: "700", color: colors.accent },
-  tabs: { maxHeight: 48, backgroundColor: colors.light, paddingVertical: 8 },
+  tabs: { maxHeight: 52, marginTop: 10 },
+  tabsInner: { paddingVertical: 8, alignItems: "center" },
   tabChip: {
-    marginHorizontal: 6,
+    marginRight: 8,
     paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 16,
-    backgroundColor: colors.white,
+    paddingVertical: 9,
+    borderRadius: 18,
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.body,
   },
-  tabChipOn: { borderColor: colors.accent, backgroundColor: colors.white },
+  tabChipOn: { borderColor: colors.accent, backgroundColor: ACCENT_FILL_12 },
   tabChipText: { color: colors.lightTitle, fontSize: 13 },
   tabChipTextOn: { color: colors.accent, fontWeight: "600" },
-  card: {
-    margin: 16,
-    padding: 12,
-    backgroundColor: colors.white,
+  kpiCard: {
+    marginTop: 16,
+    padding: 16,
+    backgroundColor: colors.surface,
     borderRadius: radii.card,
-    ...hairlineBorder,
   },
-  cardTitle: { marginBottom: 4, fontSize: 15, fontWeight: "600", color: colors.title },
-  cardSubtitle: { fontSize: 12, color: colors.lightTitle, marginBottom: 4 },
-  cardRange: { fontSize: 11, color: colors.lightTitle, marginBottom: 8 },
+  kpiLabel: { fontSize: 12, color: colors.lightTitle, marginBottom: 4, letterSpacing: 0.3 },
+  kpiValue: { fontSize: 30, fontWeight: "700", color: colors.title },
+  kpiHint: { fontSize: 12, color: colors.lightTitle, marginTop: 8 },
+  sectionTitle: {
+    marginTop: 20,
+    marginBottom: 8,
+    fontSize: 15,
+    fontWeight: "600",
+    color: colors.title,
+  },
+  sectionTitleSpaced: {
+    marginTop: 20,
+    marginBottom: 8,
+    fontSize: 15,
+    fontWeight: "600",
+    color: colors.title,
+  },
+  trendCard: {
+    padding: 16,
+    backgroundColor: colors.surface,
+    borderRadius: radii.card,
+  },
+  cardSubtitle: { fontSize: 12, color: colors.lightTitle, marginTop: 4, lineHeight: 17 },
+  cardRange: { fontSize: 13, color: colors.title, fontWeight: "500" },
+  chartEmptyBlock: { alignItems: "center", paddingVertical: 12 },
   chartEmpty: {
     fontSize: 13,
     color: colors.lightTitle,
     textAlign: "center",
-    marginBottom: 8,
+    marginTop: 8,
+  },
+  chartPlot: {
+    marginTop: 12,
+    position: "relative",
+  },
+  chartBaseline: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 22,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: colors.body,
+    opacity: 0.9,
   },
   chartRow: {
     flexDirection: "row",
     alignItems: "flex-end",
-    height: 140,
+    height: 152,
     width: CHART_W,
     justifyContent: "space-between",
   },
-  barCol: { flex: 1, alignItems: "center", marginHorizontal: 2 },
-  bar: { width: 11, backgroundColor: colors.body, borderRadius: 6 },
+  barCol: { flex: 1, alignItems: "center", marginHorizontal: 1 },
+  bar: {
+    width: 12,
+    backgroundColor: colors.body,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+  },
   barOn: { backgroundColor: colors.accent },
-  barLabel: { marginTop: 6, fontSize: 10, color: colors.lightTitle, maxWidth: 36, textAlign: "center" },
-  list: { paddingHorizontal: 16, paddingBottom: 24 },
-  catRow: { flexDirection: "row", alignItems: "center", marginBottom: 18 },
-  catMid: { flex: 1, marginLeft: 10 },
+  barLabel: { marginTop: 6, fontSize: 10, color: colors.lightTitle, maxWidth: 40, textAlign: "center" },
+  listCard: {
+    paddingVertical: 4,
+    paddingHorizontal: 4,
+    backgroundColor: colors.surface,
+    borderRadius: radii.card,
+    marginBottom: 8,
+  },
+  catRow: { flexDirection: "row", alignItems: "center", paddingVertical: 12, paddingHorizontal: 8 },
+  catRowBorder: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.body,
+  },
+  iconRim: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.light,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  catMid: { flex: 1, marginLeft: 12 },
   catName: { fontSize: 15, fontWeight: "500", color: colors.title },
   progressBg: {
-    height: 8,
+    height: 6,
     backgroundColor: colors.body,
-    borderRadius: 4,
+    borderRadius: 3,
     marginTop: 6,
     overflow: "hidden",
   },
-  progressFg: { height: 8, backgroundColor: colors.accent },
+  progressFg: { height: 6, backgroundColor: colors.accent, borderRadius: 3 },
   catAmt: {
     marginLeft: 8,
     fontSize: 15,
     fontWeight: "600",
     color: colors.title,
-    minWidth: 72,
+    minWidth: 80,
     textAlign: "right",
   },
-  emptyWrap: { marginTop: 24, paddingHorizontal: 8 },
-  empty: { textAlign: "center", color: colors.title, fontSize: 15, fontWeight: "500" },
-  emptyHint: { textAlign: "center", color: colors.lightTitle, fontSize: 12, marginTop: 8 },
+  emptyWrap: { alignItems: "center", paddingVertical: 28, paddingHorizontal: 12 },
+  empty: { textAlign: "center", color: colors.title, fontSize: 15, fontWeight: "500", marginTop: 10 },
+  emptyHint: { textAlign: "center", color: colors.lightTitle, fontSize: 12, marginTop: 8, lineHeight: 18 },
 });
