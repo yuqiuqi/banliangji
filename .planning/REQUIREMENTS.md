@@ -69,6 +69,30 @@
 
 - [x] **V21Q-01**: 关键路径（记一笔、账单、查账、我的）上 Tesla 主色/层次与可读性在深浅背景下可接受；`npm run verify` 全绿 UAT 记录可附在 Phase 8 内。
 
+## v2.2 下一里程碑（iOS / iPadOS 26 全局 Chrome — Phase 9）
+
+> **全屏 UI + 全路径 UX** 突破性收敛；详细屏幕矩阵与验收方式见 `.planning/phases/09-ios26-chrome/09-BREAKTHROUGH-SPEC.md`。设计参照：Figma Community「iOS and iPadOS 26」类 UI Kit + Apple Design Resources；实现侧建议启用 Figma MCP 做逐 frame 对照。
+
+### 全局视觉与材质 (IOS26)
+
+- [x] **IOS26-CHROME**: **所有屏幕** 的视觉层次（分组背景、cell、分隔线、语义色、圆角/阴影）对齐 **iOS 26**；顶栏/底栏/sheet/ FAB 等采用 **Liquid Glass** 取向（`expo-blur` 等），与 `09-BREAKTHROUGH-SPEC` §2 一致。
+
+### 交互与导航 (IOS26)
+
+- [x] **IOS26-UX**: **所有屏幕** 的导航、模态、工具栏、列表按压反馈、空态与告警 **符合 HIG 范式**；与 §3 矩阵中 **UX** 列一致。
+
+### 组件与工程 (IOS26)
+
+- [x] **IOS26-COMP**: 建立（或等价落实）**共享 iOS Chrome 原语**（分组列表、主按钮、分段、工具条等），禁止业务屏长期散落硬编码样式；token 以语义命名集中维护。
+
+### 大屏 (IOS26)
+
+- [x] **IOS26-IPAD**: **iPad** 达到 §3 与规格 §4 所述最低线（可读宽度、旋转、不截断）；分栏若分期，须在 `09-VERIFICATION` 标注阶段。
+
+### 验收 (IOS26)
+
+- [x] **IOS26-VERIFY**: `09-VERIFICATION.md`（或等价）**逐屏逐项**通过或 **Accepted deviation**；`npm run verify` 全绿；（可选）Figma 截图/设备截图对照归档。
+
 ## v2 远期（原 backlog，未纳入 v2.0 必达）
 
 ### 同步与账户 (SYNC)
@@ -114,6 +138,11 @@
 | V21-02 | Phase 8 | Complete |
 | V21-03 | Phase 8 | Complete |
 | V21Q-01 | Phase 8 | Complete |
+| IOS26-CHROME | Phase 9 | Complete |
+| IOS26-UX | Phase 9 | Complete |
+| IOS26-COMP | Phase 9 | Complete |
+| IOS26-IPAD | Phase 9 | Complete |
+| IOS26-VERIFY | Phase 9 | Complete |
 
 **Coverage:**
 
@@ -121,8 +150,9 @@
 - Mapped to phases: 12  
 - Unmapped: 0 ✓  
 - v2.0 REF: 4 total — mapped to Phases 5–7 ✓  
-- v2.1: 4 total (V21-01, V21-02, V21-03, V21Q-01) — 映射 **Phase 8** 单阶段
+- v2.1: 4 total (V21-01, V21-02, V21-03, V21Q-01) — 映射 **Phase 8** 单阶段  
+- v2.2: 5 total (IOS26-CHROME, IOS26-UX, IOS26-COMP, IOS26-IPAD, IOS26-VERIFY) — 映射 **Phase 9**
 
 ---
 *Requirements defined: 2026-04-21*  
-*Last updated: 2026-04-22 — milestone v2.1（/gsd-new-milestone v2.1）*
+*Last updated: 2026-04-22 — 增加 v2.2 / Phase 9（iOS 26 全局 Chrome）*

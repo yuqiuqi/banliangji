@@ -6,6 +6,8 @@
 
 **milestone v2.1**（Phase 8 单阶段）：在 Phase 1–7 与 v2.0 已封板的前提下，补充 **账单子流、按日/区间查账、本地「我的/设置」**；**视觉以 Tesla 主题**（`DESIGN.md` + `src/theme/colors.ts`）为整里程碑约束，不引入云多用户为必达。
 
+**milestone v2.2 — 下一个突破（Phase 9）**：在功能已具备的前提下，将 **全部屏幕、全部 UI 与 UX** 统一收敛到 **iOS / iPadOS 26 设计语言**（社区 Figma UI Kit + Apple Design Resources；**Liquid Glass** 材质、系统语义色、分组列表/导航/模态范式）。**单一事实来源**见 `.planning/phases/09-ios26-chrome/09-BREAKTHROUGH-SPEC.md`；执行前建议启用 **Figma MCP** 做逐 frame 对照。v2.1 的 Tesla 约束在 Phase 9 完成后由 **iOS 26 Chrome** 替代为全站主视觉规范（`DESIGN.md` / `PROJECT.md` 随阶段过渡更新）。
+
 ## Phases
 
 - [x] **Phase 1: 数据层与基线验证** — SQLite 契约、回归检查、关键路径文档化   (completed 2026-04-21)
@@ -16,6 +18,7 @@
 - [x] **Phase 6: 全局 UI 与动效精研（v2）** — REF-04；Clay+ 层级、转场与关键屏改版   (completed 2026-04-22)
 - [x] **Phase 7: 图表 Shark 级表现层（v2）** — REF-03；依赖 Phase 3 数据正确   (completed 2026-04-22)
 - [x] **Phase 8: 账单流 · 查账 · 我的与 Tesla 收敛（v2.1）** — V21-01 / V21-02 / V21-03 / V21Q-01   (completed 2026-04-22)
+- [x] **Phase 9: iOS & iPadOS 26 全局 Chrome（Liquid Glass）突破（v2.2）** — IOS26-*（全屏 UI/UX；见 `09-BREAKTHROUGH-SPEC.md`）   (completed 2026-04-22)
 
 ## Phase Details
 
@@ -173,9 +176,31 @@ Plans:
 - [x] 08-01: `billTimeRange` + `BillQuery` 屏 + `HomeMain` 查账入口（V21-01、V21-02）  
 - [x] 08-02: `billTimeRange` 单测 + `Mine` 扩展 + `08-VERIFICATION` + ROAD/STATE 收口（V21-02 追溯、V21-03、V21Q-01）  
 
+### Phase 9: iOS & iPadOS 26 全局 Chrome（Liquid Glass）突破（v2.2）
+
+**Goal**: **每一个**业务屏与共享组件在 **UI + UX** 上与 **iOS / iPadOS 26** 设计资源一致（材质、语义色、导航、列表、表单、图表壳、空态、反馈）；形成可验收的 **全屏清单** 与 Figma/截图对照链。  
+**Depends on**: Phase 8（功能与导航闭环）；设计侧 Figma 文件可访问；开发侧 **Figma MCP** 可选但强烈建议（逐节点 `get_design_context` / `get_screenshot`）。  
+**Requirements**: IOS26-CHROME, IOS26-UX, IOS26-COMP, IOS26-IPAD, IOS26-VERIFY（见 `.planning/REQUIREMENTS.md`）  
+**UI hint**: yes — **唯一详细规格**：`.planning/phases/09-ios26-chrome/09-BREAKTHROUGH-SPEC.md`（含 §3 全屏幕矩阵）。  
+**Success Criteria** (what must be TRUE):
+
+1. §3 矩阵中 **全部屏、Tab/栈壳、共享组件** 在 `09-VERIFICATION.md`（或等价）中 **逐项** 标记通过或登记 **Accepted deviation**（含理由）。  
+2. 全站使用 **iOS 26 语义 token** 与 **Liquid Glass 取向**（顶栏/底栏/sheet/ FAB 等）；**无**未解释的回退至 v2.1 Tesla 主色体系。  
+3. 建立或可复用一层 **iOS Chrome 布局原语**（分组列表、工具条、主按钮等），避免逐屏样式分叉。  
+4. **iPad**：至少达到 **可读宽度居中 + 横竖屏不截断**；分栏可为 Phase 内第二步（见 BREAKTHROUGH-SPEC §3）。  
+5. `npm run verify` 全绿；关键路径设备 UAT 与（若可用）Figma 截图对比已归档。  
+
+**Plans**: 待 `/gsd-plan-phase 9` 拆波（建议：`09-01` token+原语；`09-02` 栈与 Tab 材质；`09-03` 明细/账单/详情；`09-04` 记一笔+计算器；`09-05` 日历+图表；`09-06` 预算+资产+我的；`09-07` iPad+VERIFICATION 收口 — 仅为建议，以 PLAN.md 为准）。
+
+Plans:
+
+- [x] 09-01: token + `ios/` 原语（GroupedInset、ListRow、SegmentedTwo）+ typography  
+- [x] 09-02: 全局 Tab/栈导航 Chrome（已由 09 执行波次合入 `RootNavigator`）  
+- [x] 09-03 — 09-07: 逐屏与 `App` / `DESIGN` / `PROJECT` / 验收表 — 见 `09-SUMMARY.md`
+
 ## Progress
 
-**Execution Order（建议）:** 1 → 2 → **3 → 4**（v1 收口）→ **5 → 6 → 7**（v2.0）→ **8**（v2.1）  
+**Execution Order（建议）:** 1 → 2 → **3 → 4**（v1 收口）→ **5 → 6 → 7**（v2.0）→ **8**（v2.1）→ **9**（v2.2 全局 iOS 26 Chrome）  
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -187,3 +212,4 @@ Plans:
 | 6. 全局 UI 精研（v2） | 2/2 | Complete    | 2026-04-22 |
 | 7. 图表表现层（v2） | 2/2 | Complete    | 2026-04-22 |
 | 8. 账单流/查账/我的（v2.1） | 2/2 | Complete    | 2026-04-22 |
+| 9. iOS 26 全局 Chrome（v2.2） | 7/7 | Complete    | 2026-04-22 |

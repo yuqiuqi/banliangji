@@ -135,7 +135,7 @@ export function CalendarScreen(): React.ReactElement {
               <View style={styles.rowMid}>
                 <Text style={styles.rowTitle}>{item.name}</Text>
               </View>
-              <Text style={styles.rowAmt}>
+              <Text style={[styles.rowAmt, isExpense ? styles.rowAmtOut : styles.rowAmtIn]}>
                 {prefix}
                 {formatAmountDisplay(parseAmount(item.amount))}
               </Text>
@@ -153,7 +153,7 @@ export function CalendarScreen(): React.ReactElement {
         accessibilityLabel="记一笔"
         onPress={onCreate}
       >
-        <MaterialCommunityIcons name="plus" color={colors.onMain} size={28} />
+        <MaterialCommunityIcons name="plus" color={colors.onAccent} size={28} />
       </Pressable>
     </SafeAreaView>
   );
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 8,
     borderRadius: radii.card,
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     overflow: "hidden",
     ...hairlineBorder,
     ...shadows.card,
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginBottom: 8,
     borderRadius: radii.card,
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     overflow: "hidden",
     ...hairlineBorder,
     ...shadows.card,
@@ -219,7 +219,9 @@ const styles = StyleSheet.create({
   },
   rowMid: { flex: 1, marginLeft: 10 },
   rowTitle: { fontSize: 15, color: colors.title },
-  rowAmt: { fontSize: 15, color: colors.title },
+  rowAmt: { fontSize: 15, fontWeight: "500" },
+  rowAmtIn: { color: colors.income },
+  rowAmtOut: { color: colors.expense },
   empty: { textAlign: "center", color: colors.lightTitle, marginTop: 12 },
   fab: {
     position: "absolute",

@@ -4,15 +4,19 @@
 
 基于 [IANIx/SwiftCost](https://github.com/IANIx/SwiftCost) 的 **React Native（Expo）复刻版**：本地 SQLite 记账、按月明细、记一笔（含计算器）、日历、图表（周/月/年支出聚合）与账单详情/编辑/删除。面向需要在 iOS/Android 上获得与原版相近体验、同时采用现代 TS 技术栈的开发者与用户。
 
-**体验参考（非技术栈）：** [SharkBookProject](https://github.com/MichaelFeng823/SharkBookProject) — 功能与流程可对齐；**不引入 Qt**。**视觉与交互**以根目录 `DESIGN.md`（**Tesla 向**，getdesign）与 `src/theme/colors.ts` 为单一来源（v2.1 起全站收敛，已替代原 Clay/Lemon 主色方案）。
+**体验参考（非技术栈）：** [SharkBookProject](https://github.com/MichaelFeng823/SharkBookProject) — 功能与流程可对齐；**不引入 Qt**。**视觉与交互（当前）：** 以 **iOS / iPadOS 26 Chrome** 为 **单一来源**（`DESIGN.md` 首节、`src/theme/colors.ts` 含 `iosSemantic`、`src/components/ios/*`）。v2.1 的 Tesla 向为历史阶段；突破性规格见 `.planning/phases/09-ios26-chrome/09-BREAKTHROUGH-SPEC.md`。
 
 ## Core Value
 
 **离线可用的「记一笔 → 立刻在明细/日历/图表中看到」闭环必须稳定可靠**；数据仅存本机、可预期、可维护。
 
-## Current Milestone: v2.1 账单流 · 查账 · 我的
+## Current Milestone: v2.2 Phase 9 — iOS 26 全局 Chrome
 
-**Goal:** 在 **单阶段（Phase 8）** 内交付 **账单子模块与主路径导航**、**按日/按区间查账且与数据源一致**、**本地「我的 / 设置」与关于信息**；交互继续对照 SharkBook **能力面**，UI/UX **严格 Tesla 极简**（无云登录为默认必达）。
+**Goal:** **全部屏** UI/UX 收敛至 iOS 26 语义色与 Liquid Glass；共享原语 `src/components/ios/`；宽屏 `maxWidth` 居中。功能里程碑 v2.1（Phase 8）已交付，本里程碑 **不重加业务**，以视觉与交互一致性为主。
+
+**上一里程碑（已交付）v2.1 — 账单流 · 查账 · 我的**
+
+**Goal（历史）:** Phase 8 交付账单子流、按日/区间查账、本地我的；当时 UI 约束为 Tesla 极简。
 
 **Target features:**
 
@@ -71,7 +75,8 @@
 |----------|-----------|---------|
 | GSD `.planning/` 在仓库根 | 与代码同版本、便于 `gsd-tools commit` | 沿用 |
 | v2.1 不拆多 Phase 编号 | 产品希望同一发布列车交付 V21-01~03 | 单 **Phase 8** 内以多 plan 切波 |
-| 视觉 Tesla 向 | 用户选定 getdesign Tesla，替代黄/Clay 主色 | 见 `DESIGN.md`、`colors.ts` |
+| 视觉 Tesla 向 | 用户选定 getdesign Tesla，替代黄/Clay 主色 | 见 `DESIGN.md`、`colors.ts`（v2.2 起由 Phase 9 过渡到 **iOS 26 Chrome**） |
+| v2.2 全站 iOS 26 Chrome | 全屏 UI/UX 与 Figma / HIG 对齐，作为下一突破 | 见 `09-BREAKTHROUGH-SPEC`、`ROADMAP` Phase 9 |
 
 ## Evolution
 

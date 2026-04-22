@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   headerSub: { marginTop: 4, fontSize: 14, color: colors.onMainSecondary },
   scroll: { padding: 16, paddingBottom: 32 },
   card: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     borderRadius: radii.card,
     padding: 16,
     ...hairlineBorder,
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: radii.card,
     ...hairlineBorder,
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
   },
   secondaryBtnText: { color: colors.title, fontSize: 15, fontWeight: "600" },
   modalBackdrop: {
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   modalCard: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     borderRadius: radii.sheet,
     padding: 20,
     ...hairlineBorder,

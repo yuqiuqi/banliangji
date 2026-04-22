@@ -21,6 +21,7 @@
     "@react-navigation/native-stack": "^7.14.11",
     "date-fns": "^4.1.0",
     "expo": "~54.0.33",
+    "expo-blur": "~15.0.8",
     "expo-constants": "~18.0.13",
     "expo-sqlite": "~16.0.10",
     "expo-status-bar": "~3.0.9",

@@ -10,8 +10,9 @@ import {
   Text,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { BillCalculator } from "../components/BillCalculator";
+import { SegmentedTwo } from "../components/ios";
 import { CategoryIcon } from "../components/CategoryIcon";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { flattenCategories } from "../data/categories";
@@ -22,7 +23,18 @@ import { colors } from "../theme/colors";
 import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
 import { formatAmountDisplay } from "../utils/money";
 
+/** 与 TCalculatorView：top 50 + 4 行×60 */
+const CALCULATOR_OVERLAY_HEIGHT = 50 + 60 * 4;
+
+/**
+ * 在系统 reporting 的 bottom inset 之外再留一截，避免页面/键盘区贴安全边界过紧。
+ *（无 inset 的机型也会有最小垫高。）
+ */
+const SAFE_CONTENT_INSET_EXTRA = 16;
+
 export function CreateBillScreen(): React.ReactElement {
+  const insets = useSafeAreaInsets();
+  const bottomComfort = insets.bottom + SAFE_CONTENT_INSET_EXTRA;
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
   const route = useRoute<RouteProp<HomeStackParamList, "CreateBill">>();
   const { refresh, generation } = useBillsRefresh();
@@ -141,78 +153,81 @@ export function CreateBillScreen(): React.ReactElement {
   );
 
   return (
-    <SafeAreaView style={styles.safe} edges={["bottom"]}>
-      <View style={styles.tabs}>
-        <Pressable
-          style={({ pressed }) => [
-            styles.tab,
-            kind === 1 ? styles.tabOn : null,
-            pressed ? { opacity: pressedOpacity } : null,
-          ]}
-          onPress={() => {
-            setKind(1);
+    <SafeAreaView style={styles.safe} edges={["left", "right"]}>
+      <View
+        style={[
+          styles.body,
+          calcVisible ? null : { paddingBottom: bottomComfort },
+        ]}
+      >
+        <SegmentedTwo
+          leftLabel="支出"
+          rightLabel="收入"
+          value={kind === 1 ? 0 : 1}
+          style={styles.kindSegment}
+          onChange={(v) => {
+            setKind(v === 0 ? 1 : 2);
             setSelected(null);
             setCalcVisible(false);
-          }}
-        >
-          <Text style={[styles.tabText, kind === 1 ? styles.tabTextOn : null]}>支出</Text>
-        </Pressable>
-        <Pressable
-          style={({ pressed }) => [
-            styles.tab,
-            kind === 2 ? styles.tabOn : null,
-            pressed ? { opacity: pressedOpacity } : null,
-          ]}
-          onPress={() => {
-            setKind(2);
-            setSelected(null);
-            setCalcVisible(false);
-          }}
-        >
-          <Text style={[styles.tabText, kind === 2 ? styles.tabTextOn : null]}>收入</Text>
-        </Pressable>
-      </View>
-      <View style={styles.listCard}>
-        <FlatList
-          data={listData}
-          keyExtractor={(item) => String(item.categoryId)}
-          numColumns={4}
-          contentContainerStyle={styles.grid}
-          columnWrapperStyle={styles.row}
-          renderItem={({ item }) => {
-            const on = selected?.categoryId === item.categoryId;
-            return (
-              <Pressable
-                style={({ pressed }) => [
-                  styles.cell,
-                  on ? styles.cellOn : null,
-                  { borderRadius: radii.card },
-                  pressed ? { opacity: pressedOpacity } : null,
-                ]}
-                onPress={() => {
-                  setSelected(item);
-                  setCalcVisible(true);
-                }}
-              >
-              <CategoryIcon categoryId={item.categoryId} />
-              <Text style={styles.cellLabel} numberOfLines={1}>
-                {item.name}
-              </Text>
-              </Pressable>
-            );
           }}
         />
+        <View style={[styles.listCard, calcVisible ? styles.listCardWithKeyboard : null]}>
+          <FlatList
+            data={listData}
+            keyExtractor={(item) => String(item.categoryId)}
+            numColumns={4}
+            contentContainerStyle={[
+              styles.grid,
+              calcVisible
+                ? { paddingBottom: CALCULATOR_OVERLAY_HEIGHT + 12 + bottomComfort }
+                : null,
+            ]}
+            columnWrapperStyle={styles.row}
+            renderItem={({ item }) => {
+              const on = selected?.categoryId === item.categoryId;
+              return (
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.cell,
+                    on ? styles.cellOn : null,
+                    { borderRadius: radii.card },
+                    pressed ? { opacity: pressedOpacity } : null,
+                  ]}
+                  onPress={() => {
+                    setSelected(item);
+                    setCalcVisible(true);
+                  }}
+                >
+                  <CategoryIcon categoryId={item.categoryId} />
+                  <Text style={styles.cellLabel} numberOfLines={1}>
+                    {item.name}
+                  </Text>
+                </Pressable>
+              );
+            }}
+          />
+        </View>
       </View>
-      <BillCalculator
-        visible={calcVisible}
-        initialAmount={editId !== undefined ? initialEditAmount : ""}
-        billDateLabel={billDateLabel}
-        onPickDate={openBillDate}
-        onComplete={onCalcComplete}
-      />
+      {calcVisible ? (
+        <View
+          style={[
+            styles.calcDock,
+            { paddingBottom: bottomComfort, backgroundColor: colors.calculatorBg },
+          ]}
+          pointerEvents="box-none"
+        >
+          <BillCalculator
+            visible
+            initialAmount={editId !== undefined ? initialEditAmount : ""}
+            billDateLabel={billDateLabel}
+            onPickDate={openBillDate}
+            onComplete={onCalcComplete}
+          />
+        </View>
+      ) : null}
       {Platform.OS === "ios" && iosDateOpen ? (
         <View style={styles.pickerOverlay}>
-          <View style={styles.pickerCard}>
+          <View style={[styles.pickerCard, { paddingBottom: 24 + bottomComfort }]}>
             <View style={styles.pickerToolbar}>
               <Pressable
                 onPress={() => setIosDateOpen(false)}
@@ -240,21 +255,34 @@ export function CreateBillScreen(): React.ReactElement {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.createBody },
+  body: { flex: 1 },
   listCard: {
     flex: 1,
     marginHorizontal: 12,
-    marginBottom: 12,
+    marginBottom: 16,
     borderRadius: radii.card,
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     overflow: "hidden",
     ...hairlineBorder,
     ...shadows.card,
   },
-  tabs: { flexDirection: "row", backgroundColor: colors.white },
-  tab: { flex: 1, paddingVertical: 14, alignItems: "center" },
-  tabOn: { borderBottomWidth: 2, borderBottomColor: colors.title },
-  tabText: { fontSize: 16, color: colors.lightTitle },
-  tabTextOn: { color: colors.title, fontWeight: "600" },
+  listCardWithKeyboard: {
+    marginBottom: 0,
+  },
+  calcDock: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 20,
+    elevation: 12,
+  },
+  kindSegment: {
+    marginHorizontal: 12,
+    marginTop: 8,
+    marginBottom: 8,
+    backgroundColor: colors.createBody,
+  },
   grid: { paddingVertical: 12 },
   row: { justifyContent: "flex-start" },
   cell: {
@@ -269,7 +297,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.35)",
     justifyContent: "flex-end",
   },
-  pickerCard: { backgroundColor: colors.white, paddingBottom: 24 },
+  pickerCard: { backgroundColor: colors.surface },
   pickerToolbar: { alignItems: "flex-end", padding: 12 },
-  pickerDone: { color: colors.title, fontSize: 16, fontWeight: "600" },
+  pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "600" },
 });

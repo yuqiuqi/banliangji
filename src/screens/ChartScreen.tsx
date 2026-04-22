@@ -36,9 +36,9 @@ import { zhCN } from "date-fns/locale";
 const PAGE_H_PAD = 16;
 const CHART_W = Dimensions.get("window").width - PAGE_H_PAD * 2;
 
-/** 与 `colors.accent` #4A8B6A 一致的半透明选态，禁止硬编码天蓝 */
-const ACCENT_FILL_12 = "rgba(74, 139, 106, 0.12)";
-const ACCENT_FILL_16 = "rgba(74, 139, 106, 0.16)";
+/** 与 `colors.accent`（系统蓝）一致的半透明选态。IOS26：周/月/年为三档，SegmentedTwo 仅两档，故保留 chip 行。 */
+const ACCENT_FILL_12 = "rgba(0, 122, 255, 0.12)";
+const ACCENT_FILL_16 = "rgba(0, 122, 255, 0.16)";
 
 export function ChartScreen(): React.ReactElement {
   const { generation } = useBillsRefresh();

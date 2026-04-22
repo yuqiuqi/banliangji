@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   sep: { height: 10 },
   emptyList: { flexGrow: 1, padding: 16 },
   card: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     borderRadius: radii.card,
     padding: 16,
     ...hairlineBorder,
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     borderRadius: radii.card,
     padding: 16,
     ...hairlineBorder,
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   modalCard: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     borderRadius: radii.sheet,
     padding: 20,
     ...hairlineBorder,

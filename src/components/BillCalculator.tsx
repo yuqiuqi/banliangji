@@ -1,6 +1,8 @@
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { useCallback, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { colors } from "../theme/colors";
+import { radii } from "../theme/layout";
 import { formatAmountDisplay } from "../utils/money";
 
 type Operate = "add" | "less" | "del";
@@ -41,12 +43,15 @@ function labelFor(b: CalcButton, dateLabel: string): string {
     if (b.op === "less") {
       return "-";
     }
-    return "⌫";
+    return "";
   }
   if (b.kind === "date") {
     return dateLabel;
   }
-  return "=";
+  if (b.kind === "done") {
+    return "完成";
+  }
+  return "";
 }
 
 function applyBinary(a: number, b: number, op: "add" | "less"): number {
@@ -194,13 +199,13 @@ export function BillCalculator({
       </View>
       <View style={styles.grid}>
         {GRID.map((b, i) => {
-          const isPrimary = b.kind === "done" || (b.kind === "op" && b.op !== "del");
+          const isComplete = b.kind === "done";
           return (
             <Pressable
-              key={`${i}-${labelFor(b, billDateLabel)}`}
+              key={String(i)}
               style={({ pressed }) => [
                 styles.cell,
-                isPrimary ? styles.cellAccent : null,
+                isComplete ? styles.cellAccent : null,
                 pressed ? styles.pressed : null,
               ]}
               onPress={() => {
@@ -215,15 +220,15 @@ export function BillCalculator({
                 }
               }}
             >
-              <Text
-                style={[
-                  styles.cellText,
-                  isPrimary ? styles.cellTextDark : null,
-                  isPrimary ? styles.cellTextOnAccent : null,
-                ]}
-              >
-                {b.kind === "done" && operateType !== null ? "=" : labelFor(b, billDateLabel)}
-              </Text>
+              {b.kind === "op" && b.op === "del" ? (
+                <MaterialCommunityIcons name="backspace-outline" size={24} color={colors.title} />
+              ) : isComplete ? (
+                <Text style={[styles.cellText, styles.cellTextDone]}>
+                  {operateType !== null ? "=" : "完成"}
+                </Text>
+              ) : (
+                <Text style={styles.cellText}>{labelFor(b, billDateLabel)}</Text>
+              )}
             </Pressable>
           );
         })}
@@ -239,10 +244,11 @@ const styles = StyleSheet.create({
   displayRow: {
     height: 50,
     justifyContent: "center",
-    paddingHorizontal: 12,
+    paddingHorizontal: 10,
   },
   displayText: {
     fontSize: 27,
+    fontWeight: "400",
     textAlign: "right",
     color: colors.title,
   },
@@ -251,26 +257,27 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     width: "100%",
   },
+  /** 与 TCalculatorView：itemH=60，边框 0.5、#DBDBDB */
   cell: {
     width: "25%",
-    height: 56,
+    height: 60,
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.body,
-    backgroundColor: colors.light,
+    borderWidth: 0.5,
+    borderColor: colors.calculatorKeyBorder,
+    backgroundColor: colors.calculatorKeyBg,
+    borderRadius: radii.chip,
   },
   cellAccent: {
     backgroundColor: colors.accent,
   },
   cellText: {
-    fontSize: 20,
+    fontSize: 17,
+    fontWeight: "300",
     color: colors.title,
   },
-  cellTextDark: {
-    fontWeight: "600",
-  },
-  cellTextOnAccent: {
+  cellTextDone: {
+    fontWeight: "400",
     color: colors.onAccent,
   },
   pressed: {

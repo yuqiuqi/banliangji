@@ -1,5 +1,5 @@
 /**
- * Layout tokens — radii, shadows, borders (see root DESIGN.md, Tesla-inspired palette in colors.ts).
+ * Layout tokens — radii, shadows, borders（iOS 取向：轻阴影、圆角贴近 HIG）。
  */
 import { Platform, type ViewStyle } from "react-native";
 import { colors } from "./colors";
@@ -14,8 +14,8 @@ export const pressDurationMs = 100;
 export const chartFadeMs = 200;
 
 export const radii = {
-  card: 12,
-  sheet: 16,
+  card: 10,
+  sheet: 14,
   pill: 999,
   chip: 10,
 } as const;
@@ -24,19 +24,30 @@ export const shadows = {
   card: Platform.select<ViewStyle>({
     ios: {
       shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.08,
-      shadowRadius: 8,
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.06,
+      shadowRadius: 3,
     },
-    android: { elevation: 3 },
+    android: { elevation: 2 },
     default: {},
   }),
   raised: Platform.select<ViewStyle>({
     ios: {
       shadowColor: "#000",
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.08,
+      shadowRadius: 4,
+    },
+    android: { elevation: 2 },
+    default: {},
+  }),
+  /** 主按钮 — 轻抬起 */
+  fluentButton: Platform.select<ViewStyle>({
+    ios: {
+      shadowColor: "#000",
       shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 10,
+      shadowOpacity: 0.12,
+      shadowRadius: 4,
     },
     android: { elevation: 3 },
     default: {},

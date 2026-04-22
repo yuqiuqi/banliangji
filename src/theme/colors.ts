@@ -1,33 +1,49 @@
 /**
- * 明亮活力主题：不用纯黑/炭黑字，用偏天青/蓝的深色；高饱和天青作唯一主强调色。
- * 以 `08-UI-SPEC.md` 为产品说明，DESIGN 文档中 Tesla 黑字为参考、运行时以此文件为准。
+ * iOS / iPadOS 26 设计语言取向（社区 UI Kit / Apple Design Resources）：
+ * 分组背景、标签与分隔线、系统强调色；与 Figma 稿 1:1 需在 MCP 可用时拉取 token 再对齐。
  */
 export const colors = {
-  /** 带一点冷色气的浅底，比灰白更「活」 */
-  canvas: "#F0F9FF",
-  /** 顶栏 / 标题带 */
-  main: "#FFFFFF",
-  /**
-   * 主字色（**非黑色**）— 天青-900 墨水，用于标题、导航字、行主文
-   */
-  onMain: "#0C4A6E",
-  /** 次字 — 可感知色相，仍易读 */
-  onMainSecondary: "#0369A1",
-  /** 浅条、交替底 */
-  light: "#E0F2FE",
-  /** 边框/分割线 — 带一点青 */
-  body: "#BAE6FD",
-  /** 与 onMain 同系，列表主色 */
-  title: "#0C4A6E",
-  /** 说明、次行 — 不灰不黑，偏天青 */
-  lightTitle: "#0284C7",
-  /** 高饱和天青：Tab 激活、主按钮、强提示 */
-  tabbarTint: "#0EA5E9",
-  accent: "#0EA5E9",
-  createBody: "#FFFFFF",
-  calculatorBg: "#E0F2FE",
+  /** systemGroupedBackground */
+  canvas: "#F2F2F7",
+  /** secondarySystemGroupedBackground — 卡片、列表容器 */
+  surface: "#FFFFFF",
+  /** 导航栏 / 工具条区域（略偏系统灰，便于与纯白 cell 区分） */
+  main: "#F6F6F6",
+  /** label */
+  onMain: "#000000",
+  /** secondaryLabel */
+  onMainSecondary: "rgba(60, 60, 67, 0.6)",
+  /** 区头底、选中浅底等 tertiarySystemFill */
+  light: "#E5E5EA",
+  /** separator */
+  body: "#C6C6C8",
+  title: "#000000",
+  lightTitle: "rgba(60, 60, 67, 0.6)",
+  /** Tab / 可交互强调 — systemBlue */
+  tabbarTint: "#007AFF",
+  accent: "#007AFF",
+  tabBarActive: "#007AFF",
+  tabBarInactive: "#8E8E93",
+  createBody: "#F2F2F7",
+  calculatorBg: "#E5E5EA",
+  calculatorKeyBg: "#FFFFFF",
+  calculatorKeyBorder: "#C6C6C8",
   white: "#FFFFFF",
   onAccent: "#FFFFFF",
-  /** 收入：鲜绿、与主青区分 */
-  income: "#10B981",
+  /** systemGreen — 收入 */
+  income: "#34C759",
+  /** systemRed — 支出金额强调 */
+  expense: "#FF3B30",
+} as const;
+
+/** Apple 语义名 → 现有 token（对齐 09-UI-SPEC / HIG） */
+export const iosSemantic = {
+  groupedBackground: colors.canvas,
+  secondaryGrouped: colors.surface,
+  label: colors.title,
+  secondaryLabel: colors.lightTitle,
+  separator: colors.body,
+  systemBlue: colors.accent,
+  systemGreen: colors.income,
+  systemRed: colors.expense,
 } as const;

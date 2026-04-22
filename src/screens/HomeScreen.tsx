@@ -13,11 +13,13 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoryIcon } from "../components/CategoryIcon";
+import { GroupedInset } from "../components/ios";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { groupBillsByDayKey, queryBillsForMonth } from "../db/billRepo";
 import type { Bill } from "../types/models";
 import { colors } from "../theme/colors";
-import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
+import { pressedOpacity, shadows } from "../theme/layout";
+import { iosType } from "../theme/typography";
 import {
   formatHeaderMonth,
   formatHeaderYear,
@@ -179,7 +181,7 @@ export function HomeScreen(): React.ReactElement {
           </View>
         </View>
       </View>
-      <View style={styles.listCard}>
+      <GroupedInset style={styles.listInset}>
         <SectionList
           sections={sections}
           keyExtractor={(item) => String(item.id)}
@@ -196,7 +198,7 @@ export function HomeScreen(): React.ReactElement {
           }
           stickySectionHeadersEnabled
         />
-      </View>
+      </GroupedInset>
       {Platform.OS === "ios" && iosPickerOpen ? (
         <View style={styles.pickerOverlay}>
           <View style={styles.pickerCard}>
@@ -227,15 +229,10 @@ export function HomeScreen(): React.ReactElement {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.canvas },
-  listCard: {
+  listInset: {
     flex: 1,
-    marginHorizontal: 16,
-    marginBottom: 16,
     marginTop: 8,
-    borderRadius: radii.card,
-    backgroundColor: colors.white,
-    overflow: "hidden",
-    ...hairlineBorder,
+    marginBottom: 16,
     ...shadows.card,
   },
   headerBtn: { paddingHorizontal: 4 },
@@ -256,7 +253,7 @@ const styles = StyleSheet.create({
   monthBig: { fontSize: 30, fontWeight: "300", color: colors.onMain },
   headerDivider: {
     width: StyleSheet.hairlineWidth,
-    backgroundColor: "rgba(255,255,255,0.25)",
+    backgroundColor: colors.body,
     marginVertical: 12,
   },
   headerRight: { flex: 1, flexDirection: "row", paddingLeft: 24, alignItems: "center" },
@@ -268,7 +265,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
-  sectionTitle: { fontSize: 13, color: colors.lightTitle },
+  sectionTitle: { ...iosType.footnote, color: colors.lightTitle },
   row: {
     flexDirection: "row",
     alignItems: "center",
@@ -276,13 +273,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: colors.body,
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
   },
   rowMid: { flex: 1, marginLeft: 12 },
   rowTitle: { fontSize: 16, color: colors.title },
   rowSub: { fontSize: 12, color: colors.lightTitle, marginTop: 4 },
   rowAmt: { fontSize: 16, fontWeight: "500" },
-  expense: { color: colors.title },
+  expense: { color: colors.expense },
   income: { color: colors.income },
   empty: { padding: 40, alignItems: "center" },
   emptyText: { color: colors.lightTitle },
@@ -291,7 +288,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.35)",
     justifyContent: "flex-end",
   },
-  pickerCard: { backgroundColor: colors.white, paddingBottom: 24 },
+  pickerCard: { backgroundColor: colors.surface, paddingBottom: 24 },
   pickerToolbar: { alignItems: "flex-end", padding: 12 },
-  pickerDone: { color: colors.title, fontSize: 16, fontWeight: "600" },
+  pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "600" },
 });

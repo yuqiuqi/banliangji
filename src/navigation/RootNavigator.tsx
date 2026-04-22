@@ -6,7 +6,9 @@ import {
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { PlatformPressable } from "@react-navigation/elements";
+import { BlurView } from "expo-blur";
 import React from "react";
+import { Platform, StyleSheet, Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { BillsRefreshProvider } from "../context/BillsRefreshContext";
 import { AssetScreen } from "../screens/AssetScreen";
@@ -23,7 +25,7 @@ import { pressedOpacity } from "../theme/layout";
 import type { HomeStackParamList, RootTabParamList } from "./types";
 
 /** Tab bar press feedback — `PlatformPressable` is built on RN `Pressable`; uses theme `pressedOpacity`. */
-function TeslaTabBarButton(props: BottomTabBarButtonProps): React.ReactElement {
+function IOSChromeTabBarButton(props: BottomTabBarButtonProps): React.ReactElement {
   return <PlatformPressable {...props} pressOpacity={pressedOpacity} />;
 }
 
@@ -36,7 +38,7 @@ const navTheme = {
     ...DefaultTheme.colors,
     background: colors.canvas,
     primary: colors.accent,
-    card: colors.white,
+    card: colors.surface,
     border: colors.body,
     text: colors.title,
   },
@@ -57,11 +59,19 @@ function HomeStackNavigator(): React.ReactElement {
         component={HomeScreen}
         options={{
           title: "明细",
-          headerShadowVisible: false,
+          headerShadowVisible: true,
         }}
       />
-      <HomeStack.Screen name="BillQuery" component={BillQueryScreen} options={{ title: "账单" }} />
-      <HomeStack.Screen name="BillDetail" component={BillDetailScreen} options={{ title: "账单详情" }} />
+      <HomeStack.Screen
+        name="BillQuery"
+        component={BillQueryScreen}
+        options={{ title: "账单", headerShadowVisible: true }}
+      />
+      <HomeStack.Screen
+        name="BillDetail"
+        component={BillDetailScreen}
+        options={{ title: "账单详情", headerShadowVisible: true }}
+      />
       <HomeStack.Group
         screenOptions={{
           presentation: "modal",
@@ -82,13 +92,32 @@ function Tabs(): React.ReactElement {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: colors.tabbarTint,
-        tabBarInactiveTintColor: colors.lightTitle,
+        tabBarActiveTintColor: colors.tabBarActive,
+        tabBarInactiveTintColor: colors.tabBarInactive,
+        tabBarBackground:
+          Platform.OS === "ios"
+            ? () => <BlurView intensity={60} tint="light" style={StyleSheet.absoluteFill} />
+            : undefined,
         tabBarStyle: {
-          backgroundColor: colors.white,
-          borderTopColor: colors.body,
+          backgroundColor: Platform.OS === "ios" ? "transparent" : "#F9F9F9",
+          borderTopColor: "rgba(60, 60, 67, 0.29)",
+          borderTopWidth: StyleSheet.hairlineWidth,
+          paddingTop: 4,
         },
-        tabBarButton: (props) => <TeslaTabBarButton {...props} />,
+        tabBarLabel: ({ focused, color, children }) => (
+          <Text
+            style={{
+              color,
+              fontSize: 11,
+              fontWeight: focused ? "700" : "500",
+              letterSpacing: focused ? 0.2 : 0,
+            }}
+          >
+            {children}
+          </Text>
+        ),
+        tabBarIconStyle: { marginBottom: 0 },
+        tabBarButton: (props) => <IOSChromeTabBarButton {...props} />,
       }}
     >
       <Tab.Screen
@@ -96,7 +125,9 @@ function Tabs(): React.ReactElement {
         component={HomeStackNavigator}
         options={{
           title: "明细",
-          tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="receipt" color={color} size={size} />,
+          tabBarIcon: ({ color, focused, size }) => (
+            <MaterialCommunityIcons name="receipt" color={color} size={focused ? size + 4 : size} />
+          ),
         }}
       />
       <Tab.Screen
@@ -104,7 +135,9 @@ function Tabs(): React.ReactElement {
         component={ChartScreen}
         options={{
           title: "图表",
-          tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="chart-arc" color={color} size={size} />,
+          tabBarIcon: ({ color, focused, size }) => (
+            <MaterialCommunityIcons name="chart-arc" color={color} size={focused ? size + 4 : size} />
+          ),
         }}
       />
       <Tab.Screen
@@ -112,7 +145,9 @@ function Tabs(): React.ReactElement {
         component={BudgetScreen}
         options={{
           title: "预算",
-          tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="chart-pie" color={color} size={size} />,
+          tabBarIcon: ({ color, focused, size }) => (
+            <MaterialCommunityIcons name="chart-pie" color={color} size={focused ? size + 4 : size} />
+          ),
         }}
       />
       <Tab.Screen
@@ -120,7 +155,9 @@ function Tabs(): React.ReactElement {
         component={AssetScreen}
         options={{
           title: "资产",
-          tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="wallet" color={color} size={size} />,
+          tabBarIcon: ({ color, focused, size }) => (
+            <MaterialCommunityIcons name="wallet" color={color} size={focused ? size + 4 : size} />
+          ),
         }}
       />
       <Tab.Screen
@@ -128,7 +165,9 @@ function Tabs(): React.ReactElement {
         component={MineScreen}
         options={{
           title: "我的",
-          tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="account-circle" color={color} size={size} />,
+          tabBarIcon: ({ color, focused, size }) => (
+            <MaterialCommunityIcons name="account-circle" color={color} size={focused ? size + 4 : size} />
+          ),
         }}
       />
     </Tab.Navigator>

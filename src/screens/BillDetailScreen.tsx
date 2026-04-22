@@ -3,11 +3,12 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useLayoutEffect, useMemo } from "react";
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { CategoryIcon } from "../components/CategoryIcon";
+import { GroupedInset } from "../components/ios";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { deleteBillById, getBillById } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import { colors } from "../theme/colors";
-import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
+import { pressedOpacity, shadows } from "../theme/layout";
 import { formatDetailDate } from "../utils/dates";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
 
@@ -49,14 +50,14 @@ export function BillDetailScreen(): React.ReactElement {
           <CategoryIcon categoryId={bill.categoryId} size={48} color={colors.onMain} />
           <Text style={styles.heroTitle}>{bill.name ?? "未分类"}</Text>
         </View>
-        <View style={styles.detailCard}>
+        <GroupedInset style={styles.detailInset}>
           {rows.map((r) => (
             <View key={r.title} style={styles.row}>
               <Text style={styles.rowTitle}>{r.title}</Text>
               <Text style={styles.rowDetail}>{r.detail}</Text>
             </View>
           ))}
-        </View>
+        </GroupedInset>
       </ScrollView>
       <View style={styles.footer}>
         <View style={styles.footerDivider} />
@@ -99,13 +100,8 @@ const styles = StyleSheet.create({
   center: { flex: 1, alignItems: "center", justifyContent: "center" },
   muted: { color: colors.lightTitle },
   body: { paddingBottom: 24 },
-  detailCard: {
-    marginHorizontal: 16,
+  detailInset: {
     marginTop: 16,
-    borderRadius: radii.card,
-    backgroundColor: colors.white,
-    overflow: "hidden",
-    ...hairlineBorder,
     ...shadows.card,
   },
   hero: {
@@ -134,5 +130,5 @@ const styles = StyleSheet.create({
   footerBtns: { flexDirection: "row", height: 56 },
   footerHalf: { flex: 1, alignItems: "center", justifyContent: "center" },
   footerText: { fontSize: 15, color: colors.title, fontWeight: "300" },
-  footerDestructive: { color: "#dc3545", fontWeight: "500" },
+  footerDestructive: { color: colors.expense, fontWeight: "500" },
 });

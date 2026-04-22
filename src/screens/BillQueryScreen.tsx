@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoryIcon } from "../components/CategoryIcon";
+import { GroupedInset, SegmentedTwo } from "../components/ios";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { queryBillsForCalendarDay, queryBillsInRange } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
@@ -164,34 +165,16 @@ export function BillQueryScreen(): React.ReactElement {
 
   return (
     <SafeAreaView style={styles.safe} edges={["bottom"]}>
-      <View style={styles.segmentRow}>
-        <Pressable
-          style={({ pressed }) => [
-            styles.seg,
-            mode === "day" ? styles.segOn : null,
-            pressed ? { opacity: pressedOpacity } : null,
-          ]}
-          onPress={() => {
-            setMode("day");
-            setRangeError(null);
-          }}
-        >
-          <Text style={mode === "day" ? styles.segTextOn : styles.segText}>单日</Text>
-        </Pressable>
-        <Pressable
-          style={({ pressed }) => [
-            styles.seg,
-            mode === "range" ? styles.segOn : null,
-            pressed ? { opacity: pressedOpacity } : null,
-          ]}
-          onPress={() => {
-            setMode("range");
-            setRangeError(null);
-          }}
-        >
-          <Text style={mode === "range" ? styles.segTextOn : styles.segText}>区间</Text>
-        </Pressable>
-      </View>
+      <SegmentedTwo
+        leftLabel="单日"
+        rightLabel="区间"
+        value={mode === "day" ? 0 : 1}
+        style={styles.segmentWrap}
+        onChange={(v) => {
+          setMode(v === 0 ? "day" : "range");
+          setRangeError(null);
+        }}
+      />
 
       {mode === "day" ? (
         <Pressable
@@ -242,7 +225,7 @@ export function BillQueryScreen(): React.ReactElement {
       {rangeHint}
       {rangeError !== null ? <Text style={styles.errText}>{rangeError}</Text> : null}
 
-      <View style={styles.listCard}>
+      <GroupedInset style={styles.listInset}>
         <FlatList
           data={bills}
           keyExtractor={(item) => String(item.id)}
@@ -257,7 +240,7 @@ export function BillQueryScreen(): React.ReactElement {
             </View>
           }
         />
-      </View>
+      </GroupedInset>
       {Platform.OS === "ios" && iosOpen ? (
         <View style={styles.pickerOverlay}>
           <View style={styles.pickerCard}>
@@ -294,25 +277,16 @@ export function BillQueryScreen(): React.ReactElement {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.canvas },
-  segmentRow: {
-    flexDirection: "row",
+  segmentWrap: {
     marginHorizontal: 16,
     marginTop: 8,
     marginBottom: 4,
-    backgroundColor: colors.white,
-    borderRadius: radii.card,
-    padding: 4,
-    ...hairlineBorder,
   },
-  seg: { flex: 1, paddingVertical: 10, alignItems: "center", borderRadius: 8 },
-  segOn: { backgroundColor: colors.light },
-  segText: { color: colors.lightTitle, fontSize: 15, fontWeight: "500" },
-  segTextOn: { color: colors.title, fontSize: 15, fontWeight: "600" },
   dateBar: {
     marginHorizontal: 16,
     marginBottom: 8,
     padding: 12,
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     borderRadius: radii.card,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -332,7 +306,7 @@ const styles = StyleSheet.create({
   dateHalf: {
     flex: 1,
     padding: 10,
-    backgroundColor: colors.white,
+    backgroundColor: colors.surface,
     borderRadius: radii.card,
     ...hairlineBorder,
   },
@@ -340,14 +314,10 @@ const styles = StyleSheet.create({
   rangeVal: { fontSize: 15, color: colors.title, marginTop: 4, fontWeight: "500" },
   hint: { marginHorizontal: 16, marginBottom: 4, color: colors.lightTitle, fontSize: 13 },
   errText: { marginHorizontal: 16, color: colors.title, fontSize: 14 },
-  listCard: {
+  listInset: {
     flex: 1,
-    marginHorizontal: 16,
     marginBottom: 16,
-    borderRadius: radii.card,
-    backgroundColor: colors.white,
-    overflow: "hidden",
-    ...hairlineBorder,
+    marginTop: 4,
     ...shadows.card,
   },
   row: {
@@ -362,7 +332,7 @@ const styles = StyleSheet.create({
   rowTitle: { fontSize: 16, color: colors.title },
   rowSub: { fontSize: 12, color: colors.lightTitle, marginTop: 4 },
   rowAmt: { fontSize: 16, fontWeight: "500" },
-  expense: { color: colors.title },
+  expense: { color: colors.expense },
   income: { color: colors.income },
   empty: { padding: 40, alignItems: "center" },
   emptyText: { color: colors.lightTitle, textAlign: "center" },
@@ -371,7 +341,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.35)",
     justifyContent: "flex-end",
   },
-  pickerCard: { backgroundColor: colors.white, paddingBottom: 24 },
+  pickerCard: { backgroundColor: colors.surface, paddingBottom: 24 },
   pickerToolbar: { alignItems: "flex-end", padding: 12 },
-  pickerDone: { color: colors.title, fontSize: 16, fontWeight: "600" },
+  pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "600" },
 });
