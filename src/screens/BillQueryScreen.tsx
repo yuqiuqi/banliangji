@@ -16,16 +16,90 @@ import { GroupedInset, SegmentedTwo } from "../components/ios";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { queryBillsForCalendarDay, queryBillsInRange } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
+import type { AppPalette } from "../theme/palette";
+import { useAppTheme } from "../theme/ThemeContext";
 import type { Bill } from "../types/models";
-import { colors } from "../theme/colors";
-import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
+import { pressedOpacity, radii, shadows } from "../theme/layout";
 import { getRangeFromInclusiveStartEndDay } from "../utils/billTimeRange";
 import { formatTimeShort } from "../utils/dates";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
 
 type Mode = "day" | "range";
 
+function buildBillQueryStyles(colors: AppPalette) {
+  return StyleSheet.create({
+    safe: { flex: 1, backgroundColor: colors.canvas },
+    segmentWrap: {
+      marginHorizontal: 16,
+      marginTop: 8,
+      marginBottom: 4,
+    },
+    dateBar: {
+      marginHorizontal: 16,
+      marginBottom: 8,
+      padding: 12,
+      backgroundColor: colors.surface,
+      borderRadius: radii.card,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      ...shadows.grouped,
+    },
+    dateBarLabel: { color: colors.lightTitle, fontSize: 14 },
+    dateBarValue: { color: colors.title, fontSize: 16, fontWeight: "500" },
+    rangeRow: {
+      flexDirection: "row",
+      marginHorizontal: 16,
+      marginBottom: 8,
+      alignItems: "center",
+    },
+    rangeDash: { marginHorizontal: 4, color: colors.lightTitle },
+    dateHalf: {
+      flex: 1,
+      padding: 10,
+      backgroundColor: colors.surface,
+      borderRadius: radii.card,
+      ...shadows.card,
+    },
+    rangeSmall: { fontSize: 11, color: colors.lightTitle },
+    rangeVal: { fontSize: 15, color: colors.title, marginTop: 4, fontWeight: "500" },
+    hint: { marginHorizontal: 16, marginBottom: 4, color: colors.lightTitle, fontSize: 13 },
+    errText: { marginHorizontal: 16, color: colors.title, fontSize: 14 },
+    listInset: {
+      flex: 1,
+      marginBottom: 16,
+      marginTop: 4,
+    },
+    row: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.divider,
+    },
+    rowMid: { flex: 1, marginLeft: 12 },
+    rowTitle: { fontSize: 16, color: colors.title },
+    rowSub: { fontSize: 12, color: colors.lightTitle, marginTop: 4 },
+    rowAmt: { fontSize: 16, fontWeight: "500" },
+    expense: { color: colors.expense },
+    income: { color: colors.income },
+    empty: { padding: 40, alignItems: "center" },
+    emptyText: { color: colors.lightTitle, textAlign: "center" },
+    pickerOverlay: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: "rgba(0,0,0,0.35)",
+      justifyContent: "flex-end",
+    },
+    pickerCard: { backgroundColor: colors.surface, paddingBottom: 24 },
+    pickerToolbar: { alignItems: "flex-end", padding: 12 },
+    pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "600" },
+  });
+}
+
 export function BillQueryScreen(): React.ReactElement {
+  const { colors } = useAppTheme();
+  const styles = useMemo(() => buildBillQueryStyles(colors), [colors]);
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
   const { generation, refresh } = useBillsRefresh();
   const [mode, setMode] = useState<Mode>("day");
@@ -155,7 +229,7 @@ export function BillQueryScreen(): React.ReactElement {
         </Pressable>
       );
     },
-    [navigation],
+    [navigation, styles],
   );
 
   const rangeHint =
@@ -274,74 +348,3 @@ export function BillQueryScreen(): React.ReactElement {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.canvas },
-  segmentWrap: {
-    marginHorizontal: 16,
-    marginTop: 8,
-    marginBottom: 4,
-  },
-  dateBar: {
-    marginHorizontal: 16,
-    marginBottom: 8,
-    padding: 12,
-    backgroundColor: colors.surface,
-    borderRadius: radii.card,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    ...hairlineBorder,
-    ...shadows.card,
-  },
-  dateBarLabel: { color: colors.lightTitle, fontSize: 14 },
-  dateBarValue: { color: colors.title, fontSize: 16, fontWeight: "500" },
-  rangeRow: {
-    flexDirection: "row",
-    marginHorizontal: 16,
-    marginBottom: 8,
-    alignItems: "center",
-  },
-  rangeDash: { marginHorizontal: 4, color: colors.lightTitle },
-  dateHalf: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: colors.surface,
-    borderRadius: radii.card,
-    ...hairlineBorder,
-  },
-  rangeSmall: { fontSize: 11, color: colors.lightTitle },
-  rangeVal: { fontSize: 15, color: colors.title, marginTop: 4, fontWeight: "500" },
-  hint: { marginHorizontal: 16, marginBottom: 4, color: colors.lightTitle, fontSize: 13 },
-  errText: { marginHorizontal: 16, color: colors.title, fontSize: 14 },
-  listInset: {
-    flex: 1,
-    marginBottom: 16,
-    marginTop: 4,
-    ...shadows.card,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.body,
-  },
-  rowMid: { flex: 1, marginLeft: 12 },
-  rowTitle: { fontSize: 16, color: colors.title },
-  rowSub: { fontSize: 12, color: colors.lightTitle, marginTop: 4 },
-  rowAmt: { fontSize: 16, fontWeight: "500" },
-  expense: { color: colors.expense },
-  income: { color: colors.income },
-  empty: { padding: 40, alignItems: "center" },
-  emptyText: { color: colors.lightTitle, textAlign: "center" },
-  pickerOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.35)",
-    justifyContent: "flex-end",
-  },
-  pickerCard: { backgroundColor: colors.surface, paddingBottom: 24 },
-  pickerToolbar: { alignItems: "flex-end", padding: 12 },
-  pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "600" },
-});

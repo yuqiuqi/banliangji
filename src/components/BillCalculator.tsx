@@ -1,8 +1,9 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { useCallback, useMemo, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { colors } from "../theme/colors";
-import { radii } from "../theme/layout";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import type { AppPalette } from "../theme/palette";
+import { useAppTheme } from "../theme/ThemeContext";
+import { radii, shadows } from "../theme/layout";
 import { formatAmountDisplay } from "../utils/money";
 
 type Operate = "add" | "less" | "del";
@@ -32,6 +33,19 @@ const GRID: CalcButton[] = [
   { kind: "done" },
 ];
 
+const GRID_ROWS: CalcButton[][] = [
+  GRID.slice(0, 4),
+  GRID.slice(4, 8),
+  GRID.slice(8, 12),
+  GRID.slice(12, 16),
+];
+
+const KEY_ROW_GAP = 8;
+const KEY_COL_GAP = 8;
+/** 与 CreateBillScreen CALCULATOR_OVERLAY_HEIGHT 同步 */
+export const BILL_CALCULATOR_CONTENT_HEIGHT =
+  52 + 10 + (54 + KEY_ROW_GAP) * 4 - KEY_ROW_GAP + 16;
+
 function labelFor(b: CalcButton, dateLabel: string): string {
   if (b.kind === "num") {
     return b.v;
@@ -58,6 +72,68 @@ function applyBinary(a: number, b: number, op: "add" | "less"): number {
   return op === "add" ? a + b : a - b;
 }
 
+function buildCalcStyles(colors: AppPalette) {
+  return StyleSheet.create({
+    wrap: {
+      backgroundColor: "transparent",
+    },
+    displayRow: {
+      minHeight: 52,
+      justifyContent: "center",
+      paddingHorizontal: 16,
+      paddingVertical: 6,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.divider,
+    },
+    displayText: {
+      fontSize: 28,
+      fontWeight: "400",
+      textAlign: "right",
+      color: colors.title,
+    },
+    grid: {
+      paddingHorizontal: 12,
+      paddingTop: 10,
+      paddingBottom: 16,
+      gap: KEY_ROW_GAP,
+    },
+    gridRow: {
+      flexDirection: "row",
+      gap: KEY_COL_GAP,
+    },
+    cell: {
+      flex: 1,
+      height: 54,
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: radii.card,
+      backgroundColor: colors.calculatorKeyBg,
+      ...shadows.keyCap,
+    },
+    cellAccent: {
+      backgroundColor: colors.accent,
+      ...shadows.keyCapAccent,
+    },
+    cellText: {
+      fontSize: 17,
+      fontWeight: "400",
+      color: colors.title,
+    },
+    cellTextDate: {
+      fontSize: 13,
+      fontWeight: "500",
+    },
+    cellTextDone: {
+      fontWeight: "600",
+      color: colors.onAccent,
+    },
+    pressed: {
+      opacity: 0.88,
+      transform: [{ scale: 0.98 }],
+    },
+  });
+}
+
 export function BillCalculator({
   visible,
   initialAmount,
@@ -71,6 +147,24 @@ export function BillCalculator({
   onPickDate: () => void;
   onComplete: (value: number) => void;
 }): React.ReactElement | null {
+  const { colors, colorScheme } = useAppTheme();
+  const styles = useMemo(() => buildCalcStyles(colors), [colors]);
+
+  const displayRowBg = useMemo(
+    () =>
+      Platform.select({
+        ios: {
+          backgroundColor:
+            colorScheme === "dark" ? "rgba(60, 60, 67, 0.35)" : "rgba(255, 255, 255, 0.22)",
+        },
+        default: {
+          backgroundColor:
+            colorScheme === "dark" ? "rgba(60, 60, 67, 0.45)" : "rgba(255, 255, 255, 0.35)",
+        },
+      }),
+    [colorScheme],
+  );
+
   const [total, setTotal] = useState("0");
   const [preTotal, setPreTotal] = useState("");
   const [operateType, setOperateType] = useState<"add" | "less" | null>(null);
@@ -194,93 +288,59 @@ export function BillCalculator({
 
   return (
     <View style={styles.wrap}>
-      <View style={styles.displayRow}>
-        <Text style={styles.displayText}>{display}</Text>
+      <View style={[styles.displayRow, displayRowBg]}>
+        <Text style={styles.displayText} numberOfLines={1} adjustsFontSizeToFit>
+          {display}
+        </Text>
       </View>
       <View style={styles.grid}>
-        {GRID.map((b, i) => {
-          const isComplete = b.kind === "done";
-          return (
-            <Pressable
-              key={String(i)}
-              style={({ pressed }) => [
-                styles.cell,
-                isComplete ? styles.cellAccent : null,
-                pressed ? styles.pressed : null,
-              ]}
-              onPress={() => {
-                if (b.kind === "num") {
-                  input(b.v);
-                } else if (b.kind === "op") {
-                  onOperate(b.op);
-                } else if (b.kind === "date") {
-                  onPickDate();
-                } else {
-                  onDone();
-                }
-              }}
-            >
-              {b.kind === "op" && b.op === "del" ? (
-                <MaterialCommunityIcons name="backspace-outline" size={24} color={colors.title} />
-              ) : isComplete ? (
-                <Text style={[styles.cellText, styles.cellTextDone]}>
-                  {operateType !== null ? "=" : "完成"}
-                </Text>
-              ) : (
-                <Text style={styles.cellText}>{labelFor(b, billDateLabel)}</Text>
-              )}
-            </Pressable>
-          );
-        })}
+        {GRID_ROWS.map((row, ri) => (
+          <View key={`row-${ri}`} style={styles.gridRow}>
+            {row.map((b, ci) => {
+              const isComplete = b.kind === "done";
+              const isDate = b.kind === "date";
+              return (
+                <Pressable
+                  key={`${ri}-${ci}`}
+                  style={({ pressed }) => [
+                    styles.cell,
+                    isComplete ? styles.cellAccent : null,
+                    pressed ? styles.pressed : null,
+                  ]}
+                  onPress={() => {
+                    if (b.kind === "num") {
+                      input(b.v);
+                    } else if (b.kind === "op") {
+                      onOperate(b.op);
+                    } else if (b.kind === "date") {
+                      onPickDate();
+                    } else {
+                      onDone();
+                    }
+                  }}
+                >
+                  {b.kind === "op" && b.op === "del" ? (
+                    <MaterialCommunityIcons name="backspace-outline" size={24} color={colors.title} />
+                  ) : isComplete ? (
+                    <Text style={[styles.cellText, styles.cellTextDone]}>
+                      {operateType !== null ? "=" : "完成"}
+                    </Text>
+                  ) : (
+                    <Text
+                      style={[styles.cellText, isDate ? styles.cellTextDate : null]}
+                      numberOfLines={1}
+                      adjustsFontSizeToFit
+                      minimumFontScale={0.75}
+                    >
+                      {labelFor(b, billDateLabel)}
+                    </Text>
+                  )}
+                </Pressable>
+              );
+            })}
+          </View>
+        ))}
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  wrap: {
-    backgroundColor: colors.calculatorBg,
-  },
-  displayRow: {
-    height: 50,
-    justifyContent: "center",
-    paddingHorizontal: 10,
-  },
-  displayText: {
-    fontSize: 27,
-    fontWeight: "400",
-    textAlign: "right",
-    color: colors.title,
-  },
-  grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: "100%",
-  },
-  /** 与 TCalculatorView：itemH=60，边框 0.5、#DBDBDB */
-  cell: {
-    width: "25%",
-    height: 60,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.5,
-    borderColor: colors.calculatorKeyBorder,
-    backgroundColor: colors.calculatorKeyBg,
-    borderRadius: radii.chip,
-  },
-  cellAccent: {
-    backgroundColor: colors.accent,
-  },
-  cellText: {
-    fontSize: 17,
-    fontWeight: "300",
-    color: colors.title,
-  },
-  cellTextDone: {
-    fontWeight: "400",
-    color: colors.onAccent,
-  },
-  pressed: {
-    opacity: 0.85,
-  },
-});

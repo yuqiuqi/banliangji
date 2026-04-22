@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { colors } from "../theme/colors";
+import { useAppTheme } from "../theme/ThemeContext";
 
 type IconName = keyof typeof MaterialCommunityIcons.glyphMap;
 
@@ -49,12 +49,14 @@ const CATEGORY_ID_ICON: Record<number, IconName> = {
 export function CategoryIcon({
   categoryId,
   size = 28,
-  color = colors.title,
+  color: colorProp,
 }: {
   categoryId: number;
   size?: number;
   color?: string;
 }): React.ReactElement {
+  const { colors } = useAppTheme();
+  const color = colorProp ?? colors.title;
   const name = CATEGORY_ID_ICON[categoryId] ?? "label-outline";
   return <MaterialCommunityIcons name={name} size={size} color={color} />;
 }

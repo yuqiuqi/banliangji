@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Platform,
   Pressable,
@@ -8,8 +8,9 @@ import {
   type StyleProp,
   type ViewStyle,
 } from "react-native";
-import { colors } from "../../theme/colors";
-import { pressedOpacity } from "../../theme/layout";
+import { useAppTheme } from "../../theme/ThemeContext";
+import type { AppPalette } from "../../theme/palette";
+import { pressedOpacity, radii } from "../../theme/layout";
 
 type Props = {
   leftLabel: string;
@@ -19,6 +20,48 @@ type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
+function buildSegStyles(colors: AppPalette) {
+  const segOnShadow =
+    Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.08,
+        shadowRadius: 3,
+      },
+      android: { elevation: 2 },
+      default: {},
+    }) ?? {};
+
+  return StyleSheet.create({
+    track: {
+      flexDirection: "row",
+      backgroundColor: colors.segmentedTrack,
+      borderRadius: radii.pill,
+      padding: 3,
+    },
+    seg: {
+      flex: 1,
+      paddingVertical: 9,
+      alignItems: "center",
+      borderRadius: radii.pill,
+    },
+    segOn: {
+      backgroundColor: colors.surface,
+      ...segOnShadow,
+    },
+    text: {
+      fontSize: 15,
+      fontWeight: "500",
+      color: colors.lightTitle,
+    },
+    textOn: {
+      color: colors.title,
+      fontWeight: "600",
+    },
+  });
+}
+
 export function SegmentedTwo({
   leftLabel,
   rightLabel,
@@ -26,6 +69,9 @@ export function SegmentedTwo({
   onChange,
   style,
 }: Props): React.ReactElement {
+  const { colors } = useAppTheme();
+  const styles = useMemo(() => buildSegStyles(colors), [colors]);
+
   return (
     <View style={[styles.track, style]}>
       <Pressable
@@ -55,45 +101,3 @@ export function SegmentedTwo({
     </View>
   );
 }
-
-const segOnLift = Platform.select({
-  ios: {
-    backgroundColor: colors.surface,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 2,
-  },
-  android: {
-    backgroundColor: colors.surface,
-    elevation: 2,
-  },
-  default: { backgroundColor: colors.surface },
-});
-
-const styles = StyleSheet.create({
-  /** tertiarySystemFill 轨道 — 贴近 UISegmentedControl */
-  track: {
-    flexDirection: "row",
-    backgroundColor: colors.light,
-    borderRadius: 9,
-    padding: 2,
-  },
-  seg: {
-    flex: 1,
-    paddingVertical: 10,
-    alignItems: "center",
-    borderRadius: 7,
-  },
-  segOn: segOnLift,
-  text: {
-    fontSize: 15,
-    fontWeight: "500",
-    color: colors.lightTitle,
-  },
-  /** 选中段：主字色（label），非仅描蓝 */
-  textOn: {
-    color: colors.title,
-    fontWeight: "600",
-  },
-});

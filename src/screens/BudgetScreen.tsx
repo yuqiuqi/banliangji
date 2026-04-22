@@ -1,7 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Modal,
   Pressable,
@@ -16,8 +16,9 @@ import { sumExpenseForCalendarMonth } from "../budget/monthExpense";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { getBudgetCap, upsertBudgetCap } from "../db/budgetRepo";
 import { queryBillsForMonth } from "../db/billRepo";
-import { colors } from "../theme/colors";
-import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
+import type { AppPalette } from "../theme/palette";
+import { useAppTheme } from "../theme/ThemeContext";
+import { pressedOpacity, radii, shadows } from "../theme/layout";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
 
 const OVER_BUDGET_COLOR = "#dc3545";
@@ -26,7 +27,103 @@ function monthKey(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 }
 
+function buildBudgetStyles(colors: AppPalette) {
+  return StyleSheet.create({
+    safe: { flex: 1, backgroundColor: colors.canvas },
+    header: {
+      paddingHorizontal: 16,
+      paddingVertical: 14,
+      backgroundColor: colors.main,
+    },
+    headerTitle: { fontSize: 20, fontWeight: "600", color: colors.onMain },
+    headerSub: { marginTop: 4, fontSize: 14, color: colors.onMainSecondary },
+    scroll: { padding: 16, paddingBottom: 32 },
+    card: {
+      backgroundColor: colors.surface,
+      borderRadius: radii.card,
+      padding: 16,
+      ...shadows.grouped,
+    },
+    row: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+    label: { fontSize: 15, color: colors.lightTitle },
+    amount: { fontSize: 17, fontWeight: "600", color: colors.title },
+    track: {
+      marginTop: 12,
+      height: 10,
+      borderRadius: 5,
+      backgroundColor: colors.light,
+      overflow: "hidden",
+    },
+    trackFill: { height: "100%", borderRadius: 5 },
+    warn: { marginTop: 10, fontSize: 14, fontWeight: "600", color: OVER_BUDGET_COLOR },
+    emptyTitle: { fontSize: 17, fontWeight: "600", color: colors.title },
+    emptyHint: { marginTop: 8, fontSize: 14, color: colors.lightTitle, lineHeight: 20 },
+    primaryBtn: {
+      marginTop: 16,
+      alignSelf: "flex-start",
+      backgroundColor: colors.tabbarTint,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      borderRadius: radii.card,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: "rgba(255, 255, 255, 0.35)",
+      ...shadows.fluentButton,
+    },
+    primaryBtnText: { color: colors.white, fontSize: 16, fontWeight: "600" },
+    secondaryBtn: {
+      marginTop: 16,
+      alignSelf: "flex-start",
+      paddingVertical: 10,
+      paddingHorizontal: 16,
+      borderRadius: radii.card,
+      backgroundColor: colors.surface,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: colors.divider,
+      ...shadows.card,
+    },
+    secondaryBtnText: { color: colors.title, fontSize: 15, fontWeight: "600" },
+    modalBackdrop: {
+      flex: 1,
+      backgroundColor: "rgba(0,0,0,0.35)",
+      justifyContent: "center",
+      padding: 24,
+    },
+    modalCard: {
+      backgroundColor: colors.surface,
+      borderRadius: radii.sheet,
+      padding: 20,
+      ...shadows.grouped,
+    },
+    modalTitle: { fontSize: 17, fontWeight: "600", color: colors.title },
+    input: {
+      marginTop: 12,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: colors.divider,
+      borderRadius: radii.card,
+      paddingHorizontal: 12,
+      paddingVertical: 10,
+      fontSize: 17,
+      color: colors.title,
+    },
+    modalActions: { flexDirection: "row", justifyContent: "flex-end", marginTop: 16, gap: 12 },
+    modalCancel: { paddingVertical: 10, paddingHorizontal: 12 },
+    modalCancelText: { color: colors.lightTitle, fontSize: 16 },
+    modalSave: {
+      backgroundColor: colors.tabbarTint,
+      paddingVertical: 10,
+      paddingHorizontal: 18,
+      borderRadius: radii.card,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: "rgba(255, 255, 255, 0.35)",
+      ...shadows.fluentButton,
+    },
+    modalSaveText: { color: colors.white, fontSize: 16, fontWeight: "600" },
+  });
+}
+
 export function BudgetScreen(): React.ReactElement {
+  const { colors } = useAppTheme();
+  const styles = useMemo(() => buildBudgetStyles(colors), [colors]);
   const { generation } = useBillsRefresh();
   const [monthAnchor] = useState(() => {
     const n = new Date();
@@ -84,7 +181,10 @@ export function BudgetScreen(): React.ReactElement {
             <Text style={styles.emptyTitle}>尚未设置本月预算</Text>
             <Text style={styles.emptyHint}>设置后，将按支出账单统计进度（与图表支出口径一致）。</Text>
             <Pressable
-              style={({ pressed }) => [styles.primaryBtn, pressed ? { opacity: pressedOpacity } : null]}
+              style={({ pressed }) => [
+                styles.primaryBtn,
+                pressed ? { opacity: pressedOpacity } : null,
+              ]}
               onPress={openModal}
               accessibilityRole="button"
               accessibilityLabel="设置本月预算"
@@ -157,88 +257,3 @@ export function BudgetScreen(): React.ReactElement {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.canvas },
-  header: {
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    backgroundColor: colors.main,
-  },
-  headerTitle: { fontSize: 20, fontWeight: "600", color: colors.onMain },
-  headerSub: { marginTop: 4, fontSize: 14, color: colors.onMainSecondary },
-  scroll: { padding: 16, paddingBottom: 32 },
-  card: {
-    backgroundColor: colors.surface,
-    borderRadius: radii.card,
-    padding: 16,
-    ...hairlineBorder,
-    ...shadows.card,
-  },
-  row: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  label: { fontSize: 15, color: colors.lightTitle },
-  amount: { fontSize: 17, fontWeight: "600", color: colors.title },
-  track: {
-    marginTop: 12,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: colors.light,
-    overflow: "hidden",
-  },
-  trackFill: { height: "100%", borderRadius: 5 },
-  warn: { marginTop: 10, fontSize: 14, fontWeight: "600", color: OVER_BUDGET_COLOR },
-  emptyTitle: { fontSize: 17, fontWeight: "600", color: colors.title },
-  emptyHint: { marginTop: 8, fontSize: 14, color: colors.lightTitle, lineHeight: 20 },
-  primaryBtn: {
-    marginTop: 16,
-    alignSelf: "flex-start",
-    backgroundColor: colors.tabbarTint,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: radii.card,
-  },
-  primaryBtnText: { color: colors.white, fontSize: 16, fontWeight: "600" },
-  secondaryBtn: {
-    marginTop: 16,
-    alignSelf: "flex-start",
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: radii.card,
-    ...hairlineBorder,
-    backgroundColor: colors.surface,
-  },
-  secondaryBtnText: { color: colors.title, fontSize: 15, fontWeight: "600" },
-  modalBackdrop: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.35)",
-    justifyContent: "center",
-    padding: 24,
-  },
-  modalCard: {
-    backgroundColor: colors.surface,
-    borderRadius: radii.sheet,
-    padding: 20,
-    ...hairlineBorder,
-  },
-  modalTitle: { fontSize: 17, fontWeight: "600", color: colors.title },
-  input: {
-    marginTop: 12,
-    borderWidth: 1,
-    borderColor: colors.body,
-    borderRadius: radii.card,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    fontSize: 17,
-    color: colors.title,
-  },
-  modalActions: { flexDirection: "row", justifyContent: "flex-end", marginTop: 16, gap: 12 },
-  modalCancel: { paddingVertical: 10, paddingHorizontal: 12 },
-  modalCancelText: { color: colors.lightTitle, fontSize: 16 },
-  modalSave: {
-    backgroundColor: colors.tabbarTint,
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    borderRadius: radii.card,
-  },
-  modalSaveText: { color: colors.white, fontSize: 16, fontWeight: "600" },
-});

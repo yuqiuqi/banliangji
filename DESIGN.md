@@ -4,6 +4,8 @@
 
 **当前里程碑** 以 **Apple iOS 26 取向** 为 **单一视觉来源**：分组背景（`#F2F2F7`）、白卡片、语义标签色、**systemBlue**（`#007AFF`）强调、**Liquid Glass** 底栏（`expo-blur`）。实现见 `src/theme/colors.ts`（含 `iosSemantic`）、`src/theme/typography.ts`、`src/components/ios/*`，规格见 `.planning/phases/09-ios26-chrome/09-UI-SPEC.md`。
 
+**Phase 11** 补充：**系统深色**（`ThemeContext` + `palette`）、**降低透明度** 时 Tab/记一笔 **不透明降级**（`IOSChromeGlassBackground`）、Tier-1 **弹簧动效**（Reanimated）。Liquid Glass 为 **工程近似**，**非像素级**复刻官方材质；**不引入网络**。偏差与手测见 `.planning/phases/11-chrome-depth/11-VERIFICATION.md` 与根目录 `UI-SPEC.md`。
+
 下文 **Tesla / getdesign** 章节为 **历史参考**（v2.1 及更早主题溯源），**不再**作为工程主约束。
 
 ---

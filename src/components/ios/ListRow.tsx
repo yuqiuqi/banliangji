@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
-import { colors } from "../../theme/colors";
-import { pressedOpacity } from "../../theme/layout";
+import { useAppTheme } from "../../theme/ThemeContext";
+import { listContentInset, pressedOpacity } from "../../theme/layout";
 
 type Props = {
   children: React.ReactNode;
@@ -11,6 +11,24 @@ type Props = {
 };
 
 export function ListRow({ children, onPress, isLast, style }: Props): React.ReactElement {
+  const { colors } = useAppTheme();
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        inner: {
+          minHeight: 44,
+          paddingHorizontal: listContentInset,
+          paddingVertical: 12,
+          justifyContent: "center",
+        },
+        borderBottom: {
+          borderBottomWidth: StyleSheet.hairlineWidth,
+          borderBottomColor: colors.divider,
+        },
+      }),
+    [colors],
+  );
+
   const inner = (
     <View style={[styles.inner, !isLast ? styles.borderBottom : null, style]}>{children}</View>
   );
@@ -26,16 +44,3 @@ export function ListRow({ children, onPress, isLast, style }: Props): React.Reac
   }
   return inner;
 }
-
-const styles = StyleSheet.create({
-  inner: {
-    minHeight: 44,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    justifyContent: "center",
-  },
-  borderBottom: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.body,
-  },
-});

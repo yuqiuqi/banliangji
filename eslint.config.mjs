@@ -21,6 +21,12 @@ export default tseslint.config(
     },
   },
   {
+    files: ["babel.config.js"],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  {
     ignores: ["dist/**", "node_modules/**"],
   },
 );

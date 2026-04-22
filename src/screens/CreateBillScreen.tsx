@@ -10,29 +10,118 @@ import {
   Text,
   View,
 } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
-import { BillCalculator } from "../components/BillCalculator";
-import { SegmentedTwo } from "../components/ios";
+import { BillCalculator, BILL_CALCULATOR_CONTENT_HEIGHT } from "../components/BillCalculator";
 import { CategoryIcon } from "../components/CategoryIcon";
+import { IOSChromeGlassBackground, SegmentedTwo } from "../components/ios";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { flattenCategories } from "../data/categories";
 import { createBillNow, getBillById, updateBill } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
+import type { AppPalette } from "../theme/palette";
+import { useAppTheme } from "../theme/ThemeContext";
+import { pressedOpacity, radii, shadows } from "../theme/layout";
 import type { BillAmountKind, CategoryItem } from "../types/models";
-import { colors } from "../theme/colors";
-import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
 import { formatAmountDisplay } from "../utils/money";
 
-/** 与 TCalculatorView：top 50 + 4 行×60 */
-const CALCULATOR_OVERLAY_HEIGHT = 50 + 60 * 4;
-
-/**
- * 在系统 reporting 的 bottom inset 之外再留一截，避免页面/键盘区贴安全边界过紧。
- *（无 inset 的机型也会有最小垫高。）
- */
+const CALCULATOR_OVERLAY_HEIGHT = BILL_CALCULATOR_CONTENT_HEIGHT;
 const SAFE_CONTENT_INSET_EXTRA = 16;
+const DOCK_SPRING = { damping: 15, stiffness: 220 };
+
+function buildCreateBillStyles(colors: AppPalette, borderTopGlass: string) {
+  return StyleSheet.create({
+    safe: { flex: 1, backgroundColor: colors.createBody },
+    body: { flex: 1 },
+    listOuter: {
+      flex: 1,
+      marginHorizontal: 12,
+      marginBottom: 16,
+      borderRadius: radii.card,
+    },
+    listOuterWithKeyboard: {
+      marginBottom: 0,
+    },
+    listInner: {
+      flex: 1,
+      borderRadius: radii.card,
+      backgroundColor: colors.surface,
+      overflow: "hidden",
+    },
+    calcDock: {
+      position: "absolute",
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 20,
+      elevation: 12,
+      overflow: "hidden",
+      borderTopLeftRadius: 16,
+      borderTopRightRadius: 16,
+      borderTopWidth: StyleSheet.hairlineWidth,
+      borderTopColor: borderTopGlass,
+      ...Platform.select({
+        ios: {
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: -4 },
+          shadowOpacity: 0.1,
+          shadowRadius: 12,
+        },
+        default: {},
+      }),
+    },
+    calcDockForeground: {
+      position: "relative",
+      width: "100%",
+    },
+    kindSegment: {
+      marginHorizontal: 12,
+      marginTop: 8,
+      marginBottom: 8,
+      backgroundColor: colors.createBody,
+    },
+    grid: { paddingVertical: 14, paddingHorizontal: 6 },
+    row: { justifyContent: "flex-start" },
+    cellHit: {
+      width: "25%",
+      paddingHorizontal: 4,
+      paddingVertical: 5,
+    },
+    cellPlate: {
+      alignItems: "center",
+      justifyContent: "center",
+      paddingVertical: 11,
+      paddingHorizontal: 4,
+      borderRadius: radii.chip,
+      backgroundColor: colors.tertiaryFill,
+    },
+    cellPlateOn: {
+      backgroundColor: colors.accentSelection,
+      ...shadows.categoryCellOn,
+    },
+    cellLabel: { marginTop: 6, fontSize: 12, color: colors.title, maxWidth: 72, textAlign: "center" },
+    pickerOverlay: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: "rgba(0,0,0,0.35)",
+      justifyContent: "flex-end",
+    },
+    pickerCard: { backgroundColor: colors.surface },
+    pickerToolbar: { alignItems: "flex-end", padding: 12 },
+    pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "600" },
+  });
+}
 
 export function CreateBillScreen(): React.ReactElement {
+  const { colors, colorScheme } = useAppTheme();
+  const borderTopGlass =
+    colorScheme === "dark" ? "rgba(255, 255, 255, 0.12)" : "rgba(255, 255, 255, 0.45)";
+  const styles = useMemo(() => buildCreateBillStyles(colors, borderTopGlass), [colors, borderTopGlass]);
+
+  const dockScale = useSharedValue(1);
+  const dockAnimStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: dockScale.value }],
+  }));
+
   const insets = useSafeAreaInsets();
   const bottomComfort = insets.bottom + SAFE_CONTENT_INSET_EXTRA;
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
@@ -47,6 +136,18 @@ export function CreateBillScreen(): React.ReactElement {
   const [calcVisible, setCalcVisible] = useState(false);
   const [billDate, setBillDate] = useState(() => new Date());
   const [iosDateOpen, setIosDateOpen] = useState(false);
+
+  useEffect(() => {
+    if (calcVisible) {
+      dockScale.value = withSpring(0.985, DOCK_SPRING);
+      const t = setTimeout(() => {
+        dockScale.value = withSpring(1, DOCK_SPRING);
+      }, 140);
+      return () => clearTimeout(t);
+    }
+    dockScale.value = 1;
+    return undefined;
+  }, [calcVisible, selected]);
 
   useEffect(() => {
     if (editId === undefined) {
@@ -113,11 +214,8 @@ export function CreateBillScreen(): React.ReactElement {
         return;
       }
       const amountStr = formatAmountDisplay(value);
-      const billTimeSec = new Date(
-        billDate.getFullYear(),
-        billDate.getMonth(),
-        billDate.getDate(),
-      ).getTime() / 1000;
+      const billTimeSec =
+        new Date(billDate.getFullYear(), billDate.getMonth(), billDate.getDate()).getTime() / 1000;
 
       if (editId !== undefined) {
         const existing = getBillById(editId);
@@ -171,59 +269,67 @@ export function CreateBillScreen(): React.ReactElement {
             setCalcVisible(false);
           }}
         />
-        <View style={[styles.listCard, calcVisible ? styles.listCardWithKeyboard : null]}>
-          <FlatList
-            data={listData}
-            keyExtractor={(item) => String(item.categoryId)}
-            numColumns={4}
-            contentContainerStyle={[
-              styles.grid,
-              calcVisible
-                ? { paddingBottom: CALCULATOR_OVERLAY_HEIGHT + 12 + bottomComfort }
-                : null,
-            ]}
-            columnWrapperStyle={styles.row}
-            renderItem={({ item }) => {
-              const on = selected?.categoryId === item.categoryId;
-              return (
-                <Pressable
-                  style={({ pressed }) => [
-                    styles.cell,
-                    on ? styles.cellOn : null,
-                    { borderRadius: radii.card },
-                    pressed ? { opacity: pressedOpacity } : null,
-                  ]}
-                  onPress={() => {
-                    setSelected(item);
-                    setCalcVisible(true);
-                  }}
-                >
-                  <CategoryIcon categoryId={item.categoryId} />
-                  <Text style={styles.cellLabel} numberOfLines={1}>
-                    {item.name}
-                  </Text>
-                </Pressable>
-              );
-            }}
-          />
+        <View
+          style={[
+            styles.listOuter,
+            shadows.grouped,
+            calcVisible ? styles.listOuterWithKeyboard : null,
+          ]}
+        >
+          <View style={styles.listInner}>
+            <FlatList
+              data={listData}
+              keyExtractor={(item) => String(item.categoryId)}
+              numColumns={4}
+              contentContainerStyle={[
+                styles.grid,
+                calcVisible
+                  ? { paddingBottom: CALCULATOR_OVERLAY_HEIGHT + 12 + bottomComfort }
+                  : null,
+              ]}
+              columnWrapperStyle={styles.row}
+              renderItem={({ item }) => {
+                const on = selected?.categoryId === item.categoryId;
+                return (
+                  <Pressable
+                    style={({ pressed }) => [styles.cellHit, pressed ? { opacity: pressedOpacity } : null]}
+                    onPress={() => {
+                      setSelected(item);
+                      setCalcVisible(true);
+                    }}
+                  >
+                    <View style={[styles.cellPlate, on ? styles.cellPlateOn : null]}>
+                      <CategoryIcon categoryId={item.categoryId} />
+                      <Text style={styles.cellLabel} numberOfLines={1}>
+                        {item.name}
+                      </Text>
+                    </View>
+                  </Pressable>
+                );
+              }}
+            />
+          </View>
         </View>
       </View>
       {calcVisible ? (
-        <View
-          style={[
-            styles.calcDock,
-            { paddingBottom: bottomComfort, backgroundColor: colors.calculatorBg },
-          ]}
-          pointerEvents="box-none"
-        >
-          <BillCalculator
-            visible
-            initialAmount={editId !== undefined ? initialEditAmount : ""}
-            billDateLabel={billDateLabel}
-            onPickDate={openBillDate}
-            onComplete={onCalcComplete}
-          />
-        </View>
+        <Animated.View style={[styles.calcDock, dockAnimStyle, { paddingBottom: bottomComfort }]} pointerEvents="box-none">
+          {Platform.OS === "ios" ? (
+            <IOSChromeGlassBackground variant="dock" />
+          ) : (
+            <View
+              style={[StyleSheet.absoluteFill, { backgroundColor: colors.calculatorDockFallback }]}
+            />
+          )}
+          <View style={styles.calcDockForeground} pointerEvents="box-none">
+            <BillCalculator
+              visible
+              initialAmount={editId !== undefined ? initialEditAmount : ""}
+              billDateLabel={billDateLabel}
+              onPickDate={openBillDate}
+              onComplete={onCalcComplete}
+            />
+          </View>
+        </Animated.View>
       ) : null}
       {Platform.OS === "ios" && iosDateOpen ? (
         <View style={styles.pickerOverlay}>
@@ -252,51 +358,3 @@ export function CreateBillScreen(): React.ReactElement {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.createBody },
-  body: { flex: 1 },
-  listCard: {
-    flex: 1,
-    marginHorizontal: 12,
-    marginBottom: 16,
-    borderRadius: radii.card,
-    backgroundColor: colors.surface,
-    overflow: "hidden",
-    ...hairlineBorder,
-    ...shadows.card,
-  },
-  listCardWithKeyboard: {
-    marginBottom: 0,
-  },
-  calcDock: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 20,
-    elevation: 12,
-  },
-  kindSegment: {
-    marginHorizontal: 12,
-    marginTop: 8,
-    marginBottom: 8,
-  },
-  grid: { paddingVertical: 12 },
-  row: { justifyContent: "flex-start" },
-  cell: {
-    width: "25%",
-    alignItems: "center",
-    paddingVertical: 12,
-  },
-  cellOn: { backgroundColor: colors.light },
-  cellLabel: { marginTop: 6, fontSize: 12, color: colors.title, maxWidth: 72, textAlign: "center" },
-  pickerOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.35)",
-    justifyContent: "flex-end",
-  },
-  pickerCard: { backgroundColor: colors.surface },
-  pickerToolbar: { alignItems: "flex-end", padding: 12 },
-  pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "600" },
-});

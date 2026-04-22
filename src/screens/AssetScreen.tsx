@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   Alert,
   FlatList,
@@ -18,11 +18,100 @@ import {
   listAssetAccounts,
   updateAssetAccount,
 } from "../db/assetRepo";
-import { colors } from "../theme/colors";
-import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
+import type { AppPalette } from "../theme/palette";
+import { useAppTheme } from "../theme/ThemeContext";
+import { pressedOpacity, radii, shadows } from "../theme/layout";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
 
+function buildAssetStyles(colors: AppPalette) {
+  return StyleSheet.create({
+    safe: { flex: 1, backgroundColor: colors.canvas },
+    header: {
+      paddingHorizontal: 16,
+      paddingVertical: 14,
+      backgroundColor: colors.main,
+    },
+    headerTitle: { fontSize: 20, fontWeight: "600", color: colors.onMain },
+    headerSub: { marginTop: 4, fontSize: 13, color: colors.onMainSecondary },
+    listPad: { padding: 16, paddingBottom: 32 },
+    sep: { height: 10 },
+    emptyList: { flexGrow: 1, padding: 16 },
+    card: {
+      backgroundColor: colors.surface,
+      borderRadius: radii.card,
+      padding: 16,
+      ...shadows.grouped,
+    },
+    rowCard: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      backgroundColor: colors.surface,
+      borderRadius: radii.card,
+      padding: 16,
+      ...shadows.grouped,
+    },
+    rowName: { fontSize: 16, fontWeight: "600", color: colors.title, flex: 1 },
+    rowBal: { fontSize: 16, fontWeight: "600", color: colors.title, marginLeft: 12 },
+    emptyTitle: { fontSize: 17, fontWeight: "600", color: colors.title },
+    emptyHint: { marginTop: 8, fontSize: 14, color: colors.lightTitle, lineHeight: 20 },
+    primaryBtn: {
+      marginTop: 16,
+      alignSelf: "flex-start",
+      backgroundColor: colors.tabbarTint,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      borderRadius: radii.card,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: "rgba(255, 255, 255, 0.35)",
+      ...shadows.fluentButton,
+    },
+    primaryBtnText: { color: colors.white, fontSize: 16, fontWeight: "600" },
+    footerAdd: { marginTop: 16, alignItems: "center", padding: 12 },
+    footerAddText: { fontSize: 16, fontWeight: "600", color: colors.tabbarTint },
+    modalBackdrop: {
+      flex: 1,
+      backgroundColor: "rgba(0,0,0,0.35)",
+      justifyContent: "center",
+      padding: 24,
+    },
+    modalCard: {
+      backgroundColor: colors.surface,
+      borderRadius: radii.sheet,
+      padding: 20,
+      ...shadows.grouped,
+    },
+    modalTitle: { fontSize: 17, fontWeight: "600", color: colors.title },
+    fieldLabel: { marginTop: 12, fontSize: 13, color: colors.lightTitle },
+    input: {
+      marginTop: 6,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: colors.divider,
+      borderRadius: radii.card,
+      paddingHorizontal: 12,
+      paddingVertical: 10,
+      fontSize: 17,
+      color: colors.title,
+    },
+    modalActions: { flexDirection: "row", justifyContent: "flex-end", marginTop: 16, gap: 12 },
+    modalCancel: { paddingVertical: 10, paddingHorizontal: 12 },
+    modalCancelText: { color: colors.lightTitle, fontSize: 16 },
+    modalSave: {
+      backgroundColor: colors.tabbarTint,
+      paddingVertical: 10,
+      paddingHorizontal: 18,
+      borderRadius: radii.card,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: "rgba(255, 255, 255, 0.35)",
+      ...shadows.fluentButton,
+    },
+    modalSaveText: { color: colors.white, fontSize: 16, fontWeight: "600" },
+  });
+}
+
 export function AssetScreen(): React.ReactElement {
+  const { colors } = useAppTheme();
+  const styles = useMemo(() => buildAssetStyles(colors), [colors]);
   const [accounts, setAccounts] = useState<AssetAccountRow[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -177,83 +266,3 @@ export function AssetScreen(): React.ReactElement {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.canvas },
-  header: {
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    backgroundColor: colors.main,
-  },
-  headerTitle: { fontSize: 20, fontWeight: "600", color: colors.onMain },
-  headerSub: { marginTop: 4, fontSize: 13, color: colors.onMainSecondary },
-  listPad: { padding: 16, paddingBottom: 32 },
-  sep: { height: 10 },
-  emptyList: { flexGrow: 1, padding: 16 },
-  card: {
-    backgroundColor: colors.surface,
-    borderRadius: radii.card,
-    padding: 16,
-    ...hairlineBorder,
-    ...shadows.card,
-  },
-  rowCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: colors.surface,
-    borderRadius: radii.card,
-    padding: 16,
-    ...hairlineBorder,
-    ...shadows.card,
-  },
-  rowName: { fontSize: 16, fontWeight: "600", color: colors.title, flex: 1 },
-  rowBal: { fontSize: 16, fontWeight: "600", color: colors.title, marginLeft: 12 },
-  emptyTitle: { fontSize: 17, fontWeight: "600", color: colors.title },
-  emptyHint: { marginTop: 8, fontSize: 14, color: colors.lightTitle, lineHeight: 20 },
-  primaryBtn: {
-    marginTop: 16,
-    alignSelf: "flex-start",
-    backgroundColor: colors.tabbarTint,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: radii.card,
-  },
-  primaryBtnText: { color: colors.white, fontSize: 16, fontWeight: "600" },
-  footerAdd: { marginTop: 16, alignItems: "center", padding: 12 },
-  footerAddText: { fontSize: 16, fontWeight: "600", color: colors.tabbarTint },
-  modalBackdrop: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.35)",
-    justifyContent: "center",
-    padding: 24,
-  },
-  modalCard: {
-    backgroundColor: colors.surface,
-    borderRadius: radii.sheet,
-    padding: 20,
-    ...hairlineBorder,
-  },
-  modalTitle: { fontSize: 17, fontWeight: "600", color: colors.title },
-  fieldLabel: { marginTop: 12, fontSize: 13, color: colors.lightTitle },
-  input: {
-    marginTop: 6,
-    borderWidth: 1,
-    borderColor: colors.body,
-    borderRadius: radii.card,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    fontSize: 17,
-    color: colors.title,
-  },
-  modalActions: { flexDirection: "row", justifyContent: "flex-end", marginTop: 16, gap: 12 },
-  modalCancel: { paddingVertical: 10, paddingHorizontal: 12 },
-  modalCancelText: { color: colors.lightTitle, fontSize: 16 },
-  modalSave: {
-    backgroundColor: colors.tabbarTint,
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    borderRadius: radii.card,
-  },
-  modalSaveText: { color: colors.white, fontSize: 16, fontWeight: "600" },
-});

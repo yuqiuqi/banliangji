@@ -16,10 +16,18 @@ import { CategoryIcon } from "../components/CategoryIcon";
 import { GroupedInset } from "../components/ios";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { groupBillsByDayKey, queryBillsForMonth } from "../db/billRepo";
-import type { Bill } from "../types/models";
-import { colors } from "../theme/colors";
-import { pressedOpacity, shadows } from "../theme/layout";
+import type { HomeStackParamList } from "../navigation/types";
+import type { AppPalette } from "../theme/palette";
+import { useAppTheme } from "../theme/ThemeContext";
+import {
+  headerFabIconSize,
+  headerFabSize,
+  pressedOpacity,
+  pressScale,
+  shadows,
+} from "../theme/layout";
 import { iosType } from "../theme/typography";
+import type { Bill } from "../types/models";
 import {
   formatHeaderMonth,
   formatHeaderYear,
@@ -27,12 +35,98 @@ import {
   formatTimeShort,
 } from "../utils/dates";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
-import type { HomeStackParamList } from "../navigation/types";
 
 type Section = { title: string; data: Bill[] };
 
+function buildHomeScreenStyles(colors: AppPalette) {
+  return StyleSheet.create({
+    safe: { flex: 1, backgroundColor: colors.canvas },
+    listInset: {
+      flex: 1,
+      marginTop: 8,
+      marginBottom: 16,
+    },
+    headerActions: { flexDirection: "row", alignItems: "center", gap: 10 },
+    headerChip: {
+      width: headerFabSize,
+      height: headerFabSize,
+      borderRadius: headerFabSize / 2,
+      alignItems: "center",
+      justifyContent: "center",
+      borderWidth: StyleSheet.hairlineWidth,
+    },
+    headerChipWash: {
+      backgroundColor: colors.surface,
+      borderColor: "rgba(255, 255, 255, 0.65)",
+      ...shadows.headerIconWash,
+    },
+    headerChipAccent: {
+      backgroundColor: colors.accent,
+      borderColor: "rgba(255, 255, 255, 0.38)",
+      ...shadows.headerFab,
+    },
+    headerBanner: {
+      flexDirection: "row",
+      backgroundColor: colors.main,
+      minHeight: 72,
+      alignItems: "stretch",
+    },
+    headerLeft: {
+      width: 110,
+      paddingLeft: 16,
+      paddingVertical: 8,
+      justifyContent: "center",
+    },
+    yearText: { fontSize: 10, color: colors.onMainSecondary },
+    monthRow: { flexDirection: "row", alignItems: "flex-end" },
+    monthBig: { fontSize: 30, fontWeight: "300", color: colors.onMain },
+    headerDivider: {
+      width: StyleSheet.hairlineWidth,
+      backgroundColor: colors.divider,
+      marginVertical: 12,
+    },
+    headerRight: { flex: 1, flexDirection: "row", paddingLeft: 24, alignItems: "center" },
+    statCol: { marginRight: 32 },
+    statLabel: { fontSize: 10, color: colors.onMainSecondary },
+    statValue: { fontSize: 17, fontWeight: "300", color: colors.onMain, marginTop: 4 },
+    sectionHead: {
+      backgroundColor: colors.light,
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+    },
+    sectionTitle: { ...iosType.footnote, color: colors.lightTitle },
+    row: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.divider,
+      backgroundColor: colors.surface,
+    },
+    rowMid: { flex: 1, marginLeft: 12 },
+    rowTitle: { fontSize: 16, color: colors.title },
+    rowSub: { fontSize: 12, color: colors.lightTitle, marginTop: 4 },
+    rowAmt: { fontSize: 16, fontWeight: "500" },
+    expense: { color: colors.expense },
+    income: { color: colors.income },
+    empty: { padding: 40, alignItems: "center" },
+    emptyText: { color: colors.lightTitle },
+    pickerOverlay: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: "rgba(0,0,0,0.35)",
+      justifyContent: "flex-end",
+    },
+    pickerCard: { backgroundColor: colors.surface, paddingBottom: 24 },
+    pickerToolbar: { alignItems: "flex-end", padding: 12 },
+    pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "600" },
+  });
+}
+
 export function HomeScreen(): React.ReactElement {
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+  const { colors } = useAppTheme();
+  const styles = useMemo(() => buildHomeScreenStyles(colors), [colors]);
   const { generation, refresh } = useBillsRefresh();
   const [monthAnchor, setMonthAnchor] = useState(() => new Date());
   const [iosPickerOpen, setIosPickerOpen] = useState(false);
@@ -40,26 +134,34 @@ export function HomeScreen(): React.ReactElement {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={styles.headerActions}>
           <Pressable
             onPress={() => {
               navigation.navigate("BillQuery");
             }}
-            hitSlop={12}
+            hitSlop={8}
             accessibilityLabel="查账-打开账单"
-            style={({ pressed }) => [styles.headerBtn, pressed ? { opacity: pressedOpacity } : null]}
+            style={({ pressed }) => [
+              styles.headerChip,
+              styles.headerChipWash,
+              pressed ? { opacity: pressedOpacity, transform: [{ scale: pressScale }] } : null,
+            ]}
           >
-            <MaterialCommunityIcons name="filter-variant" size={26} color={colors.onMain} />
+            <MaterialCommunityIcons name="filter-variant" size={22} color={colors.onMain} />
           </Pressable>
           <Pressable
             onPress={() => {
               navigation.navigate("CreateBill");
             }}
-            hitSlop={12}
+            hitSlop={8}
             accessibilityLabel="记一笔"
-            style={({ pressed }) => [styles.headerBtn, pressed ? { opacity: pressedOpacity } : null]}
+            style={({ pressed }) => [
+              styles.headerChip,
+              styles.headerChipAccent,
+              pressed ? { opacity: pressedOpacity, transform: [{ scale: pressScale }] } : null,
+            ]}
           >
-            <MaterialCommunityIcons name="plus-circle-outline" size={26} color={colors.onMain} />
+            <MaterialCommunityIcons name="plus" size={headerFabIconSize} color={colors.onAccent} />
           </Pressable>
         </View>
       ),
@@ -68,15 +170,19 @@ export function HomeScreen(): React.ReactElement {
           onPress={() => {
             navigation.navigate("Calendar");
           }}
-          hitSlop={12}
+          hitSlop={8}
           accessibilityLabel="打开日历"
-          style={({ pressed }) => [styles.headerBtn, pressed ? { opacity: pressedOpacity } : null]}
+          style={({ pressed }) => [
+            styles.headerChip,
+            styles.headerChipWash,
+            pressed ? { opacity: pressedOpacity, transform: [{ scale: pressScale }] } : null,
+          ]}
         >
-          <MaterialCommunityIcons name="calendar-month" size={26} color={colors.onMain} />
+          <MaterialCommunityIcons name="calendar-month" size={22} color={colors.onMain} />
         </Pressable>
       ),
     });
-  }, [navigation]);
+  }, [navigation, colors, styles]);
 
   const bills = useMemo(() => queryBillsForMonth(monthAnchor), [monthAnchor, generation]);
 
@@ -153,7 +259,7 @@ export function HomeScreen(): React.ReactElement {
         </Pressable>
       );
     },
-    [navigation],
+    [navigation, styles],
   );
 
   return (
@@ -185,7 +291,6 @@ export function HomeScreen(): React.ReactElement {
         <SectionList
           sections={sections}
           keyExtractor={(item) => String(item.id)}
-          contentInsetAdjustmentBehavior={Platform.OS === "ios" ? "automatic" : undefined}
           renderItem={renderItem}
           renderSectionHeader={({ section }) => (
             <View style={styles.sectionHead}>
@@ -227,69 +332,3 @@ export function HomeScreen(): React.ReactElement {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.canvas },
-  listInset: {
-    flex: 1,
-    marginTop: 8,
-    marginBottom: 16,
-    ...shadows.card,
-  },
-  headerBtn: { paddingHorizontal: 4 },
-  headerBanner: {
-    flexDirection: "row",
-    backgroundColor: colors.main,
-    minHeight: 72,
-    alignItems: "stretch",
-  },
-  headerLeft: {
-    width: 110,
-    paddingLeft: 16,
-    paddingVertical: 8,
-    justifyContent: "center",
-  },
-  yearText: { fontSize: 10, color: colors.onMainSecondary },
-  monthRow: { flexDirection: "row", alignItems: "flex-end" },
-  monthBig: { fontSize: 30, fontWeight: "300", color: colors.onMain },
-  headerDivider: {
-    width: StyleSheet.hairlineWidth,
-    backgroundColor: colors.body,
-    marginVertical: 12,
-  },
-  headerRight: { flex: 1, flexDirection: "row", paddingLeft: 24, alignItems: "center" },
-  statCol: { marginRight: 32 },
-  statLabel: { fontSize: 10, color: colors.onMainSecondary },
-  statValue: { fontSize: 17, fontWeight: "300", color: colors.onMain, marginTop: 4 },
-  sectionHead: {
-    backgroundColor: colors.light,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
-  sectionTitle: { ...iosType.footnote, color: colors.lightTitle },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.body,
-    backgroundColor: colors.surface,
-  },
-  rowMid: { flex: 1, marginLeft: 12 },
-  rowTitle: { fontSize: 16, color: colors.title },
-  rowSub: { fontSize: 12, color: colors.lightTitle, marginTop: 4 },
-  rowAmt: { fontSize: 16, fontWeight: "500" },
-  expense: { color: colors.expense },
-  income: { color: colors.income },
-  empty: { padding: 40, alignItems: "center" },
-  emptyText: { color: colors.lightTitle },
-  pickerOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.35)",
-    justifyContent: "flex-end",
-  },
-  pickerCard: { backgroundColor: colors.surface, paddingBottom: 24 },
-  pickerToolbar: { alignItems: "flex-end", padding: 12 },
-  pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "600" },
-});

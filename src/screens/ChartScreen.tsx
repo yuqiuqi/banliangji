@@ -21,8 +21,9 @@ import {
 } from "../chart/chartAggregate";
 import { queryAllBills } from "../db/billRepo";
 import type { ChartGranularity } from "../types/models";
-import { colors } from "../theme/colors";
-import { chartFadeMs, hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
+import type { AppPalette } from "../theme/palette";
+import { useAppTheme } from "../theme/ThemeContext";
+import { chartFadeMs, pressedOpacity, radii, shadows } from "../theme/layout";
 import {
   chartMonthPeriods,
   chartWeekPeriods,
@@ -36,11 +37,155 @@ import { zhCN } from "date-fns/locale";
 const PAGE_H_PAD = 16;
 const CHART_W = Dimensions.get("window").width - PAGE_H_PAD * 2;
 
-/** 与 `colors.accent`（系统蓝）一致的半透明选态。IOS26：周/月/年为三档，SegmentedTwo 仅两档，故保留 chip 行。 */
-const ACCENT_FILL_12 = "rgba(0, 122, 255, 0.12)";
-const ACCENT_FILL_16 = "rgba(0, 122, 255, 0.16)";
+/** 周/月/年为三档，SegmentedTwo 仅两档，故保留 chip 行；选态底色用 palette.accentSelection。 */
+function buildChartStyles(colors: AppPalette) {
+  return StyleSheet.create({
+    safe: { flex: 1, backgroundColor: colors.canvas },
+    pageScroll: { paddingBottom: 40 },
+    pagePad: { paddingHorizontal: PAGE_H_PAD, paddingTop: 8 },
+    segBar: {
+      flexDirection: "row",
+      backgroundColor: colors.surface,
+      padding: 8,
+      gap: 8,
+      borderRadius: radii.chip,
+    },
+    segBtn: { flex: 1, paddingVertical: 8, borderRadius: radii.chip, alignItems: "center" },
+    segOn: { backgroundColor: colors.accentSelection },
+    segText: { color: colors.onMain, fontSize: 15 },
+    segTextOn: { fontWeight: "700", color: colors.accent },
+    tabs: { maxHeight: 52, marginTop: 10 },
+    tabsInner: { paddingVertical: 8, alignItems: "center" },
+    tabChip: {
+      marginRight: 8,
+      paddingHorizontal: 14,
+      paddingVertical: 9,
+      borderRadius: 18,
+      backgroundColor: colors.surface,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: colors.divider,
+      ...shadows.card,
+    },
+    tabChipOn: {
+      borderColor: colors.accent,
+      backgroundColor: colors.accentSelection,
+      ...shadows.keyCap,
+    },
+    tabChipText: { color: colors.lightTitle, fontSize: 13 },
+    tabChipTextOn: { color: colors.accent, fontWeight: "600" },
+    kpiCard: {
+      marginTop: 16,
+      padding: 16,
+      backgroundColor: colors.surface,
+      borderRadius: radii.card,
+    },
+    kpiLabel: { fontSize: 12, color: colors.lightTitle, marginBottom: 4, letterSpacing: 0.3 },
+    kpiValue: { fontSize: 30, fontWeight: "700", color: colors.title },
+    kpiHint: { fontSize: 12, color: colors.lightTitle, marginTop: 8 },
+    sectionTitle: {
+      marginTop: 20,
+      marginBottom: 8,
+      fontSize: 15,
+      fontWeight: "600",
+      color: colors.title,
+    },
+    sectionTitleSpaced: {
+      marginTop: 20,
+      marginBottom: 8,
+      fontSize: 15,
+      fontWeight: "600",
+      color: colors.title,
+    },
+    trendCard: {
+      padding: 16,
+      backgroundColor: colors.surface,
+      borderRadius: radii.card,
+    },
+    cardSubtitle: { fontSize: 12, color: colors.lightTitle, marginTop: 4, lineHeight: 17 },
+    cardRange: { fontSize: 13, color: colors.title, fontWeight: "500" },
+    chartEmptyBlock: { alignItems: "center", paddingVertical: 12 },
+    chartEmpty: {
+      fontSize: 13,
+      color: colors.lightTitle,
+      textAlign: "center",
+      marginTop: 8,
+    },
+    chartPlot: {
+      marginTop: 12,
+      position: "relative",
+    },
+    chartBaseline: {
+      position: "absolute",
+      left: 0,
+      right: 0,
+      bottom: 22,
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: colors.divider,
+      opacity: 0.85,
+    },
+    chartRow: {
+      flexDirection: "row",
+      alignItems: "flex-end",
+      height: 152,
+      width: CHART_W,
+      justifyContent: "space-between",
+    },
+    barCol: { flex: 1, alignItems: "center", marginHorizontal: 1 },
+    bar: {
+      width: 12,
+      backgroundColor: colors.light,
+      borderTopLeftRadius: 6,
+      borderTopRightRadius: 6,
+    },
+    barOn: { backgroundColor: colors.accent },
+    barLabel: { marginTop: 6, fontSize: 10, color: colors.lightTitle, maxWidth: 40, textAlign: "center" },
+    listCard: {
+      paddingVertical: 4,
+      paddingHorizontal: 4,
+      backgroundColor: colors.surface,
+      borderRadius: radii.card,
+      marginBottom: 8,
+    },
+    catRow: { flexDirection: "row", alignItems: "center", paddingVertical: 12, paddingHorizontal: 8 },
+    catRowBorder: {
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.divider,
+    },
+    iconRim: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.light,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    catMid: { flex: 1, marginLeft: 12 },
+    catName: { fontSize: 15, fontWeight: "500", color: colors.title },
+    progressBg: {
+      height: 6,
+      backgroundColor: colors.light,
+      borderRadius: 3,
+      marginTop: 6,
+      overflow: "hidden",
+    },
+    progressFg: { height: 6, backgroundColor: colors.accent, borderRadius: 3 },
+    catAmt: {
+      marginLeft: 8,
+      fontSize: 15,
+      fontWeight: "600",
+      color: colors.title,
+      minWidth: 80,
+      textAlign: "right",
+    },
+    emptyWrap: { alignItems: "center", paddingVertical: 28, paddingHorizontal: 12 },
+    empty: { textAlign: "center", color: colors.title, fontSize: 15, fontWeight: "500", marginTop: 10 },
+    emptyHint: { textAlign: "center", color: colors.lightTitle, fontSize: 12, marginTop: 8, lineHeight: 18 },
+  });
+}
 
 export function ChartScreen(): React.ReactElement {
+  const { colors } = useAppTheme();
+  const styles = useMemo(() => buildChartStyles(colors), [colors]);
   const { generation } = useBillsRefresh();
   const [granularity, setGranularity] = useState<ChartGranularity>("week");
   const [periodIndex, setPeriodIndex] = useState(0);
@@ -158,7 +303,7 @@ export function ChartScreen(): React.ReactElement {
         nestedScrollEnabled
       >
         <View style={styles.pagePad}>
-          <View style={[styles.segBar, shadows.card, hairlineBorder]}>
+          <View style={[styles.segBar, shadows.grouped]}>
             {(["week", "month", "year"] as const).map((g) => {
               const on = granularity === g;
               const title = g === "week" ? "周" : g === "month" ? "月" : "年";
@@ -206,7 +351,7 @@ export function ChartScreen(): React.ReactElement {
               );
             })}
           </ScrollView>
-          <View style={[styles.kpiCard, shadows.raised, hairlineBorder]}>
+          <View style={[styles.kpiCard, shadows.grouped]}>
             <Text style={styles.kpiLabel}>本期支出</Text>
             <Text style={styles.kpiValue} numberOfLines={1} adjustsFontSizeToFit>
               ¥{formatAmountDisplay(periodTotal)}
@@ -214,7 +359,7 @@ export function ChartScreen(): React.ReactElement {
             <Text style={styles.kpiHint}>{labelP} · 仅统计支出</Text>
           </View>
           <Text style={styles.sectionTitle}>支出趋势</Text>
-          <View style={[styles.trendCard, shadows.raised, hairlineBorder]}>
+          <View style={[styles.trendCard, shadows.grouped]}>
             <Text style={styles.cardRange}>{rangeHint}</Text>
             <Text style={styles.cardSubtitle}>
               与下方「分类构成」同一筛选；柱高为区间内相对值
@@ -251,7 +396,7 @@ export function ChartScreen(): React.ReactElement {
             </Animated.View>
           </View>
           <Text style={styles.sectionTitleSpaced}>分类构成</Text>
-          <View style={[styles.listCard, shadows.card, hairlineBorder]}>
+          <View style={[styles.listCard, shadows.grouped]}>
             {categories.map((c, i) => (
               <View
                 key={c.categoryId}
@@ -285,141 +430,3 @@ export function ChartScreen(): React.ReactElement {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.canvas },
-  pageScroll: { paddingBottom: 40 },
-  pagePad: { paddingHorizontal: PAGE_H_PAD, paddingTop: 8 },
-  segBar: {
-    flexDirection: "row",
-    backgroundColor: colors.surface,
-    padding: 8,
-    gap: 8,
-    borderRadius: radii.chip,
-  },
-  segBtn: { flex: 1, paddingVertical: 8, borderRadius: radii.chip, alignItems: "center" },
-  segOn: { backgroundColor: ACCENT_FILL_16 },
-  segText: { color: colors.onMain, fontSize: 15 },
-  segTextOn: { fontWeight: "700", color: colors.accent },
-  tabs: { maxHeight: 52, marginTop: 10 },
-  tabsInner: { paddingVertical: 8, alignItems: "center" },
-  tabChip: {
-    marginRight: 8,
-    paddingHorizontal: 14,
-    paddingVertical: 9,
-    borderRadius: 18,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.body,
-  },
-  tabChipOn: { borderColor: colors.accent, backgroundColor: ACCENT_FILL_12 },
-  tabChipText: { color: colors.lightTitle, fontSize: 13 },
-  tabChipTextOn: { color: colors.accent, fontWeight: "600" },
-  kpiCard: {
-    marginTop: 16,
-    padding: 16,
-    backgroundColor: colors.surface,
-    borderRadius: radii.card,
-  },
-  kpiLabel: { fontSize: 12, color: colors.lightTitle, marginBottom: 4, letterSpacing: 0.3 },
-  kpiValue: { fontSize: 30, fontWeight: "700", color: colors.title },
-  kpiHint: { fontSize: 12, color: colors.lightTitle, marginTop: 8 },
-  sectionTitle: {
-    marginTop: 20,
-    marginBottom: 8,
-    fontSize: 15,
-    fontWeight: "600",
-    color: colors.title,
-  },
-  sectionTitleSpaced: {
-    marginTop: 20,
-    marginBottom: 8,
-    fontSize: 15,
-    fontWeight: "600",
-    color: colors.title,
-  },
-  trendCard: {
-    padding: 16,
-    backgroundColor: colors.surface,
-    borderRadius: radii.card,
-  },
-  cardSubtitle: { fontSize: 12, color: colors.lightTitle, marginTop: 4, lineHeight: 17 },
-  cardRange: { fontSize: 13, color: colors.title, fontWeight: "500" },
-  chartEmptyBlock: { alignItems: "center", paddingVertical: 12 },
-  chartEmpty: {
-    fontSize: 13,
-    color: colors.lightTitle,
-    textAlign: "center",
-    marginTop: 8,
-  },
-  chartPlot: {
-    marginTop: 12,
-    position: "relative",
-  },
-  chartBaseline: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 22,
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: colors.body,
-    opacity: 0.9,
-  },
-  chartRow: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    height: 152,
-    width: CHART_W,
-    justifyContent: "space-between",
-  },
-  barCol: { flex: 1, alignItems: "center", marginHorizontal: 1 },
-  bar: {
-    width: 12,
-    backgroundColor: colors.body,
-    borderTopLeftRadius: 6,
-    borderTopRightRadius: 6,
-  },
-  barOn: { backgroundColor: colors.accent },
-  barLabel: { marginTop: 6, fontSize: 10, color: colors.lightTitle, maxWidth: 40, textAlign: "center" },
-  listCard: {
-    paddingVertical: 4,
-    paddingHorizontal: 4,
-    backgroundColor: colors.surface,
-    borderRadius: radii.card,
-    marginBottom: 8,
-  },
-  catRow: { flexDirection: "row", alignItems: "center", paddingVertical: 12, paddingHorizontal: 8 },
-  catRowBorder: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.body,
-  },
-  iconRim: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: colors.light,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  catMid: { flex: 1, marginLeft: 12 },
-  catName: { fontSize: 15, fontWeight: "500", color: colors.title },
-  progressBg: {
-    height: 6,
-    backgroundColor: colors.body,
-    borderRadius: 3,
-    marginTop: 6,
-    overflow: "hidden",
-  },
-  progressFg: { height: 6, backgroundColor: colors.accent, borderRadius: 3 },
-  catAmt: {
-    marginLeft: 8,
-    fontSize: 15,
-    fontWeight: "600",
-    color: colors.title,
-    minWidth: 80,
-    textAlign: "right",
-  },
-  emptyWrap: { alignItems: "center", paddingVertical: 28, paddingHorizontal: 12 },
-  empty: { textAlign: "center", color: colors.title, fontSize: 15, fontWeight: "500", marginTop: 10 },
-  emptyHint: { textAlign: "center", color: colors.lightTitle, fontSize: 12, marginTop: 8, lineHeight: 18 },
-});
