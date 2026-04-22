@@ -16,13 +16,14 @@
 
 ## Current Milestone: v2.3 — 质量验证与系统外观
 
-**Goal:** 在 iOS 26 Chrome 已交付前提下，**关闭可验证债务**（DATA-02、UAT/验证一致），并交付**深色外观**与**降低透明度**下的可读与可操作为基线。
+**Goal:** 在 iOS 26 Chrome 已交付前提下，**关闭可验证债务**（DATA-02、UAT/验证一致），并交付**深色外观**、**降低透明度**下的可读与可操作，以及 **Liquid Glass 在动效/透明度/立体感上** 相对当前实现的 **专业级缩小差距**（见 `11-MATERIAL-MOTION-SPEC.md`）。
 
 **Target features:**
 
 - **DATA-02**：设备上杀进程冒烟，结果可引用、需求可勾选。  
 - **QA-04**：08/09 UAT 与 `09-VERIFICATION` 对齐，无悬空 pending。  
-- **THEME-01 / A11Y-01**：系统深色与降低透明度下的语义色与毛玻璃降级。
+- **THEME-01 / A11Y-01**：系统深色与降低透明度下的语义色与毛玻璃降级。  
+- **LG-01**：分层材质 + 流体动效，对齐 WWDC25 Liquid Glass **原则**（RN 近似，可文档化偏差）。
 
 **范围说明：** 不新增业务大功能；持久化层 schema 不变；云同步仍 Out of Scope。
 
@@ -104,4 +105,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state  
 
 ---
-*Last updated: 2026-04-22 — milestone v2.3 started（/gsd-new-milestone v2.3）*
+*Last updated: 2026-04-22 — Phase 11 增补 LG-01（Liquid Glass 材质/动效规格）*

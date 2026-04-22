@@ -19,6 +19,10 @@
 - [ ] **THEME-01**: 在**系统深色外观**（或应用内若已有外观开关）下，关键屏（Tab、明细、记一笔、账单流、设置）使用语义色与对比度可接受，无大面积不可读文字或控件；与 `UI-SPEC.md` / `DESIGN.md` 的 dark 取向一致或可引用 Accepted deviation。
 - [ ] **A11Y-01**: 当系统开启**降低透明度**（及同类辅助设置，以 iOS 设置为准）时，依赖 `BlurView`/毛玻璃的区域具备**可辨识的不透明或降级样式**（非空白、非不可点击），主路径仍可完成记一笔与查看明细。
 
+### Liquid Glass 纵深与动效 (LG)
+
+- [ ] **LG-01**: **动效、透明度层次与立体感** 在工程上向 **iOS 26 Liquid Glass** 对齐：遵循 `.planning/phases/11-chrome-depth/11-MATERIAL-MOTION-SPEC.md` 的 **材质分层（blur + tint + 边缘高光 + 随尺度调整的阴影）** 与 **动效分层（Reanimated spring、按压抬升、避免主导线性过渡）**；对 Tab 栏、主列表顶栏、记一笔 Dock/Sheet 等 **Tier-1** 表面验收；无法复刻处须 **Accepted deviation** 并指向官方原则（如 Lensing）与 RN 限制说明。
+
 ## Future（本里程碑不做）
 
 - **SYNC-***：云同步、多设备（见 `PROJECT.md` Out of Scope）。
@@ -39,3 +43,4 @@
 | QA-04 | Phase 10 | Done |
 | THEME-01 | Phase 11 | Pending |
 | A11Y-01 | Phase 11 | Pending |
+| LG-01 | Phase 11 | Pending |
