@@ -166,12 +166,12 @@ Plans:
 3. 「我的」或等价 Tab 下具备关于/数据位置或占位设置；不强制云登录。  
 4. `npm run verify` 全绿；关键屏 Tesla 主色/对比度在设备上可接受（见 V21Q-01）。  
 
-**Plans**: TBD（由 `/gsd-plan-phase 8` 生成，建议 2–4 个 plan 切波，例如 账单 IA → 查账 + 联调 → 我的 → 全站回归）
+**Plans**: 已生成 `08-01`（实现层）+ `08-02`（单测/我的/VERIFICATION/文档）；见 `.planning/phases/08-tesla-v2-1/*-PLAN.md`。
 
 Plans:
 
-- [ ] 08-01: _待 plan-phase_  
-- [ ] 08-02: _待 plan-phase_  
+- [ ] 08-01: `billTimeRange` + `BillQuery` 屏 + `HomeMain` 查账入口（V21-01、V21-02）  
+- [ ] 08-02: `billTimeRange` 单测 + `Mine` 扩展 + `08-VERIFICATION` + ROAD/STATE 收口（V21-02 追溯、V21-03、V21Q-01）  
 
 ## Progress
 
@@ -186,4 +186,4 @@ Plans:
 | 5. 预算与资产 MVP（v2） | 2/2 | Complete    | 2026-04-21 |
 | 6. 全局 UI 精研（v2） | 2/2 | Complete    | 2026-04-22 |
 | 7. 图表表现层（v2） | 2/2 | Complete    | 2026-04-22 |
-| 8. 账单流/查账/我的（v2.1） | 0/2+ | **Planned** | — |
+| 8. 账单流/查账/我的（v2.1） | 2/2 | **Ready to execute**（PLAN 已落盘） | — |
