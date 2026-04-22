@@ -1,42 +1,42 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.1
-milestone_name: "账单流、查账、我的与 Tesla 收敛"
-current_phase: "Phase 8 — v2.1 已实现（待 /gsd-verify-work 或真机 UAT）"
-status: Complete
-last_updated: "2026-04-22T03:25:00.000Z"
+milestone: v1.0
+milestone_name: milestone
+current_phase: Phase 8 **已完成**；Phase 9 **规格就绪 / 执行未开始**
+status: Ready to execute
+last_updated: "2026-04-22T06:55:21.765Z"
 progress:
-  total_phases: 8
+  total_phases: 9
   completed_phases: 8
-  total_plans: 19
+  total_plans: 24
   completed_plans: 17
-  percent: 100
+  percent: 71
 ---
 
 # Project State
 
 ## Current Status
 
-- **Milestone / version:** v2.1  
-- **What we're doing now:** Phase 8 **代码与验证文档已合入**；建议 **`/gsd-verify-work 8`** 与真机勾选 `08-VERIFICATION` 中人工项  
-- **Current phase:** Phase 8 执行**已完成**（`08-01` + `08-02`）
+- **Milestone / version:** **v2.2（规划中）** — iOS & iPadOS 26 **全局 Chrome** 突破  
+- **What we're doing now:** Phase 9 已生成 **7 份 PLAN**（`09-01`…`09-07`）+ `09-CONTEXT` / `09-UI-SPEC` / `09-RESEARCH` / `09-VALIDATION`。下一步：**`/gsd-execute-phase 9`**（或按 wave 手动执行各 PLAN）。  
+- **Current phase:** Phase 9 **Ready to execute**（7 plans，4 waves）
 
 ## Progress Summary
 
-- **v2.1（Phase 8）**：`BillQuery`、日/区间查账、我的 关于/数据/设置占位；`npm run verify` 绿
+- **v2.1（Phase 8）**：账单流、查账、我的 — 已交付（历史）  
+- **v2.2（Phase 9）**：**所有屏幕 + 所有 UI 风格 + 所有 UX 风格** 对齐 iOS 26 / Liquid Glass — **见突破性规格 §3**
 
 ## Blockers
 
-- 无。真机 UAT 为可选加强。
+- 无。Figma MCP 未接入时仍可执行，但 **逐像素对照** 需在本地启用 MCP 后补强。
 
 ## When User Says "where were we?"
 
-- Phase 8 已实现；见 `08-01-SUMMARY` / `08-02-SUMMARY` 与 `08-VERIFICATION.md`。
+- 功能主线在 Phase 8 已封板；**当前焦点**是 Phase 9 的 **iOS 26 全站 Chrome** 规划与即将开始的拆波执行。
 
 ## Notes
 
-- `workflow._auto_chain_active` 已置为 `false`（execute 完成）。
+- 单一视觉来源将由 v2.1 的 **Tesla** 过渡到 v2.2 的 **iOS 26 Chrome**（阶段完成时更新 `DESIGN.md` / `PROJECT.md`）。
 
 ---
-*This file auto-updated by gsd-workflow*  
-*Last updated: 2026-04-22*
+*Last updated: 2026-04-22 — Phase 9 规划落盘*
