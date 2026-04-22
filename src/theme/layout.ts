@@ -10,6 +10,9 @@ export const pressScale = 0.98;
 export const pressTranslateY = 1;
 export const pressDurationMs = 100;
 
+/** 图表主图区淡入时长（ms）— Phase 7 `07-UI-SPEC` 约 150–250；供 `Animated` 与 07-02 使用 */
+export const chartFadeMs = 200;
+
 export const radii = {
   card: 12,
   sheet: 16,
