@@ -46,7 +46,7 @@ export function HomeScreen(): React.ReactElement {
           accessibilityLabel="记一笔"
           style={({ pressed }) => [styles.headerBtn, pressed ? { opacity: pressedOpacity } : null]}
         >
-          <MaterialCommunityIcons name="plus-circle-outline" size={26} color={colors.title} />
+          <MaterialCommunityIcons name="plus-circle-outline" size={26} color={colors.onMain} />
         </Pressable>
       ),
       headerLeft: () => (
@@ -58,7 +58,7 @@ export function HomeScreen(): React.ReactElement {
           accessibilityLabel="打开日历"
           style={({ pressed }) => [styles.headerBtn, pressed ? { opacity: pressedOpacity } : null]}
         >
-          <MaterialCommunityIcons name="calendar-month" size={26} color={colors.title} />
+          <MaterialCommunityIcons name="calendar-month" size={26} color={colors.onMain} />
         </Pressable>
       ),
     });
@@ -152,7 +152,7 @@ export function HomeScreen(): React.ReactElement {
           <Text style={styles.yearText}>{formatHeaderYear(monthAnchor)}</Text>
           <View style={styles.monthRow}>
             <Text style={styles.monthBig}>{formatHeaderMonth(monthAnchor)}</Text>
-            <MaterialCommunityIcons name="menu-down" size={22} color={colors.title} />
+            <MaterialCommunityIcons name="menu-down" size={22} color={colors.onMain} />
           </View>
         </Pressable>
         <View style={styles.headerDivider} />
@@ -241,17 +241,16 @@ const styles = StyleSheet.create({
   },
   yearText: { fontSize: 10, color: colors.onMainSecondary },
   monthRow: { flexDirection: "row", alignItems: "flex-end" },
-  monthBig: { fontSize: 30, fontWeight: "300", color: colors.title },
+  monthBig: { fontSize: 30, fontWeight: "300", color: colors.onMain },
   headerDivider: {
     width: StyleSheet.hairlineWidth,
-    backgroundColor: colors.title,
-    opacity: 0.25,
+    backgroundColor: "rgba(255,255,255,0.25)",
     marginVertical: 12,
   },
   headerRight: { flex: 1, flexDirection: "row", paddingLeft: 24, alignItems: "center" },
   statCol: { marginRight: 32 },
   statLabel: { fontSize: 10, color: colors.onMainSecondary },
-  statValue: { fontSize: 17, fontWeight: "300", color: colors.title, marginTop: 4 },
+  statValue: { fontSize: 17, fontWeight: "300", color: colors.onMain, marginTop: 4 },
   sectionHead: {
     backgroundColor: colors.light,
     paddingHorizontal: 16,

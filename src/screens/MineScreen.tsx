@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: colors.main,
   },
-  title: { fontSize: 20, fontWeight: "600", color: colors.title },
+  title: { fontSize: 20, fontWeight: "600", color: colors.onMain },
   card: {
     margin: 16,
     padding: 16,

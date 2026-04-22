@@ -49,10 +49,12 @@ const CATEGORY_ID_ICON: Record<number, IconName> = {
 export function CategoryIcon({
   categoryId,
   size = 28,
+  color = colors.title,
 }: {
   categoryId: number;
   size?: number;
+  color?: string;
 }): React.ReactElement {
   const name = CATEGORY_ID_ICON[categoryId] ?? "label-outline";
-  return <MaterialCommunityIcons name={name} size={size} color={colors.title} />;
+  return <MaterialCommunityIcons name={name} size={size} color={color} />;
 }

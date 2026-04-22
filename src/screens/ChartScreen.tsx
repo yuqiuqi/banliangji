@@ -245,8 +245,8 @@ const styles = StyleSheet.create({
   },
   segBtn: { flex: 1, paddingVertical: 8, borderRadius: radii.chip, alignItems: "center" },
   segOn: { backgroundColor: "rgba(255,255,255,0.35)" },
-  segText: { color: colors.title, fontSize: 15 },
-  segTextOn: { fontWeight: "700" },
+  segText: { color: colors.onMain, fontSize: 15 },
+  segTextOn: { fontWeight: "700", color: colors.onMain },
   tabs: { maxHeight: 48, backgroundColor: colors.light, paddingVertical: 8 },
   tabChip: {
     marginHorizontal: 6,
@@ -257,9 +257,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.body,
   },
-  tabChipOn: { borderColor: colors.title, backgroundColor: colors.main },
+  tabChipOn: { borderColor: colors.accent, backgroundColor: colors.white },
   tabChipText: { color: colors.lightTitle, fontSize: 13 },
-  tabChipTextOn: { color: colors.title, fontWeight: "600" },
+  tabChipTextOn: { color: colors.accent, fontWeight: "600" },
   card: {
     margin: 16,
     padding: 12,
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: { marginBottom: 4, fontSize: 15, fontWeight: "600", color: colors.title },
   cardSubtitle: { fontSize: 12, color: colors.lightTitle, marginBottom: 4 },
-  cardRange: { fontSize: 11, color: colors.onMainSecondary, marginBottom: 8 },
+  cardRange: { fontSize: 11, color: colors.lightTitle, marginBottom: 8 },
   chartEmpty: {
     fontSize: 13,
     color: colors.lightTitle,
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
     overflow: "hidden",
   },
-  progressFg: { height: 8, backgroundColor: colors.main },
+  progressFg: { height: 8, backgroundColor: colors.accent },
   catAmt: {
     marginLeft: 8,
     fontSize: 15,

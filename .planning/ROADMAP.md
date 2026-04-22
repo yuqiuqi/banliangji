@@ -4,6 +4,8 @@
 
 在已实现的 Expo + TS + SQLite 基线上，按「数据可信 → 功能验收 → 图表一致 → 质量门禁」顺序收敛到可发布的 **v1.0**；随后以 **milestone v2.0** 融合 [SharkBookProject](https://github.com/MichaelFeng823/SharkBookProject) 所代表的 **预算、资产、图表精美度与全局 UI**（不引入 Qt）。优先保证离线闭环与类型/静态检查。
 
+**milestone v2.1**（Phase 8 单阶段）：在 Phase 1–7 与 v2.0 已封板的前提下，补充 **账单子流、按日/区间查账、本地「我的/设置」**；**视觉以 Tesla 主题**（`DESIGN.md` + `src/theme/colors.ts`）为整里程碑约束，不引入云多用户为必达。
+
 ## Phases
 
 - [x] **Phase 1: 数据层与基线验证** — SQLite 契约、回归检查、关键路径文档化   (completed 2026-04-21)
@@ -13,6 +15,7 @@
 - [x] **Phase 5: 预算与资产管家 MVP（v2）** — REF-01 / REF-02；SQLite 扩展与 Tab/导航   (completed 2026-04-21)
 - [x] **Phase 6: 全局 UI 与动效精研（v2）** — REF-04；Clay+ 层级、转场与关键屏改版   (completed 2026-04-22)
 - [x] **Phase 7: 图表 Shark 级表现层（v2）** — REF-03；依赖 Phase 3 数据正确   (completed 2026-04-22)
+- [ ] **Phase 8: 账单流 · 查账 · 我的与 Tesla 收敛（v2.1）** — V21-01 / V21-02 / V21-03 / V21Q-01   (planned 2026-04-22)
 
 ## Phase Details
 
@@ -150,9 +153,29 @@ Plans:
 - [x] 07-01: 图表组件结构与主题绑定  
 - [x] 07-02: 动效、图例、空态与高对比可读性  
 
+### Phase 8: 账单流 · 查账 · 我的与 Tesla 收敛（v2.1）
+
+**Goal**: 交付 **可导航的「账单」子流**、**按日/区间与数据源一致的查账**、**本地「我的/关于/偏好占位」**；全路径 UI 在 Tesla 设计语义下可验收。  
+**Depends on**: Phase 2, Phase 7（信息架构与图表表现层与现有 Tab/导航不冲突；实现细节由 `/gsd-plan-phase 8` 定）  
+**Requirements**: V21-01, V21-02, V21-03, V21Q-01  
+**UI hint**: yes（`DESIGN.md` + theme）  
+**Success Criteria** (what must be TRUE):
+
+1. 用户从主导航或约定入口进入「账单」并完成 **列表 → 详情 → 编辑/返回** 闭环；与「明细/月」边界在 `PLAN` 或 `UI-SPEC` 有文字说明。  
+2. 单日与区间查询结果与 `billRepo` / `bill_list` 一致，且与从日历/月份联动的数据 **可追溯**（同一条件数字一致）。  
+3. 「我的」或等价 Tab 下具备关于/数据位置或占位设置；不强制云登录。  
+4. `npm run verify` 全绿；关键屏 Tesla 主色/对比度在设备上可接受（见 V21Q-01）。  
+
+**Plans**: TBD（由 `/gsd-plan-phase 8` 生成，建议 2–4 个 plan 切波，例如 账单 IA → 查账 + 联调 → 我的 → 全站回归）
+
+Plans:
+
+- [ ] 08-01: _待 plan-phase_  
+- [ ] 08-02: _待 plan-phase_  
+
 ## Progress
 
-**Execution Order（建议）:** 1 → 2 → **3 → 4**（v1 收口）→ **5 → 6 → 7**（v2）  
+**Execution Order（建议）:** 1 → 2 → **3 → 4**（v1 收口）→ **5 → 6 → 7**（v2.0）→ **8**（v2.1）  
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -163,3 +186,4 @@ Plans:
 | 5. 预算与资产 MVP（v2） | 2/2 | Complete    | 2026-04-21 |
 | 6. 全局 UI 精研（v2） | 2/2 | Complete    | 2026-04-22 |
 | 7. 图表表现层（v2） | 2/2 | Complete    | 2026-04-22 |
+| 8. 账单流/查账/我的（v2.1） | 0/2+ | **Planned** | — |

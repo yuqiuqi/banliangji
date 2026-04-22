@@ -1,5 +1,5 @@
 /**
- * Clay layout tokens — radii, shadows, borders (see DESIGN.md / 02-UI-SPEC.md).
+ * Layout tokens — radii, shadows, borders (see root DESIGN.md, Tesla-inspired palette in colors.ts).
  */
 import { Platform, type ViewStyle } from "react-native";
 import { colors } from "./colors";

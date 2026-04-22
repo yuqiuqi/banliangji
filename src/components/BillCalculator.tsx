@@ -215,7 +215,13 @@ export function BillCalculator({
                 }
               }}
             >
-              <Text style={[styles.cellText, isPrimary ? styles.cellTextDark : null]}>
+              <Text
+                style={[
+                  styles.cellText,
+                  isPrimary ? styles.cellTextDark : null,
+                  isPrimary ? styles.cellTextOnAccent : null,
+                ]}
+              >
                 {b.kind === "done" && operateType !== null ? "=" : labelFor(b, billDateLabel)}
               </Text>
             </Pressable>
@@ -255,7 +261,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
   },
   cellAccent: {
-    backgroundColor: colors.main,
+    backgroundColor: colors.accent,
   },
   cellText: {
     fontSize: 20,
@@ -263,6 +269,9 @@ const styles = StyleSheet.create({
   },
   cellTextDark: {
     fontWeight: "600",
+  },
+  cellTextOnAccent: {
+    color: colors.onMain,
   },
   pressed: {
     opacity: 0.85,

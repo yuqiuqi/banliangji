@@ -22,7 +22,7 @@ import { pressedOpacity } from "../theme/layout";
 import type { HomeStackParamList, RootTabParamList } from "./types";
 
 /** Tab bar press feedback — `PlatformPressable` is built on RN `Pressable`; uses theme `pressedOpacity`. */
-function ClayTabBarButton(props: BottomTabBarButtonProps): React.ReactElement {
+function TeslaTabBarButton(props: BottomTabBarButtonProps): React.ReactElement {
   return <PlatformPressable {...props} pressOpacity={pressedOpacity} />;
 }
 
@@ -34,7 +34,7 @@ const navTheme = {
   colors: {
     ...DefaultTheme.colors,
     background: colors.canvas,
-    primary: colors.main,
+    primary: colors.accent,
     card: colors.white,
     border: colors.body,
     text: colors.title,
@@ -46,9 +46,9 @@ function HomeStackNavigator(): React.ReactElement {
     <HomeStack.Navigator
       screenOptions={{
         headerStyle: { backgroundColor: colors.main },
-        headerTintColor: colors.title,
-        headerTitleStyle: { color: colors.title },
-        contentStyle: { backgroundColor: colors.canvas }, // Clay canvas
+        headerTintColor: colors.onMain,
+        headerTitleStyle: { color: colors.onMain },
+        contentStyle: { backgroundColor: colors.canvas },
       }}
     >
       <HomeStack.Screen
@@ -64,6 +64,8 @@ function HomeStackNavigator(): React.ReactElement {
         screenOptions={{
           presentation: "modal",
           headerStyle: { backgroundColor: colors.main },
+          headerTintColor: colors.onMain,
+          headerTitleStyle: { color: colors.onMain },
         }}
       >
         <HomeStack.Screen name="CreateBill" component={CreateBillScreen} options={{ title: "记一笔" }} />
@@ -84,7 +86,7 @@ function Tabs(): React.ReactElement {
           backgroundColor: colors.white,
           borderTopColor: colors.body,
         },
-        tabBarButton: (props) => <ClayTabBarButton {...props} />,
+        tabBarButton: (props) => <TeslaTabBarButton {...props} />,
       }}
     >
       <Tab.Screen

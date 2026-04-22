@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     backgroundColor: colors.main,
   },
-  headerTitle: { fontSize: 20, fontWeight: "600", color: colors.title },
+  headerTitle: { fontSize: 20, fontWeight: "600", color: colors.onMain },
   headerSub: { marginTop: 4, fontSize: 14, color: colors.onMainSecondary },
   scroll: { padding: 16, paddingBottom: 32 },
   card: {

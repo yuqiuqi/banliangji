@@ -46,7 +46,7 @@ export function BillDetailScreen(): React.ReactElement {
     <View style={styles.wrap}>
       <ScrollView contentContainerStyle={styles.body}>
         <View style={styles.hero}>
-          <CategoryIcon categoryId={bill.categoryId} size={48} />
+          <CategoryIcon categoryId={bill.categoryId} size={48} color={colors.onMain} />
           <Text style={styles.heroTitle}>{bill.name ?? "未分类"}</Text>
         </View>
         <View style={styles.detailCard}>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 28,
   },
-  heroTitle: { marginTop: 12, fontSize: 18, color: colors.title },
+  heroTitle: { marginTop: 12, fontSize: 18, color: colors.onMain },
   row: {
     paddingHorizontal: 20,
     paddingVertical: 14,

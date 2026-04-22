@@ -30,7 +30,7 @@
 - [x] **QA-02**: `npm run lint` 无错误（含禁止 `any`）
 - [x] **QA-03**: 关键路径有人工 UAT 记录（记一笔、编辑、删、日历、图表）
 
-## v2.0 本里程碑（SharkBook 融合 — Active）
+## v2.0 本里程碑（SharkBook 融合 — Validated Phases 3–7）
 
 > 体验参考：[SharkBookProject](https://github.com/MichaelFeng823/SharkBookProject) README；技术栈仍为 Expo/RN，不引入 Qt。
 
@@ -48,6 +48,26 @@
 - **REF-OPT-03**: **万年历**等在线 API  
 
 （若要做，须单独开 REQ + 威胁模型 + 网络权限策略。）
+
+## v2.1 本里程碑（账单流 / 查账 / 我的 — Active）
+
+> 单里程碑 **Phase 8** 交付。体验面对齐 SharkBook（预算/账单/图表/记一笔/用户 等**能力**）；**不**引入丑/复杂云登录。UI/UX 以根目录 `DESIGN.md` 与 `src/theme/colors.ts` 的 **Tesla** 语义为唯一主视觉来源。
+
+### 账单与导航 (BILL)
+
+- [ ] **V21-01**: 提供「**账单**」可到达的独立子模块或信息流（入口、列表/汇总带、进入详情与编辑的闭环），与「明细/首页月视图」的边界在 `PLAN`/`UI-SPEC` 中写清、可追溯。
+
+### 查询与一致 (QRY)
+
+- [ ] **V21-02**: 支持**按日**与**按时间区间**查询账单；结果与 `bill_list` 聚合一致，且与从日历/月份进入的场景 **数字可追溯**（同一筛选条件下一致）。
+
+### 我的与设置 (MINE)
+
+- [ ] **V21-03**: 提供**本地**「**我的 / 关于 / 数据位置或偏好占位**」等屏；不将云多用户作为本里程碑必达项。
+
+### 体验与工程 (V21Q)
+
+- [ ] **V21Q-01**: 关键路径（记一笔、账单、查账、我的）上 Tesla 主色/层次与可读性在深浅背景下可接受；`npm run verify` 全绿 UAT 记录可附在 Phase 8 内。
 
 ## v2 远期（原 backlog，未纳入 v2.0 必达）
 
@@ -90,6 +110,10 @@
 | REF-02 | Phase 5 | Complete |
 | REF-03 | Phase 7 | Complete |
 | REF-04 | Phase 6 | Complete |
+| V21-01 | Phase 8 | — |
+| V21-02 | Phase 8 | — |
+| V21-03 | Phase 8 | — |
+| V21Q-01 | Phase 8 | — |
 
 **Coverage:**
 
@@ -97,7 +121,8 @@
 - Mapped to phases: 12  
 - Unmapped: 0 ✓  
 - v2.0 REF: 4 total — mapped to Phases 5–7 ✓  
+- v2.1: 4 total (V21-01, V21-02, V21-03, V21Q-01) — 映射 **Phase 8** 单阶段
 
 ---
 *Requirements defined: 2026-04-21*  
-*Last updated: 2026-04-21 — milestone v2.0 + SharkBook 融合*
+*Last updated: 2026-04-22 — milestone v2.1（/gsd-new-milestone v2.1）*

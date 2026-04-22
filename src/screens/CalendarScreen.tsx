@@ -56,7 +56,7 @@ export function CalendarScreen(): React.ReactElement {
             setSelectedKey(null);
           }}
         >
-          <MaterialCommunityIcons name="chevron-left" size={28} color={colors.title} />
+          <MaterialCommunityIcons name="chevron-left" size={28} color={colors.onMain} />
         </Pressable>
         <Text style={styles.monthTitle}>
           {month.getFullYear()}年{month.getMonth() + 1}月
@@ -70,7 +70,7 @@ export function CalendarScreen(): React.ReactElement {
             setSelectedKey(null);
           }}
         >
-          <MaterialCommunityIcons name="chevron-right" size={28} color={colors.title} />
+          <MaterialCommunityIcons name="chevron-right" size={28} color={colors.onMain} />
         </Pressable>
       </View>
       <View style={styles.gridCard}>
@@ -153,7 +153,7 @@ export function CalendarScreen(): React.ReactElement {
         accessibilityLabel="记一笔"
         onPress={onCreate}
       >
-        <MaterialCommunityIcons name="plus" color={colors.title} size={28} />
+        <MaterialCommunityIcons name="plus" color={colors.onMain} size={28} />
       </Pressable>
     </SafeAreaView>
   );
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     backgroundColor: colors.main,
   },
-  monthTitle: { fontSize: 16, fontWeight: "600", color: colors.title },
+  monthTitle: { fontSize: 16, fontWeight: "600", color: colors.onMain },
   weekRow: { flexDirection: "row", paddingVertical: 8 },
   weekCell: { flex: 1, textAlign: "center", color: colors.lightTitle, fontSize: 12 },
   grid: { flexDirection: "row", flexWrap: "wrap" },
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: colors.main,
+    backgroundColor: colors.accent,
   },
   listHead: { padding: 16, fontSize: 15, fontWeight: "600", color: colors.title },
   listHeadMuted: { padding: 16, fontSize: 14, color: colors.lightTitle },
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: colors.main,
+    backgroundColor: colors.accent,
     alignItems: "center",
     justifyContent: "center",
     elevation: 4,
