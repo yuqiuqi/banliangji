@@ -14,11 +14,11 @@
 - **需求快照（至 v2.2）：** [`.planning/milestones/v2.2-REQUIREMENTS.md`](milestones/v2.2-REQUIREMENTS.md)  
 - **当前里程碑需求：** [`.planning/REQUIREMENTS.md`](REQUIREMENTS.md)
 
-## Active phases（v2.3）
+## v2.3 质量验证与系统外观
 
 编号自上一里程碑 **Phase 9** 延续：**10–11**。需求与阶段映射见 `REQUIREMENTS.md` Traceability。
 
-### Phase 10 — 持久化与 UAT 闭环
+### Phase 10: 持久化与 UAT 闭环
 
 | 项 | 内容 |
 |----|------|
@@ -26,7 +26,7 @@
 | **Requirements** | DATA-02, QA-04 |
 | **Success criteria** | 1) 至少在一种目标环境（真机或官方模拟器）完成杀进程冒烟，步骤与截图/日志摘要写入 `.planning/phases/10-*/` 或等价位置。 2) `REQUIREMENTS.md` 中 DATA-02 可勾选或明确记录阻塞原因与跟进取证计划。 3) 相关 UAT Markdown 中无未解释的 `pending`；与 `09-VERIFICATION` 冲突处已 resolution 或 Accepted deviation。 4) `npm run verify` 仍通过。 |
 
-### Phase 11 — 深色模式与辅助功能
+### Phase 11: 深色模式与辅助功能
 
 | 项 | 内容 |
 |----|------|
