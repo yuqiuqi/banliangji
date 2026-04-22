@@ -58,7 +58,8 @@
 | Phase | Plans | Status | Completed |
 |-------|-------|--------|-----------|
 | 1–9 | 24/24 | Complete | 2026-04-22 |
-| 10–11 | 0/? | Not started | — |
+| 10 | 2/2 | Executed（DATA-02 文档已建，手测 BLOCKED；QA-04 已闭环） | 2026-04-22 |
+| 11 | 0/? | Not started | — |
 
 ---
 
