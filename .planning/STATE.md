@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: —
-last_updated: "2026-04-21T10:14:21.910Z"
-last_activity: 2026-04-21
+last_updated: "2026-04-22T01:25:09.802Z"
+last_activity: 2026-04-22 -- Phase 06 planning complete
 progress:
   total_phases: 7
   completed_phases: 5
-  total_plans: 11
+  total_plans: 13
   completed_plans: 11
-  percent: 100
+  percent: 85
 ---
 
 # Project State
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md
 Phase: 6
 Plan: Not started
 Status: Ready to execute
-Last activity: 2026-04-21
+Last activity: 2026-04-22 -- Phase 06 planning complete
 
 Progress: Phase 1–5 Complete（含 v2 预算/资产 MVP）。当前：Phase 6 待执行；见 `ROADMAP.md`。
 
