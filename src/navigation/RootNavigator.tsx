@@ -11,6 +11,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { BillsRefreshProvider } from "../context/BillsRefreshContext";
 import { AssetScreen } from "../screens/AssetScreen";
 import { BillDetailScreen } from "../screens/BillDetailScreen";
+import { BillQueryScreen } from "../screens/BillQueryScreen";
 import { BudgetScreen } from "../screens/BudgetScreen";
 import { CalendarScreen } from "../screens/CalendarScreen";
 import { ChartScreen } from "../screens/ChartScreen";
@@ -59,6 +60,7 @@ function HomeStackNavigator(): React.ReactElement {
           headerShadowVisible: false,
         }}
       />
+      <HomeStack.Screen name="BillQuery" component={BillQueryScreen} options={{ title: "账单" }} />
       <HomeStack.Screen name="BillDetail" component={BillDetailScreen} options={{ title: "账单详情" }} />
       <HomeStack.Group
         screenOptions={{

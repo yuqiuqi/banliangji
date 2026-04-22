@@ -15,7 +15,7 @@
 - [x] **Phase 5: 预算与资产管家 MVP（v2）** — REF-01 / REF-02；SQLite 扩展与 Tab/导航   (completed 2026-04-21)
 - [x] **Phase 6: 全局 UI 与动效精研（v2）** — REF-04；Clay+ 层级、转场与关键屏改版   (completed 2026-04-22)
 - [x] **Phase 7: 图表 Shark 级表现层（v2）** — REF-03；依赖 Phase 3 数据正确   (completed 2026-04-22)
-- [ ] **Phase 8: 账单流 · 查账 · 我的与 Tesla 收敛（v2.1）** — V21-01 / V21-02 / V21-03 / V21Q-01   (planned 2026-04-22)
+- [x] **Phase 8: 账单流 · 查账 · 我的与 Tesla 收敛（v2.1）** — V21-01 / V21-02 / V21-03 / V21Q-01   (completed 2026-04-22)
 
 ## Phase Details
 
@@ -170,8 +170,8 @@ Plans:
 
 Plans:
 
-- [ ] 08-01: `billTimeRange` + `BillQuery` 屏 + `HomeMain` 查账入口（V21-01、V21-02）  
-- [ ] 08-02: `billTimeRange` 单测 + `Mine` 扩展 + `08-VERIFICATION` + ROAD/STATE 收口（V21-02 追溯、V21-03、V21Q-01）  
+- [x] 08-01: `billTimeRange` + `BillQuery` 屏 + `HomeMain` 查账入口（V21-01、V21-02）  
+- [x] 08-02: `billTimeRange` 单测 + `Mine` 扩展 + `08-VERIFICATION` + ROAD/STATE 收口（V21-02 追溯、V21-03、V21Q-01）  
 
 ## Progress
 
@@ -186,4 +186,4 @@ Plans:
 | 5. 预算与资产 MVP（v2） | 2/2 | Complete    | 2026-04-21 |
 | 6. 全局 UI 精研（v2） | 2/2 | Complete    | 2026-04-22 |
 | 7. 图表表现层（v2） | 2/2 | Complete    | 2026-04-22 |
-| 8. 账单流/查账/我的（v2.1） | 2/2 | **Ready to execute**（PLAN 已落盘） | — |
+| 8. 账单流/查账/我的（v2.1） | 2/2 | Complete    | 2026-04-22 |

@@ -38,16 +38,28 @@ export function HomeScreen(): React.ReactElement {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Pressable
-          onPress={() => {
-            navigation.navigate("CreateBill");
-          }}
-          hitSlop={12}
-          accessibilityLabel="记一笔"
-          style={({ pressed }) => [styles.headerBtn, pressed ? { opacity: pressedOpacity } : null]}
-        >
-          <MaterialCommunityIcons name="plus-circle-outline" size={26} color={colors.onMain} />
-        </Pressable>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("BillQuery");
+            }}
+            hitSlop={12}
+            accessibilityLabel="查账-打开账单"
+            style={({ pressed }) => [styles.headerBtn, pressed ? { opacity: pressedOpacity } : null]}
+          >
+            <MaterialCommunityIcons name="filter-variant" size={26} color={colors.onMain} />
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("CreateBill");
+            }}
+            hitSlop={12}
+            accessibilityLabel="记一笔"
+            style={({ pressed }) => [styles.headerBtn, pressed ? { opacity: pressedOpacity } : null]}
+          >
+            <MaterialCommunityIcons name="plus-circle-outline" size={26} color={colors.onMain} />
+          </Pressable>
+        </View>
       ),
       headerLeft: () => (
         <Pressable
