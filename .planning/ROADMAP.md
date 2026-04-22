@@ -12,7 +12,7 @@
 - [x] **Phase 4: 质量门禁与发布准备** — typecheck/lint/手工 UAT 清单与版本说明   (completed 2026-04-21)
 - [x] **Phase 5: 预算与资产管家 MVP（v2）** — REF-01 / REF-02；SQLite 扩展与 Tab/导航   (completed 2026-04-21)
 - [x] **Phase 6: 全局 UI 与动效精研（v2）** — REF-04；Clay+ 层级、转场与关键屏改版   (completed 2026-04-22)
-- [ ] **Phase 7: 图表 Shark 级表现层（v2）** — REF-03；依赖 Phase 3 数据正确  
+- [x] **Phase 7: 图表 Shark 级表现层（v2）** — REF-03；依赖 Phase 3 数据正确   (completed 2026-04-22)
 
 ## Phase Details
 
@@ -147,8 +147,8 @@ Plans:
 
 Plans:
 
-- [ ] 07-01: 图表组件结构与主题绑定  
-- [ ] 07-02: 动效、图例、空态与高对比可读性  
+- [x] 07-01: 图表组件结构与主题绑定  
+- [x] 07-02: 动效、图例、空态与高对比可读性  
 
 ## Progress
 
@@ -162,4 +162,4 @@ Plans:
 | 4. 质量门禁与发布准备 | 2/2 | Complete    | 2026-04-21 |
 | 5. 预算与资产 MVP（v2） | 2/2 | Complete    | 2026-04-21 |
 | 6. 全局 UI 精研（v2） | 2/2 | Complete    | 2026-04-22 |
-| 7. 图表表现层（v2） | 0/2 | Not started | - |
+| 7. 图表表现层（v2） | 2/2 | Complete    | 2026-04-22 |

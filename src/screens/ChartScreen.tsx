@@ -1,6 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
+  Animated,
   Dimensions,
+  Easing,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -19,7 +21,7 @@ import {
 import { queryAllBills } from "../db/billRepo";
 import type { ChartGranularity } from "../types/models";
 import { colors } from "../theme/colors";
-import { hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
+import { chartFadeMs, hairlineBorder, pressedOpacity, radii, shadows } from "../theme/layout";
 import {
   chartMonthPeriods,
   chartWeekPeriods,
@@ -115,6 +117,28 @@ export function ChartScreen(): React.ReactElement {
 
   const chartEmpty = maxAmount <= 0;
 
+  const chartOpacity = useRef(new Animated.Value(1)).current;
+  const skipChartFade = useRef(true);
+
+  useEffect(() => {
+    if (skipChartFade.current) {
+      skipChartFade.current = false;
+      return;
+    }
+    chartOpacity.setValue(0);
+    const id = requestAnimationFrame(() => {
+      Animated.timing(chartOpacity, {
+        toValue: 1,
+        duration: chartFadeMs,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true,
+      }).start();
+    });
+    return () => {
+      cancelAnimationFrame(id);
+    };
+  }, [granularity, safeIndex]);
+
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <View style={styles.segBar}>
@@ -165,22 +189,26 @@ export function ChartScreen(): React.ReactElement {
         </Text>
         <Text style={styles.cardSubtitle}>仅统计支出 · 与下方分类列表同一筛选范围</Text>
         <Text style={styles.cardRange}>{rangeHint}</Text>
-        {chartEmpty ? (
-          <Text style={styles.chartEmpty}>该时间段暂无支出记录</Text>
-        ) : null}
-        <View style={styles.chartRow}>
-          {points.map((pt, idx) => {
-            const h = maxAmount > 0 ? (pt.amount / maxAmount) * 120 : 0;
-            return (
-              <View key={`${pt.label}-${idx}`} style={styles.barCol}>
-                <View style={[styles.bar, { height: Math.max(4, h) }, pt.hasData ? styles.barOn : null]} />
-                <Text style={styles.barLabel} numberOfLines={1}>
-                  {pt.label}
-                </Text>
-              </View>
-            );
-          })}
-        </View>
+        <Animated.View style={{ opacity: chartOpacity }}>
+          {chartEmpty ? (
+            <Text style={styles.chartEmpty}>该时间段暂无支出记录</Text>
+          ) : null}
+          <View style={styles.chartRow}>
+            {points.map((pt, idx) => {
+              const h = maxAmount > 0 ? (pt.amount / maxAmount) * 120 : 0;
+              return (
+                <View key={`${pt.label}-${idx}`} style={styles.barCol}>
+                  <View
+                    style={[styles.bar, { height: Math.max(4, h) }, pt.hasData ? styles.barOn : null]}
+                  />
+                  <Text style={styles.barLabel} numberOfLines={1}>
+                    {pt.label}
+                  </Text>
+                </View>
+              );
+            })}
+          </View>
+        </Animated.View>
       </View>
       <View style={styles.list}>
         {categories.map((c) => (
@@ -258,20 +286,27 @@ const styles = StyleSheet.create({
   barCol: { flex: 1, alignItems: "center", marginHorizontal: 2 },
   bar: { width: 11, backgroundColor: colors.body, borderRadius: 6 },
   barOn: { backgroundColor: colors.title },
-  barLabel: { marginTop: 6, fontSize: 9, color: colors.lightTitle, maxWidth: 36, textAlign: "center" },
+  barLabel: { marginTop: 6, fontSize: 10, color: colors.lightTitle, maxWidth: 36, textAlign: "center" },
   list: { paddingHorizontal: 16, paddingBottom: 24 },
-  catRow: { flexDirection: "row", alignItems: "center", marginBottom: 16 },
+  catRow: { flexDirection: "row", alignItems: "center", marginBottom: 18 },
   catMid: { flex: 1, marginLeft: 10 },
-  catName: { fontSize: 15, color: colors.title },
+  catName: { fontSize: 15, fontWeight: "500", color: colors.title },
   progressBg: {
-    height: 6,
+    height: 8,
     backgroundColor: colors.body,
-    borderRadius: 3,
+    borderRadius: 4,
     marginTop: 6,
     overflow: "hidden",
   },
-  progressFg: { height: 6, backgroundColor: colors.main },
-  catAmt: { marginLeft: 8, fontSize: 15, color: colors.title, minWidth: 72, textAlign: "right" },
+  progressFg: { height: 8, backgroundColor: colors.main },
+  catAmt: {
+    marginLeft: 8,
+    fontSize: 15,
+    fontWeight: "600",
+    color: colors.title,
+    minWidth: 72,
+    textAlign: "right",
+  },
   emptyWrap: { marginTop: 24, paddingHorizontal: 8 },
   empty: { textAlign: "center", color: colors.title, fontSize: 15, fontWeight: "500" },
   emptyHint: { textAlign: "center", color: colors.lightTitle, fontSize: 12, marginTop: 8 },
