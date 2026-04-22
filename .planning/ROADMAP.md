@@ -31,7 +31,8 @@
 | 项 | 内容 |
 |----|------|
 | **Goal** | **THEME-01** / **A11Y-01**：深色与降低透明度。**LG-01**：在 RN/`expo-blur` 能力边界内，缩小与 **iOS 26 Liquid Glass** 在 **动效、透明度层次、立体感** 上的感知差距（非像素级抄系统）。 |
-| **Canonical spec** | [`.planning/phases/11-chrome-depth/11-MATERIAL-MOTION-SPEC.md`](phases/11-chrome-depth/11-MATERIAL-MOTION-SPEC.md)（基于 WWDC25-219/323 与 Expo Blur 现实的分层方案） |
+| **Canonical spec** | [`.planning/phases/11-chrome-depth/11-MATERIAL-MOTION-SPEC.md`](phases/11-chrome-depth/11-MATERIAL-MOTION-SPEC.md)（本地材质/动效分层；**不含网络能力**） |
+| **非目标** | **不计划** 云同步、在线资源、账号/登录、远程配置等任何联网需求；核心仍为 **本机 SQLite + 本地 UI**。 |
 | **Requirements** | THEME-01, A11Y-01, **LG-01** |
 | **Success criteria** | 1) 深色外观下关键屏可读（THEME-01）。 2) 降低透明度下主路径可完成（A11Y-01）。 3) **LG-01**：按 `11-MATERIAL-MOTION-SPEC` §4 完成 **材质栈 + 动效栈** 中约定的 Tab/顶栏/记一笔 Dock 等 **Tier-1** 改造，或逐项 **Accepted deviation** 记入 Phase 11 `VERIFICATION`；真机 spot-check 无「单层灰雾 Tab」与「线性僵硬」主导体验。 4) `UI-SPEC.md` / `DESIGN.md` 同步偏差说明。 5) `npm run verify` 通过。 |
 

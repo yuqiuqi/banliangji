@@ -21,7 +21,7 @@
 
 ### Liquid Glass 纵深与动效 (LG)
 
-- [ ] **LG-01**: **动效、透明度层次与立体感** 在工程上向 **iOS 26 Liquid Glass** 对齐：遵循 `.planning/phases/11-chrome-depth/11-MATERIAL-MOTION-SPEC.md` 的 **材质分层（blur + tint + 边缘高光 + 随尺度调整的阴影）** 与 **动效分层（Reanimated spring、按压抬升、避免主导线性过渡）**；对 Tab 栏、主列表顶栏、记一笔 Dock/Sheet 等 **Tier-1** 表面验收；无法复刻处须 **Accepted deviation** 并指向官方原则（如 Lensing）与 RN 限制说明。
+- [ ] **LG-01**: **动效、透明度层次与立体感** 在工程上向 **iOS 26 Liquid Glass 取向** 对齐（仅 **本机 UI**，不涉及网络）：遵循 `.planning/phases/11-chrome-depth/11-MATERIAL-MOTION-SPEC.md` 的 **材质分层** 与 **动效分层**；对 Tab 栏、主列表顶栏、记一笔 Dock/Sheet 等 **Tier-1** 表面验收；无法复刻处须 **Accepted deviation** 并说明设计原则（如 Lensing）与 RN/`expo-blur` 限制。
 
 ## Future（本里程碑不做）
 
@@ -34,6 +34,7 @@
 |---------|--------|
 | 新业务能力（新报表类型、社交、账户体系） | v2.3 为质量与系统外观补全 |
 | 替换 SQLite 或改动 `bill_list` 语义 | 仅验证与表现层；schema 变更另开里程碑 |
+| **Phase 11 内任何联网能力**（云同步、在线图库、远程配置、登录注册等） | 与产品 **本地存储核心** 及当前里程碑范围不符；另立里程碑再议 |
 
 ## Traceability
 
