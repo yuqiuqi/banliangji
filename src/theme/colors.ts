@@ -1,33 +1,33 @@
 /**
- * Tesla-inspired tokens — see root `DESIGN.md` (from
- * `npx getdesign@latest add tesla`, https://getdesign.md/tesla/design-md).
- * Light Ash canvas, Carbon chrome, Electric Blue as sole accent, near-zero
- * warm/yellow. Income remains a restrained semantic green for finance clarity.
+ * Bright Tesla-inspired tokens — light chrome (white headers), airy canvas,
+ * saturated blue accent. See root `DESIGN.md` + `08-UI-SPEC.md` for product notes.
  */
 export const colors = {
-  /** Light Ash — screen canvas (Tesla #F4F4F4) */
-  canvas: "#F4F4F4",
-  /** Carbon — nav/header bars, dark chrome (#171A20) */
-  main: "#171A20",
-  /** Text & icons on `main` / dark surfaces */
-  onMain: "#FFFFFF",
-  /** Secondary on dark `main` (Tesla Silver Fog / Pewter range) */
-  onMainSecondary: "#A0A0A0",
-  /** Light Ash / Cloud — strips, alternates */
-  light: "#EEEEEE",
-  /** Pale Silver — hairlines, borders */
-  body: "#D0D1D2",
-  /** Carbon — primary text on light surfaces */
+  /** Near-white screen canvas */
+  canvas: "#FAFAFA",
+  /** Nav / in-screen header bands — bright chrome (no dark top bar) */
+  main: "#FFFFFF",
+  /** Text & icons on `main` (light) surfaces */
+  onMain: "#171A20",
+  /** Secondary on light `main` */
+  onMainSecondary: "#6B7280",
+  /** Strips, alternates */
+  light: "#F0F1F3",
+  /** Hairlines, borders */
+  body: "#E5E7EB",
+  /** Primary text on cards / list */
   title: "#171A20",
-  /** Pewter / Graphite — secondary text on light */
+  /** Secondary on light */
   lightTitle: "#5C5E62",
-  /** Electric Blue — active tab, primary affordances, FAB, progress (Tesla #3E6AE1) */
-  tabbarTint: "#3E6AE1",
-  /** Alias for CTA / emphasis surfaces */
-  accent: "#3E6AE1",
+  /** Brighter blue — tab active, CTA, progress */
+  tabbarTint: "#2563EB",
+  /** Alias for CTA / emphasis */
+  accent: "#2563EB",
   createBody: "#FFFFFF",
-  calculatorBg: "#EEEEEE",
+  calculatorBg: "#F3F4F6",
   white: "#FFFFFF",
-  /** Income / positive — kept for ledger semantics, subdued vs UI accent */
-  income: "#0D6A4A",
+  /** Text on `accent` buttons (e.g. calculator =) */
+  onAccent: "#FFFFFF",
+  /** Income — slightly brighter green for light UI */
+  income: "#059669",
 } as const;

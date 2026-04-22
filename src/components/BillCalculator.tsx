@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   cellTextOnAccent: {
-    color: colors.onMain,
+    color: colors.onAccent,
   },
   pressed: {
     opacity: 0.85,

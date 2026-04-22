@@ -244,9 +244,9 @@ const styles = StyleSheet.create({
     borderRadius: radii.chip,
   },
   segBtn: { flex: 1, paddingVertical: 8, borderRadius: radii.chip, alignItems: "center" },
-  segOn: { backgroundColor: "rgba(255,255,255,0.35)" },
+  segOn: { backgroundColor: "rgba(37, 99, 235, 0.12)" },
   segText: { color: colors.onMain, fontSize: 15 },
-  segTextOn: { fontWeight: "700", color: colors.onMain },
+  segTextOn: { fontWeight: "700", color: colors.accent },
   tabs: { maxHeight: 48, backgroundColor: colors.light, paddingVertical: 8 },
   tabChip: {
     marginHorizontal: 6,

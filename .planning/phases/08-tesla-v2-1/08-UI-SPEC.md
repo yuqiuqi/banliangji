@@ -1,14 +1,29 @@
 ---
 phase: 08
 slug: tesla-v2-1
-status: draft
-preset: tesla-rn
+status: approved
+preset: tesla-bright-rn
 created: 2026-04-22
+updated: 2026-04-22
 ---
 
 # Phase 8 — UI Design Contract（账单 / 查账 / 我的 · V21 · Tesla）
 
-> **平台：** Expo 54 / React Native。在 Phase 5–7 已有 Tesla 主题上，锁定 **V21-01~03** 的导航、查账、我的屏 **布局与文案**，避免执行期现编风格。
+> **平台：** Expo 54 / React Native。在 **明亮 Tesla 变体** 上，锁定 **V21-01~03** 的导航、查账、我的屏 **布局与文案**。
+
+## 颜色契约（`src/theme/colors.ts` 唯一来源，2026-04-22 修订）
+
+| Token | 值 / 说明 |
+|-------|-----------|
+| `canvas` | 浅底 `#FAFAFA`，整体更亮 |
+| `main` | **白** `#FFFFFF` — 顶栏、内部标题带（**不再** 使用深色炭条） |
+| `onMain` / `onMainSecondary` | 深字 `#171A20` / 灰次字 `#6B7280` |
+| `accent` / `tabbarTint` | 饱和蓝 `#2563EB`（比旧 Electric Blue 略亮） |
+| `onAccent` | `#FFFFFF` — 主按钮/强调键上的字 |
+| `income` | `#059669` — 与强调蓝区分，保持可读 |
+| 图表内 **周期 chips** 选中态 | 浅蓝底 `rgba(37,99,235,0.12)`，选中字色 `accent`（见 `ChartScreen`） |
+
+**非目标：** 不回到高饱和暖黄/Clay 主色；不引入第二套主强调色（除收入绿）。
 
 ## 非目标
 
@@ -28,7 +43,7 @@ created: 2026-04-22
 
 ## 顶栏（HomeMain）
 
-- 背景 `colors.main`，标题与图标 `colors.onMain`（与现一致）。  
+- 背景 `colors.main`（白），标题与图标 `colors.onMain`（深，与现 token 一致）。  
 - **左侧**：`calendar-month` → `Calendar`（保留）。  
 - **右侧**（**从左到右**）：`filter-variant`（或 `tune`）→ 导航到 **`BillQuery`**，accessibilityLabel 必须包含子串 `查账` 或 `账单` 之一；`plus-circle-outline` → `CreateBill`（保留）。  
 - 两图标均使用 `headerBtn` 式 hitSlop ≥12。
@@ -60,7 +75,7 @@ created: 2026-04-22
 
 ## 我的（MineTab）
 
-- 顶区：大标题 `我的`，背景 `colors.main`，标题色 `colors.onMain`。  
+- 顶区：大标题 `我的`，背景 `colors.main`（白），标题色 `colors.onMain`（深）。  
 - 至少 **2 个** 可点击区块（`Pressable` + `accessibilityLabel`）：  
   1. **关于** — app 名、Expo 版本、开源说明（可延续现文案方向）。  
   2. **数据与存储** — 说明数据**仅本机** SQLite、无账号同步；**不得** 承诺已上线导出若未实现。  
