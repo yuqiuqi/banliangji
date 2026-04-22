@@ -6,7 +6,7 @@ source:
   - .planning/phases/08-tesla-v2-1/08-02-SUMMARY.md
   - .planning/phases/08-tesla-v2-1/08-VERIFICATION.md
 started: "2026-04-22T12:00:00.000Z"
-updated: "2026-04-22T12:00:00.000Z"
+updated: "2026-04-22T10:15:00.000Z"
 ---
 
 ## Current Test
@@ -24,33 +24,41 @@ awaiting: user response
 
 expected: 见 Current Test；与 `08-VERIFICATION.md` Manual UAT 第 2 条一致。
 
-result: pending
+result: skip
+
+resolution: 与 `08-VERIFICATION.md` §Consistency matrix / §Manual UAT 待设备/待测一致；不声称已真机通过。Phase 10 文档对齐见 `10-persist-uat/10-QA-04-ALIGNMENT.md`。
 
 ### 2. 记一笔 → 明细/账单可见新记录
 
 expected: 从明细顶栏进入「记一笔」，保存一笔**可识别**的测试金额；返回 **明细** 该日 section 应出现；再进 **账单** 单日选同一日，列表应含该条。
 
-result: pending
+result: skip
+
+resolution: 同上（`08-VERIFICATION.md` Manual UAT 第 2 条仍待真机勾选）。
 
 ### 3. 我的 — 关于 / 数据与存储
 
 expected: 切到「我的」Tab；点 **关于** 展开后可见应用名/说明，**不要求**登录；点 **数据与存储** 展开后正文含 **SQLite** 与 **本机/仅本地** 语义，无「云账号注册」强制流程。
 
-result: pending
+result: skip
+
+resolution: 同上（Manual UAT 第 3 条待真机）。
 
 ### 4.（可选）同日数据：Home section 与 BillQuery 单日
 
 expected: 在**同一自然日**；Home 明细里该日 section 的笔数/金额加总，与「账单」单日模式同日的列表加总**一致**（允许你手工对比 1～2 笔）。
 
-result: pending
+result: skip
+
+resolution: 可选项；与 `08-VERIFICATION.md` matrix「待测」一致。真机复测可改为 pass。
 
 ## Summary
 
 total: 4
 passed: 0
 issues: 0
-pending: 4
-skipped: 0
+pending: 0
+skipped: 4
 blocked: 0
 
 ## Gaps

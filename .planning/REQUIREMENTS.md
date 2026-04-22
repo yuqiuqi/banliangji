@@ -12,7 +12,7 @@
 
 ### 质量与验收 (QA)
 
-- [ ] **QA-04**: `.planning/phases/08-*` / `09-*` 下 **UAT** 表中仍为 `pending` 的项，已逐项 **pass / skip（注明理由）/ 与 `09-VERIFICATION` 结论一致**；不存在与验证文档矛盾的「未处理 pending」。
+- [x] **QA-04**: `.planning/phases/08-*` / `09-*` 下 **UAT** 表中仍为 `pending` 的项，已逐项 **pass / skip（注明理由）/ 与 `09-VERIFICATION` 结论一致**；不存在与验证文档矛盾的「未处理 pending」。
 
 ### 系统外观与无障碍 (SYS)
 
@@ -35,7 +35,7 @@
 
 | Requirement | Phase | Status |
 |---------------|-------|--------|
-| DATA-02 | Phase 10 | Pending |
-| QA-04 | Phase 10 | Pending |
+| DATA-02 | Phase 10 | Blocked（见 `DATA-02-SMOKE.md`，待设备补跑） |
+| QA-04 | Phase 10 | Done |
 | THEME-01 | Phase 11 | Pending |
 | A11Y-01 | Phase 11 | Pending |
