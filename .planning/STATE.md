@@ -8,9 +8,9 @@ last_activity: 2026-04-23
 progress:
   total_phases: 1
   completed_phases: 0
-  total_plans: 1
+  total_plans: 2
   completed_plans: 1
-  percent: 100
+  percent: 50
 ---
 
 # Project State
@@ -18,8 +18,8 @@ progress:
 ## Current Position
 
 Phase: **13**（chrome-uat-signoff）— **v2.4 已立项**；范围已扩大为 **副路径四屏** 与 Apple **iOS 26 Liquid Glass** 全量对齐  
-Plan: **`13-01-PLAN.md` 已就绪**（`/gsd-discuss-phase 13 --auto --analyze` + auto plan）  
-Status: **`13-01-PLAN` Wave 1 已落地**（四屏 + `modalScrim` + `npm run verify` 绿）；**手测**见 `13-VERIFICATION.md` 矩阵待勾选
+Plan: **`13-01-PLAN` + `13-02-PLAN`**（Wave 1 实现 · Wave 2 手测与结转收口）  
+Status: **Wave 1 已落地**；**Wave 2** 见 `13-02-PLAN.md`（`autonomous: false`，须设备手测）
 
 - **Phase:** **13** — 见 `.planning/phases/13-chrome-uat-signoff/README.md`  
 - **权威参考：** `.planning/research/IOS26-LIQUID-GLASS-REFERENCE.md`（Apple Developer + HIG 原则）  
