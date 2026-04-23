@@ -22,7 +22,7 @@ import { queryBillsForMonth } from "../db/billRepo";
 import { useReduceMotion } from "../hooks/useReduceMotion";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { radii, shadows } from "../theme/layout";
+import { listContentInset, radii, shadows } from "../theme/layout";
 import { FADE_MS, SPRING } from "../theme/motion";
 import { iosType } from "../theme/typography";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
@@ -36,7 +36,7 @@ function buildBudgetStyles(colors: AppPalette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.canvas },
     headerBanner: {
-      paddingHorizontal: 16,
+      paddingHorizontal: listContentInset,
       backgroundColor: colors.canvas,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.divider,
@@ -44,7 +44,7 @@ function buildBudgetStyles(colors: AppPalette) {
     headerTitle: { ...iosType.largeTitle, color: colors.title },
     headerSub: { marginTop: 4, ...iosType.footnote, color: colors.lightTitle },
     scroll: { paddingTop: 16, paddingBottom: 32 },
-    cardInner: { padding: 16 },
+    cardInner: { padding: listContentInset },
     row: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
     label: { fontSize: 15, color: colors.lightTitle },
     amount: { fontSize: 17, fontWeight: "600", color: colors.title },
@@ -75,7 +75,7 @@ function buildBudgetStyles(colors: AppPalette) {
       marginTop: 16,
       alignSelf: "flex-start",
       paddingVertical: 10,
-      paddingHorizontal: 16,
+      paddingHorizontal: listContentInset,
       borderRadius: radii.card,
       backgroundColor: colors.surface,
       borderWidth: StyleSheet.hairlineWidth,

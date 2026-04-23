@@ -13,13 +13,14 @@ import { GroupedInset } from "../components/ios";
 import { SpringPressable } from "../components/SpringPressable";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
+import { listContentInset } from "../theme/layout";
 import { iosType } from "../theme/typography";
 
 function buildMineStyles(colors: AppPalette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.canvas },
     headerBanner: {
-      paddingHorizontal: 16,
+      paddingHorizontal: listContentInset,
       backgroundColor: colors.canvas,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.divider,

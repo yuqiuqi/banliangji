@@ -1,14 +1,7 @@
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  type LayoutChangeEvent,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View, type LayoutChangeEvent } from "react-native";
 import Animated, {
   cancelAnimation,
   FadeInDown,
@@ -33,7 +26,7 @@ import { queryAllBills } from "../db/billRepo";
 import type { ChartGranularity } from "../types/models";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { radii, shadows } from "../theme/layout";
+import { listContentInset, radii, shadows } from "../theme/layout";
 import { FADE_MS, SPRING } from "../theme/motion";
 import {
   chartMonthPeriods,
@@ -48,9 +41,6 @@ import { useReduceMotion } from "../hooks/useReduceMotion";
 import type { RootTabParamList } from "../navigation/types";
 import { hapticSelect } from "../utils/haptics";
 
-const PAGE_H_PAD = 16;
-const CHART_W = Dimensions.get("window").width - 64;
-
 const GRAN_ORDER = ["week", "month", "year"] as const;
 const LIST_STAGGER_MAX = 12;
 
@@ -59,7 +49,7 @@ function buildChartStyles(colors: AppPalette) {
     safe: { flex: 1, backgroundColor: colors.canvas },
     pageScroll: { paddingBottom: 40 },
     pageTop: { paddingTop: 8 },
-    paddedRow: { paddingHorizontal: PAGE_H_PAD },
+    paddedRow: { paddingHorizontal: listContentInset },
     segBar: {
       flexDirection: "row",
       backgroundColor: colors.tertiaryFill,
@@ -74,7 +64,7 @@ function buildChartStyles(colors: AppPalette) {
     segText: { color: colors.onMain, fontSize: 15 },
     segTextOn: { fontWeight: "600", color: colors.accent },
     tabs: { maxHeight: 52, marginTop: 10 },
-    tabsInner: { paddingVertical: 8, alignItems: "center", paddingHorizontal: PAGE_H_PAD },
+    tabsInner: { paddingVertical: 8, alignItems: "center", paddingHorizontal: listContentInset },
     tabChip: {
       marginRight: 8,
       paddingHorizontal: 14,
@@ -97,7 +87,7 @@ function buildChartStyles(colors: AppPalette) {
     sectionTitle: {
       marginTop: 20,
       marginBottom: 8,
-      marginHorizontal: 16,
+      marginHorizontal: listContentInset,
       fontSize: 15,
       fontWeight: "600",
       color: colors.title,
@@ -105,7 +95,7 @@ function buildChartStyles(colors: AppPalette) {
     sectionTitleSpaced: {
       marginTop: 20,
       marginBottom: 8,
-      marginHorizontal: 16,
+      marginHorizontal: listContentInset,
       fontSize: 15,
       fontWeight: "600",
       color: colors.title,
@@ -129,6 +119,8 @@ function buildChartStyles(colors: AppPalette) {
     chartPlot: {
       marginTop: 12,
       position: "relative",
+      width: "100%",
+      alignSelf: "stretch",
     },
     chartBaseline: {
       position: "absolute",
@@ -143,10 +135,12 @@ function buildChartStyles(colors: AppPalette) {
       flexDirection: "row",
       alignItems: "flex-end",
       height: 152,
-      width: CHART_W,
+      width: "100%",
+      alignSelf: "stretch",
       justifyContent: "space-between",
+      columnGap: 4,
     },
-    barCol: { flex: 1, alignItems: "center", marginHorizontal: 1 },
+    barCol: { flex: 1, minWidth: 0, alignItems: "center" },
     /** 支出趋势柱 — Phase 15：语义色 expense（15-UI-SPEC），非装饰 accent */
     bar: {
       width: 12,

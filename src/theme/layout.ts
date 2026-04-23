@@ -7,6 +7,11 @@ import { lightPalette } from "./palette";
 /** iOS 分组列表行水平 inset — 与 `GroupedInset` 内列表左/右对齐 */
 export const listContentInset = 16;
 
+/** 屏宽减去与 `GroupedInset` 一致的左右外边距后的可用宽度（日历宫格、全宽横条等） */
+export function insetContentWidth(windowWidth: number): number {
+  return Math.max(0, windowWidth - listContentInset * 2);
+}
+
 /** 垂直节奏（`15-UI-SPEC`）— 列表与分组块之间 margin */
 export const sectionGapTight = 16;
 export const sectionGapComfort = 24;

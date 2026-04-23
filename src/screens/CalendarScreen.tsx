@@ -2,7 +2,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useCallback, useMemo, useState } from "react";
-import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoryIcon } from "../components/CategoryIcon";
 import { SpringPressable } from "../components/SpringPressable";
@@ -12,7 +12,7 @@ import { groupBillsByDayKey, queryBillsForMonth } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { radii, shadows } from "../theme/layout";
+import { insetContentWidth, listContentInset, radii, shadows } from "../theme/layout";
 import type { Bill } from "../types/models";
 import {
   addCalendarMonth,
@@ -23,13 +23,11 @@ import {
 } from "../utils/dates";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
 
-const DAY_CELL = Dimensions.get("window").width / 7;
-
 function buildCalendarStyles(colors: AppPalette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.canvas },
     gridCard: {
-      marginHorizontal: 16,
+      marginHorizontal: listContentInset,
       marginTop: 8,
       borderRadius: radii.card,
       backgroundColor: colors.surface,
@@ -39,7 +37,7 @@ function buildCalendarStyles(colors: AppPalette) {
     },
     listCard: {
       flex: 1,
-      marginHorizontal: 16,
+      marginHorizontal: listContentInset,
       marginTop: 12,
       marginBottom: 8,
       borderRadius: radii.card,
@@ -77,7 +75,7 @@ function buildCalendarStyles(colors: AppPalette) {
     row: {
       flexDirection: "row",
       alignItems: "center",
-      paddingHorizontal: 16,
+      paddingHorizontal: listContentInset,
       paddingVertical: 10,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.divider,
@@ -98,9 +96,12 @@ function buildCalendarStyles(colors: AppPalette) {
 }
 
 export function CalendarScreen(): React.ReactElement {
+  const { width: windowWidth } = useWindowDimensions();
   const { colors } = useAppTheme();
   const styles = useMemo(() => buildCalendarStyles(colors), [colors]);
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+  /** 与 `gridCard` 外边距一致，保证 7 列铺满卡片内宽 */
+  const dayCellSize = useMemo(() => insetContentWidth(windowWidth) / 7, [windowWidth]);
   const { generation, refresh } = useBillsRefresh();
   const [month, setMonth] = useState(() => new Date());
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
@@ -159,7 +160,9 @@ export function CalendarScreen(): React.ReactElement {
         <View style={styles.grid}>
           {cells.map((d, idx) => {
             if (d === null) {
-              return <View key={`e-${idx}`} style={[styles.dayCell, { width: DAY_CELL, height: DAY_CELL }]} />;
+              return (
+                <View key={`e-${idx}`} style={[styles.dayCell, { width: dayCellSize, height: dayCellSize }]} />
+              );
             }
             const key = formatBillDayKey(d);
             const has = (byDay.get(key)?.length ?? 0) > 0;
@@ -167,7 +170,11 @@ export function CalendarScreen(): React.ReactElement {
             return (
               <SpringPressable
                 key={key}
-                style={[styles.dayCell, { width: DAY_CELL, height: DAY_CELL }, sel ? styles.daySel : null]}
+                style={[
+                  styles.dayCell,
+                  { width: dayCellSize, height: dayCellSize },
+                  sel ? styles.daySel : null,
+                ]}
                 onPress={() => {
                   setSelectedKey(key);
                   refresh();

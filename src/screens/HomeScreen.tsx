@@ -15,7 +15,7 @@ import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
 import { useReduceMotion } from "../hooks/useReduceMotion";
 import { useAppTheme } from "../theme/ThemeContext";
-import { headerFabIconSize, headerFabSize, shadows } from "../theme/layout";
+import { headerFabIconSize, headerFabSize, listContentInset, shadows } from "../theme/layout";
 import { iosType } from "../theme/typography";
 import type { Bill } from "../types/models";
 import {
@@ -65,7 +65,7 @@ function buildHomeScreenStyles(colors: AppPalette) {
     },
     headerLeft: {
       width: 110,
-      paddingLeft: 16,
+      paddingLeft: listContentInset,
       paddingVertical: 8,
       justifyContent: "center",
     },
@@ -83,14 +83,14 @@ function buildHomeScreenStyles(colors: AppPalette) {
     statValue: { ...iosType.body, fontWeight: "300", color: colors.onMain, marginTop: 4 },
     sectionHead: {
       backgroundColor: colors.light,
-      paddingHorizontal: 16,
+      paddingHorizontal: listContentInset,
       paddingVertical: 8,
     },
     sectionTitle: { ...iosType.footnote, color: colors.lightTitle },
     row: {
       flexDirection: "row",
       alignItems: "center",
-      paddingHorizontal: 16,
+      paddingHorizontal: listContentInset,
       paddingVertical: 12,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.divider,

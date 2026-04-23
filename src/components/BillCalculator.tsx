@@ -4,7 +4,7 @@ import { Platform, StyleSheet, Text, View } from "react-native";
 import { SpringPressable } from "./SpringPressable";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { radii, shadows } from "../theme/layout";
+import { listContentInset, radii, shadows } from "../theme/layout";
 import { formatAmountDisplay } from "../utils/money";
 
 type Operate = "add" | "less" | "del";
@@ -81,7 +81,7 @@ function buildCalcStyles(colors: AppPalette) {
     displayRow: {
       minHeight: 52,
       justifyContent: "center",
-      paddingHorizontal: 16,
+      paddingHorizontal: listContentInset,
       paddingVertical: 6,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.divider,
@@ -93,17 +93,20 @@ function buildCalcStyles(colors: AppPalette) {
       color: colors.title,
     },
     grid: {
-      paddingHorizontal: 12,
+      paddingHorizontal: listContentInset,
       paddingTop: 10,
       paddingBottom: 16,
       gap: KEY_ROW_GAP,
     },
     gridRow: {
       flexDirection: "row",
+      width: "100%",
+      alignSelf: "stretch",
       gap: KEY_COL_GAP,
     },
     cell: {
       flex: 1,
+      minWidth: 0,
       height: 54,
       alignItems: "center",
       justifyContent: "center",

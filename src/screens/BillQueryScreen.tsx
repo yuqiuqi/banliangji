@@ -13,7 +13,7 @@ import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
 import type { Bill } from "../types/models";
-import { radii, shadows } from "../theme/layout";
+import { listContentInset, radii, shadows } from "../theme/layout";
 import { getRangeFromInclusiveStartEndDay } from "../utils/billTimeRange";
 import { formatTimeShort } from "../utils/dates";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
@@ -24,12 +24,12 @@ function buildBillQueryStyles(colors: AppPalette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.canvas },
     segmentWrap: {
-      marginHorizontal: 16,
+      marginHorizontal: listContentInset,
       marginTop: 8,
       marginBottom: 4,
     },
     dateBar: {
-      marginHorizontal: 16,
+      marginHorizontal: listContentInset,
       marginBottom: 8,
       padding: 12,
       backgroundColor: colors.surface,
@@ -43,7 +43,7 @@ function buildBillQueryStyles(colors: AppPalette) {
     dateBarValue: { color: colors.title, fontSize: 16, fontWeight: "500" },
     rangeRow: {
       flexDirection: "row",
-      marginHorizontal: 16,
+      marginHorizontal: listContentInset,
       marginBottom: 8,
       alignItems: "center",
     },
@@ -57,8 +57,8 @@ function buildBillQueryStyles(colors: AppPalette) {
     },
     rangeSmall: { fontSize: 11, color: colors.lightTitle },
     rangeVal: { fontSize: 15, color: colors.title, marginTop: 4, fontWeight: "500" },
-    hint: { marginHorizontal: 16, marginBottom: 4, color: colors.lightTitle, fontSize: 13 },
-    errText: { marginHorizontal: 16, color: colors.title, fontSize: 14 },
+    hint: { marginHorizontal: listContentInset, marginBottom: 4, color: colors.lightTitle, fontSize: 13 },
+    errText: { marginHorizontal: listContentInset, color: colors.title, fontSize: 14 },
     listInset: {
       flex: 1,
       marginBottom: 16,
@@ -67,7 +67,7 @@ function buildBillQueryStyles(colors: AppPalette) {
     row: {
       flexDirection: "row",
       alignItems: "center",
-      paddingHorizontal: 16,
+      paddingHorizontal: listContentInset,
       paddingVertical: 12,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.divider,

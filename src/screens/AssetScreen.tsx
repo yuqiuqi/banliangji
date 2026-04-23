@@ -24,7 +24,7 @@ import {
 import { useReduceMotion } from "../hooks/useReduceMotion";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { radii, shadows } from "../theme/layout";
+import { listContentInset, radii, shadows } from "../theme/layout";
 import { FADE_MS, SPRING } from "../theme/motion";
 import { iosType } from "../theme/typography";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
@@ -36,7 +36,7 @@ function buildAssetStyles(colors: AppPalette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.canvas },
     headerBanner: {
-      paddingHorizontal: 16,
+      paddingHorizontal: listContentInset,
       backgroundColor: colors.canvas,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.divider,
@@ -44,13 +44,13 @@ function buildAssetStyles(colors: AppPalette) {
     headerTitle: { ...iosType.largeTitle, color: colors.title },
     headerSub: { marginTop: 4, ...iosType.caption1, color: colors.lightTitle },
     listPad: { paddingTop: 16, paddingBottom: 32, flexGrow: 1 },
-    cardInner: { padding: 16 },
+    cardInner: { padding: listContentInset },
     row: {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
       paddingVertical: 14,
-      paddingHorizontal: 16,
+      paddingHorizontal: listContentInset,
     },
     rowBorder: {
       borderBottomWidth: StyleSheet.hairlineWidth,
