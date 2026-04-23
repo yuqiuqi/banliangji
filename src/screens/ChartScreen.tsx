@@ -58,7 +58,7 @@ function buildChartStyles(colors: AppPalette) {
     segBtn: { flex: 1, paddingVertical: 8, borderRadius: radii.chip, alignItems: "center" },
     segOn: { backgroundColor: colors.accentSelection },
     segText: { color: colors.onMain, fontSize: 15 },
-    segTextOn: { fontWeight: "700", color: colors.accent },
+    segTextOn: { fontWeight: "600", color: colors.accent },
     tabs: { maxHeight: 52, marginTop: 10 },
     tabsInner: { paddingVertical: 8, alignItems: "center", paddingHorizontal: PAGE_H_PAD },
     tabChip: {
@@ -78,7 +78,7 @@ function buildChartStyles(colors: AppPalette) {
     tabChipTextOn: { color: colors.accent, fontWeight: "600" },
     kpiInner: { padding: 16 },
     kpiLabel: { fontSize: 12, color: colors.lightTitle, marginBottom: 4, letterSpacing: 0.3 },
-    kpiValue: { fontSize: 30, fontWeight: "700", color: colors.title },
+    kpiValue: { fontSize: 30, fontWeight: "600", color: colors.title },
     kpiHint: { fontSize: 12, color: colors.lightTitle, marginTop: 8 },
     sectionTitle: {
       marginTop: 20,

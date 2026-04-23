@@ -263,8 +263,9 @@ export function AssetScreen(): React.ReactElement {
                 onPress={save}
                 style={({ pressed }) => [styles.modalSave, pressed ? { opacity: pressedOpacity } : null]}
                 accessibilityRole="button"
+                accessibilityLabel="保存账户"
               >
-                <Text style={styles.modalSaveText}>保存</Text>
+                <Text style={styles.modalSaveText}>保存账户</Text>
               </Pressable>
             </View>
           </View>
