@@ -46,8 +46,18 @@ completed: 2026-04-23
 
 ## Self-Check
 
-- `npm run verify`：**PASSED**（2026-04-23）
+- `npm run verify`：**PASSED**（2026-04-23；初版收口）
+- `npm run verify`：**PASSED**（2026-04-23 — **`--wave 2` 重跑后**）
 
 ## Deviations
 
 - **human-verify** 任务未在 Agent 环境执行 — 符合「不伪造 PASS」约束。
+
+---
+
+## Wave 2 重跑（`/gsd-execute-phase 12 --wave 2` · 2026-04-23）
+
+- **任务 1（human-verify）：** 仍为 **BLOCKED**；Agent 不代替划掉 App；`DATA-02-SMOKE` 已补取证计划第 **4** 条（执行人 / 日期占位 + 逾期升级提示）。
+- **任务 2（REQUIREMENTS/STATE）：** 与 **BLOCKED** 一致，无需改勾选；**STATE** 页脚已更新为本轮执行说明。
+- **任务 3（01-VERIFICATION）：** **跳过**（非 PASS）。
+- **`npm run verify`：** 见本节下方 Self-Check 时间戳。
