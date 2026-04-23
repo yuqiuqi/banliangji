@@ -70,7 +70,7 @@ Phase 10 is a critical **Quality Gate** phase. It shifts focus from "feature dev
 **建议：** 网络稳定后在本机重试：
 
 ```bash
-cd /path/to/SwiftCostRN && codex exec --skip-git-repo-check -s read-only - < /tmp/gsd-review-prompt-10.md
+cd /path/to/banliangji && codex exec --skip-git-repo-check -s read-only - < /tmp/gsd-review-prompt-10.md
 ```
 
 或在 `10-REVIEWS.md` 中手工补写 Codex 段落后再 `/gsd-plan-phase 10 --reviews`。

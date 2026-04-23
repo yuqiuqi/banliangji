@@ -1,4 +1,4 @@
-/** 与 Swift `AmountType` 对齐：1 支出，2 收入 */
+/** 账单类型：1 支出，2 收入 */
 export type BillAmountKind = 1 | 2;
 
 export interface Bill {

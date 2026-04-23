@@ -1,5 +1,5 @@
 ---
-phase: 07-shark-v2
+phase: 07-chart-polish-v2
 plan: 02
 subsystem: ui
 tags: [react-native, animated, chart]

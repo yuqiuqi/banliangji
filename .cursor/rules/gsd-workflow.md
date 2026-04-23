@@ -1,9 +1,9 @@
 <!-- gsd-project-start source:PROJECT.md -->
 ## Project
 
-**SwiftCostRN**
+**半两记**
 
-基于 [IANIx/SwiftCost](https://github.com/IANIx/SwiftCost) 的 **React Native（Expo）复刻版**：本地 SQLite 记账、按月明细、记一笔（含计算器）、日历、图表（周/月/年支出聚合）与账单详情/编辑/删除。面向需要在 iOS/Android 上获得与原版相近体验、同时采用现代 TS 技术栈的开发者与用户。
+**React Native（Expo）** 离线记账应用：本地 SQLite 记账、按月明细、记一笔（含计算器）、日历、图表（周/月/年支出聚合）与账单详情/编辑/删除。面向需要在 iOS/Android 上获得稳定离线记账体验、同时采用现代 TS 技术栈的开发者与用户。
 
 **Core Value:** **离线可用的「记一笔 → 立刻在明细/日历/图表中看到」闭环必须稳定可靠**；数据仅存本机、可预期、可维护。
 
@@ -11,7 +11,7 @@
 
 - **Tech stack**：保持 Expo 托管工作流；原生模块需与当前 SDK 兼容。
 - **Type safety**：不引入 `any`；JSON 边界用显式类型与断言。
-- **Data**：SQLite 文件名 `main.db`，表 `bill_list`，与参考实现对齐以便心智模型一致。
+- **Data**：SQLite 文件名 `main.db`，表 `bill_list`；字段语义以本仓库 DDL 与类型定义为准。
 <!-- gsd-project-end -->
 
 <!-- gsd-stack-start source:STACK.md -->

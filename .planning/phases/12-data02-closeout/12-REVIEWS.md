@@ -174,3 +174,14 @@ Two independent reviewers agree that **12-01 → 12-02 ordering** is sound and t
 ## Next Step
 
 将本文件反馈纳入修订：`/gsd-plan-phase 12 --reviews`（或手工把 **Consensus** 与 **Codex HIGH** 项并入下一轮 PLAN 修订）。
+
+---
+
+## Replan log（`/gsd-plan-phase 12 --reviews` · 2026-04-23）
+
+已并入 **Consensus / Codex HIGH** 项：
+
+- **`12-CONTEXT.md`**：`Result:` canonical、**计划已执行** vs **证据闭合**、ROADMAP 快照措辞、平台范围、逾期升级路径。
+- **`12-01-PLAN.md`**：明确不闭合 DATA-02；`10-VERIFICATION` 须含「未完成」与 verify 非替代；Sign-off 与 `BLOCKED` 语义；acceptance 可 grep。
+- **`12-02-PLAN.md`**：`must_haves` 拆分完成语义；human-verify 补平台范围、FAIL 笔记字段、BLOCKED 升级；Traceability **Phase 12** 统一；可选 `01-VERIFICATION` 标为非阻塞。
+- **`10-VERIFICATION.md`**：新增 **DATA-02 验证完备性** 小节 + Sign-off 下 **BLOCKED 镜像** 说明（与修订后 `12-01` acceptance 对齐）。

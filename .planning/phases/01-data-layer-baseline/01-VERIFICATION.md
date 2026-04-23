@@ -8,15 +8,15 @@ verified_at: "2026-04-21"
 
 ## Phase goal（ROADMAP）
 
-确认持久化层与参考模型一致，并建立可重复的本地验证步骤。
+确认持久化层契约稳定，并建立可重复的本地验证步骤。
 
 ## Requirement coverage
 
 | ID | Evidence |
 |----|----------|
-| DATA-01 | `01-01-AUDIT.md` 列级对照与 Swift `THomeBillModel` / DDL 一致；`Required actions: None` |
+| DATA-01 | `01-01-AUDIT.md` 列级对照与 `database.ts` DDL 一致；`Required actions: None` |
 | DATA-02 | `.planning/PROJECT.md`「数据驻留、备份与手工冒烟」含杀进程/强制关闭四步；**执行层验证**须由人在模拟器/真机按步骤完成 |
-| DATA-03 | AUDIT 引用 `queryBillsInRange` 半开区间，与 Swift `query(start:end:)` 一致 |
+| DATA-03 | AUDIT 引用 `queryBillsInRange` 半开区间，与 `billRepo` 实现一致 |
 
 ## Must-haves（来自 PLAN frontmatter）
 

@@ -1,10 +1,8 @@
-# SwiftCostRN
+# 半两记
 
 ## What This Is
 
-基于 [IANIx/SwiftCost](https://github.com/IANIx/SwiftCost) 的 **React Native（Expo）复刻版**：本地 SQLite 记账、按月明细、记一笔（含计算器）、日历、图表（周/月/年支出聚合）与账单详情/编辑/删除。面向需要在 iOS/Android 上获得与原版相近体验、同时采用现代 TS 技术栈的开发者与用户。
-
-**体验参考（非技术栈）：** [SharkBookProject](https://github.com/MichaelFeng823/SharkBookProject) — 功能与流程可对齐；**不引入 Qt**。**视觉与交互（当前）：** 以 **iOS / iPadOS 26 Chrome** 为 **单一来源**（`DESIGN.md` 首节、`src/theme/colors.ts` 含 `iosSemantic`、`src/components/ios/*`）。v2.1 的 Tesla 向为历史阶段；突破性规格见 `.planning/phases/09-ios26-chrome/09-BREAKTHROUGH-SPEC.md`。
+**React Native（Expo）** 离线记账应用：本地 SQLite 记账、按月明细、记一笔（含计算器）、日历、图表（周/月/年支出聚合）与账单详情/编辑/删除。**产品体验**按 **半两记自有规格** 从头设计：主路径、信息密度与动效均以 **iOS / iPadOS 26 Chrome + Liquid Glass** 为 **唯一视觉来源**（`DESIGN.md` 首节、`src/theme/colors.ts` 的 `iosSemantic`、`src/components/ios/*`）。v2.1 的 Tesla 主题为历史存档，不再代表当前主视觉；突破性规格见 `.planning/phases/09-ios26-chrome/09-BREAKTHROUGH-SPEC.md`。
 
 ## Core Value
 
@@ -33,7 +31,7 @@
 
 ### Validated
 
-- [x] **Phase 1 — 数据层基线**：`bill_list` / `main.db` 与 Swift 参考模型对齐；本地驻留与冒烟步骤见「数据驻留、备份与手工冒烟」。
+- [x] **Phase 1 — 数据层基线**：`bill_list` / `main.db` 工程契约稳定、可审计；本地驻留与冒烟步骤见「数据驻留、备份与手工冒烟」。
 - [x] **Phase 2 — 核心用户流程**：明细 / 记一笔 / 详情 / 编辑 / 删除 / 日历主路径 UAT（见 `.planning/phases/02-core-user-flow-uat/`）。
 - [x] **v2.0 里程碑（Phase 3–7）**：CHART/QA/REF-01~04 等已收束（见 `MILESTONES.md` / 各相 `*SUMMARY.md`）。
 - [x] **v2.1（Phase 8）— 账单流 · 查账 · 我的**：V21-01～03、V21Q-01（账单子流、按日/区间查账、本地我的；当时 UI 为 Tesla，已由 v2.2 覆盖为 iOS 26 Chrome）。
@@ -50,15 +48,15 @@
 ### Out of Scope
 
 - **服务端同步 / 多设备云备份** — 本里程碑不承诺；与 Core Value 冲突的能力须单独 REQ。
-- **像素级复刻** SharkBook / Qt / 资源图。
+- **像素级抄屏** 任意第三方 App / 私有设计稿（除非明确列为 Accepted deviation）。
 - **发现页、通讯录、网络图库、万年历 API** 等（见 `REF-OPTIONAL` / backlog）。
 - **云登录/注册为多用户账号体系** — v2.1 默认不做；若产品坚持，另里程碑 + 威胁模型 + 网络策略。
 
 ## Context
 
-- 工作区上级目录可含参考克隆 `SwiftCost/`；RN 实现在本仓库 `src/`。
+- 实现代码与产品契约以本仓库 `src/` 与根目录 `UI-SPEC.md` / `DESIGN.md` 为准。
 - 技术栈：Expo SDK 54、React 19、React Navigation、expo-sqlite、date-fns、`@react-native-community/datetimepicker`。
-- 类别数据源自原版 `data.plist` → `assets/categories.json`。
+- 类别数据源自种子 `data.plist` → `assets/categories.json`。
 
 ## Constraints
 

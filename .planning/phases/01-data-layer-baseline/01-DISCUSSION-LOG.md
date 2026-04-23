@@ -60,7 +60,7 @@
 | B | 改为毫秒或其他约定 | |
 
 **User's choice:** A  
-**Notes:** 与 Swift `timeIntervalSince1970` 对齐。
+**Notes:** 时间戳统一为 Unix 秒，与业务层解析约定对齐。
 
 ---
 

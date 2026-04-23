@@ -8,9 +8,9 @@
 
 | Planned touch / review | Closest analog | Role |
 |------------------------|----------------|------|
-| `src/db/database.ts` | Swift `THomeBillModel.createTable()` + `TDataManager` | DDL、`main.db` 文件名 |
-| `src/db/billRepo.ts` | Swift `THomeBillModel` CRUD / GRDB 查询 | 全部 SQL 与区间语义 |
-| `src/types/models.ts` | Swift `THomeBillModel` 字段 | `Bill` / `BillRow` 与可空列 |
+| `src/db/database.ts` | DDL 与 `main.db` 初始化 | `CREATE TABLE bill_list` |
+| `src/db/billRepo.ts` | 全部 CRUD / 区间查询 SQL | 半开区间、`rowToBill` |
+| `src/types/models.ts` | `Bill` / `BillRow` 类型 | 与 DDL 列语义一致 |
 
 ## Conventions to mirror
 

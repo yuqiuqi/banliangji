@@ -6,7 +6,7 @@
 <domain>
 ## Phase Boundary
 
-对标 SharkBook 的 **预算** 与 **资产管家** 子模块，在本仓库内交付 **MVP 可离线验收** 能力（`REQUIREMENTS.md` **REF-01 / REF-02**）：用户能设 **至少一种** 预算周期并看到 **进度**；能维护 **至少一个** 资产账户并看到 **余额或快照**；与现有 `bill_list` **schema 不破坏兼容**，迁移策略写入 `PROJECT.md` 或极短 ADR。  
+为 **半两记** 增加 **预算** 与 **资产** 子模块的 **MVP 可离线验收** 能力（`REQUIREMENTS.md` **REF-01 / REF-02**）：用户能设 **至少一种** 预算周期并看到 **进度**；能维护 **至少一个** 资产账户并看到 **余额或快照**；与现有 `bill_list` **schema 不破坏兼容**，迁移策略写入 `PROJECT.md` 或极短 ADR。  
 
 **不在本 phase：** 云同步、多用户、发现页/网络 API、自动对账式「资产↔账单」联动、Phase 6/7 级全局动效与图表表现层精研（仅要求 Clay 一致、功能可测）。
 
@@ -30,7 +30,7 @@
 - **D-S02:** 在 **`PROJECT.md` Key Decisions** 或 **`.planning/` 下 1 页 ADR** 写清：新表职责、与 `bill_list` 关系、回滚/备份提示（满足 ROADMAP Success #3）。
 
 ### 导航与信息架构
-- **D-N01:** **底部 Tab 增加「预算」「资产」**，与 SharkBook「子模块」心智一致；建议顺序：**明细 → 图表 → 预算 → 资产 → 我的**（实现可在 `RootNavigator` / `RootTabParamList` 扩展）。若 5 Tab 过于拥挤，**Claude's Discretion** 可改为「预算｜资产」**单 Tab 内分段控件**，但 **默认推荐双独立 Tab** 以降低 MVP 交互深度。
+- **D-N01:** **底部 Tab 增加「预算」「资产」**，作为半两记核心能力入口；建议顺序：**明细 → 图表 → 预算 → 资产 → 我的**（实现可在 `RootNavigator` / `RootTabParamList` 扩展）。若 5 Tab 过于拥挤，**Claude's Discretion** 可改为「预算｜资产」**单 Tab 内分段控件**，但 **默认推荐双独立 Tab** 以降低 MVP 交互深度。
 - **D-N02:** 新屏使用与 Phase 2 一致的 **Clay**（`DESIGN.md`、`src/theme/colors.ts`）；**不**以 Phase 6 动效标准为 blocker。
 
 ### Claude's Discretion
@@ -49,7 +49,7 @@
 - `.planning/PROJECT.md` — Core Value、Out of Scope、数据与备份说明
 - `.planning/ROADMAP.md` — Phase 5 Goal、Success Criteria、Plans 05-01 / 05-02
 - `.planning/REQUIREMENTS.md` — **REF-01**、**REF-02**
-- `.planning/research/SHARKBOOK-SUMMARY.md` — 预算/资产融合方向（只读参考）
+- `.planning/research/V2-CAPABILITY-BLUEPRINT.md` — v2 能力蓝图（只读）
 
 ### 前序阶段（已锁定）
 - `.planning/phases/01-data-layer-baseline/01-CONTEXT.md` — 数据层边界
@@ -87,7 +87,7 @@
 <specifics>
 ## Specific Ideas
 
-- 体验参考：**SharkBook README** 中预算 / 资产为 **独立子模块**；本仓库以 **离线 SQLite** 实现，不引入 Qt。
+- 预算 / 资产在半两记中为 **独立 Tab 子模块**；以 **离线 SQLite** 实现，保持 Expo / RN 交付栈。
 - 超支提示需「可辨别」（REF-01）：至少 **色 + 文案**，不必上复杂动效。
 
 </specifics>

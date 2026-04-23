@@ -2,23 +2,23 @@
 phase: 01-data-layer-baseline
 plan: "01"
 subsystem: database
-tags: [sqlite, expo-sqlite, swift-parity, audit]
+tags: [sqlite, expo-sqlite, schema-audit, audit]
 
 requires: []
 provides:
-  - "01-01-AUDIT.md — Swift THomeBillModel ↔ RN bill_list 对照（含 nullability、amount、日界）"
+  - "01-01-AUDIT.md — bill_list 列级审计（含 nullability、amount、日界）"
 affects: ["phase-02-uat", "phase-03-charts"]
 
 tech-stack:
   added: []
-  patterns: ["审计文档驱动对齐参考实现"]
+  patterns: ["审计文档驱动对齐工程契约"]
 
 key-files:
   created: [".planning/phases/01-data-layer-baseline/01-01-AUDIT.md"]
   modified: []
 
 key-decisions:
-  - "与 Swift 一致：amount 为 TEXT/String?；billTime 区间为半开；月起止用本地 Date 构造"
+  - "amount 为 TEXT；billTime 区间为半开；月起止用本地 Date 构造"
 
 patterns-established:
   - "字段对照表含 nullability 列，减少 UI 层 null 崩溃盲区"
@@ -31,7 +31,7 @@ completed: 2026-04-21
 
 # Phase 1 Plan 01-01 Summary
 
-**产出可复查的 bill_list 审计文档，确认 RN 与 Swift 在列、可空与区间语义上对齐；未改业务代码（Required actions: None）。**
+**产出可复查的 bill_list 审计文档，确认 DDL / TS 模型在列、可空与区间语义上对齐；未改业务代码（Required actions: None）。**
 
 ## Performance
 
@@ -52,7 +52,7 @@ completed: 2026-04-21
 
 ## Files Created/Modified
 
-- `.planning/phases/01-data-layer-baseline/01-01-AUDIT.md` — Swift ↔ RN 数据层对照与 Required actions
+- `.planning/phases/01-data-layer-baseline/01-01-AUDIT.md` — 数据层列级审计与 Required actions
 
 ## Deviations
 

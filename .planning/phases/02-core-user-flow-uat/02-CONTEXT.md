@@ -25,8 +25,8 @@
 - **D-05:** 执行顺序：**02-01 走查列问题 → 02-02 先修 P0/P1 功能与导航 → 02-03 复测**；UI/Clay 收敛与缺陷修复 **同一波提交可交错**，但 **崩溃、阻塞流程、错误数据** 永远优先于纯视觉。
 - **D-06:** UAT 记录格式：**Markdown 表格或编号列表** 即可（路径、步骤、预期、实际、严重级别、关联 commit/PR）；**不**强制新工具，与 Phase 1「文档 + 手工」文化一致。
 
-### 与参考 Swift 的关系
-- **D-07:** 流程与信息架构仍以 **Swift 参考 App** 为「流程等价」对照；**视觉**以 **Clay + 当前 RN 实现** 为准，**不**要求像素级复刻 UIKit（与 `PROJECT.md` Out of Scope 一致）。
+### 流程与信息架构的权威来源
+- **D-07:** 主路径与 IA 以 **`REQUIREMENTS.md` FEAT**、本阶段 UAT 与 `PROJECT.md` 为准；**视觉**以 **Clay + 当前 RN 实现** 收敛，**不**以任何外部 App 为流程或像素母版。
 
 ### Claude's Discretion
 - 各屏幕上 **具体** 圆角数值（10–16px 区间微调）、分隔线用 `hairlineWidth` 还是 1px 实线、阴影在 Android/iOS 上的统一写法。
@@ -60,9 +60,6 @@
 ### 前序阶段
 - `.planning/phases/01-data-layer-baseline/01-CONTEXT.md` — 数据与时间语义等已锁定决策
 - `.planning/phases/01-data-layer-baseline/01-01-AUDIT.md` — 持久化字段与查询语义（调试时对照）
-
-### 参考实现（流程，只读）
-- `../SwiftCost/TestSwiftDemo/` — 原版流程与信息架构对照（路径相对工作区上级 `SwiftCost`）
 
 </canonical_refs>
 

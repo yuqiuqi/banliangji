@@ -1,6 +1,6 @@
 ---
 phase: 07
-slug: shark-v2
+slug: chart-polish-v2
 status: approved
 preset: clay-rn
 created: 2026-04-22
@@ -10,11 +10,11 @@ updated: 2026-04-22
 # Phase 7 — UI Design Contract（图表 Tab 表现层 / REF-03）
 
 > **平台：** Expo 54 / React Native。**仅** 图表 **内部** 表现层；数据层见 Phase 3；壳层见 Phase 6。  
-> **目标：** 在 **CHART-01/02** 数字不变前提下，将图表 Tab 从「可读的默认样式」提升为**有分区、有节奏、有金融 App 通识**的界面：对标**市面成熟记账 / 钱夹类**产品的信息结构（**非**像素级复刻、**非**新重型图表库为默认）。
+> **目标：** 在 **CHART-01/02** 数字不变前提下，将图表 Tab 从「可读的默认样式」提升为**有分区、有节奏、一眼读懂**的 **半两记** 图表体验（**非**抄第三方整屏、**非**默认引入新重型图表库）。
 
 ---
 
-## 1. 设计对照（通识，非复刻源）
+## 1. 设计原则（半两记原生，非外部抄屏）
 
 | 通识 | 代表方向 | 本 Tab 的提取 |
 |------|-----------|---------------|
@@ -149,4 +149,4 @@ Declared values（4 的倍数，允许 ±2 在柱宽上微调）:
 
 ---
 
-*Phase: 07-shark-v2 · UI contract for REF-03 (updated for chart polish + market patterns)*
+*Phase: 07-chart-polish-v2 · UI contract for REF-03 (updated for chart polish + market patterns)*

@@ -1,5 +1,5 @@
 ---
-phase: 07-shark-v2
+phase: 07-chart-polish-v2
 plan: 01
 subsystem: ui
 tags: [react-native, chart, design-tokens]
@@ -37,7 +37,7 @@ completed: 2026-04-22
 
 # Phase 7: Wave 1 Summary
 
-**柱条静态 Shark 向可读性 + `chartFadeMs` 单源，为 Wave 2 主图区淡入铺路；聚合与 DB 无变更。**
+**柱条静态 图表精致化向可读性 + `chartFadeMs` 单源，为 Wave 2 主图区淡入铺路；聚合与 DB 无变更。**
 
 ## Performance
 

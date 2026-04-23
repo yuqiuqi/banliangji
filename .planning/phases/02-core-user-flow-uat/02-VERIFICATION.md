@@ -8,7 +8,7 @@ completed: 2026-04-21
 
 ## Goal（ROADMAP）
 
-主路径无阻塞缺陷；交互流程与参考 App 等价；问题单有修复或 defer 记录。
+主路径无阻塞缺陷；交互流程满足 FEAT 与产品预期；问题单有修复或 defer 记录。
 
 ## must_haves 对照
 

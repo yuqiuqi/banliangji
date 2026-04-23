@@ -1,4 +1,4 @@
-# Phase 7: Pattern Map (07-shark-v2)
+# Phase 7: Pattern Map (07-chart-polish-v2)
 
 **Created:** 2026-04-22  
 **Purpose:** 为执行器提供「最近类比」与修改面，非规范全文。

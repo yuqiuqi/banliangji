@@ -6,11 +6,11 @@
 <domain>
 ## Phase Boundary
 
-在 **Clay + 现有 RN 实现** 上满足 **REF-04**：统一关键屏的 **按压反馈、列表/卡片层次、信息密度方向**（对齐 SharkBook README 所表达的「精美度」方向，**非** Qt 像素级复刻）。交付 **UI-SPEC v2 增量** + **逐屏实现对照**；**不**替代 Phase 7 对 **图表内部**（柱形、图例、周月年切换动效）的深度表现层验收。
+在 **Clay + 现有 RN 实现** 上满足 **REF-04**：统一关键屏的 **按压反馈、列表/卡片层次、信息密度**，使全局观感符合 **半两记** 已定稿的 UI 规格（**非**抄任何第三方整屏）。交付 **UI-SPEC v2 增量** + **逐屏实现核对清单**；**不**替代 Phase 7 对 **图表内部**（柱形、图例、周月年切换动效）的深度表现层验收。
 
-**本 phase 覆盖的关键屏（与 ROADMAP 一致）：** 明细（`HomeScreen`）、记一笔（`CreateBillScreen`）、**图表 Tab 外壳与现有控件**（`ChartScreen` 的 **壳层/分段/卡片**，图表 **主体数据可视化** 的 Shark 向精研归 **Phase 7**）、预算（`BudgetScreen`）、资产（`AssetScreen`）。**「我的」** 不在 REF-04 列举内：仅做 **令牌对齐**（色/圆角/按压若可复用），不单独开 Shark 向改版任务。
+**本 phase 覆盖的关键屏（与 ROADMAP 一致）：** 明细（`HomeScreen`）、记一笔（`CreateBillScreen`）、**图表 Tab 外壳与现有控件**（`ChartScreen` 的 **壳层/分段/卡片**，图表 **主体数据可视化** 的 图表精致化向精研归 **Phase 7**）、预算（`BudgetScreen`）、资产（`AssetScreen`）。**「我的」** 不在 REF-04 列举内：仅做 **令牌对齐**（色/圆角/按压若可复用），不单独开 图表精致化向改版任务。
 
-**不在本 phase：** 新业务功能、联网能力、引入 Qt、替换 SQLite；**不默认** 引入重型动效依赖（见下）。
+**不在本 phase：** 新业务功能、联网能力、引入第三方原生 UI 框架、替换 SQLite；**不默认** 引入重型动效依赖（见下）。
 
 </domain>
 
@@ -18,7 +18,7 @@
 ## Implementation Decisions
 
 ### 与 Phase 7 的界面分工
-- **D-P7-01:** **Phase 6** 负责 **全局一致** 的 Clay 层次、列表行、卡片、顶区/汇总条、**可感知** 按压与轻过渡。**Phase 7** 负责 **图表 Tab 内** 布局密度、柱/条/空态动效、图例与周月年切换的 **Shark 向** 专项（见 ROADMAP Phase 7 / REF-03）。Phase 6 修改 `ChartScreen` 时 **允许** 调整 **分段器、卡片容器、标题区、列表行**；**避免** 重写聚合与数据层逻辑（CHART-01/02 已由 Phase 3 锁定）。
+- **D-P7-01:** **Phase 6** 负责 **全局一致** 的 Clay 层次、列表行、卡片、顶区/汇总条、**可感知** 按压与轻过渡。**Phase 7** 负责 **图表 Tab 内** 布局密度、柱/条/空态动效、图例与周月年切换的 **图表精致化向** 专项（见 ROADMAP Phase 7 / REF-03）。Phase 6 修改 `ChartScreen` 时 **允许** 调整 **分段器、卡片容器、标题区、列表行**；**避免** 重写聚合与数据层逻辑（CHART-01/02 已由 Phase 3 锁定）。
 - **D-P7-02:** 若 Phase 6 需动图表区 **非结构性** 样式（字号、间距、色），须 **不改变** 数据绑定与区间语义；存疑处对照 `03-CONTEXT.md` / `chartAggregate.ts`。
 
 ### 动效与技术栈
@@ -51,14 +51,14 @@
 ### 需求与路线
 - `.planning/ROADMAP.md` — Phase 6 Goal、Success Criteria、Plans 06-01 / 06-02；**Phase 7** 与图表表现层边界
 - `.planning/REQUIREMENTS.md` — **REF-04**
-- `.planning/research/SHARKBOOK-SUMMARY.md` — 体验参考（只读）
+- `.planning/research/V2-CAPABILITY-BLUEPRINT.md` — v2 能力蓝图（只读）
 - `.planning/PROJECT.md` — Core Value、Clay 方向
 
 ### 既有 UI 契约
 - `.planning/phases/02-core-user-flow-uat/02-UI-SPEC.md` — Clay RN 主路径基线
 - `.planning/phases/02-core-user-flow-uat/02-CONTEXT.md` — Clay 决策
 - `.planning/phases/05-mvp-v2/05-UI-SPEC.md` — 预算/资产屏
-- `DESIGN.md` — getdesign Clay 文案参考
+- `DESIGN.md` — Clay 设计令牌与历史主题说明
 
 ### 实现锚点
 - `src/theme/colors.ts`、`src/theme/layout.ts`
@@ -89,14 +89,14 @@
 <specifics>
 ## Specific Ideas
 
-- SharkBook：**信息密度 + 层次** 优先于 **动效炫技**；离线 App 以 **可维护、可验证** 为先。
+- **信息密度 + 层次** 优先于 **动效炫技**；离线 App 以 **可维护、可验证** 为先。
 
 </specifics>
 
 <deferred>
 ## Deferred Ideas
 
-- **图表内部** Shark 级表现（柱、图例、切换动效）— **Phase 7 / REF-03**
+- **图表内部** 高规格表现（柱、图例、切换动效）— **Phase 7 / REF-03**
 - **Roobert 字体**、Reanimated 复杂编排 — 非本 phase 默认
 - **「我的」** 独立产品级改版 — 非 REF-04 必达；仅 token 对齐
 

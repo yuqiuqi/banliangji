@@ -25,8 +25,4 @@
 | `BillsRefreshProvider` | 走查后保存/删除须触发列表一致 |
 | `src/db/billRepo.ts` | 只读对照；Phase 2 以 UI/流程为主，避免改查询语义 |
 
-## Reference（流程，非像素）
-
-- `../SwiftCost/TestSwiftDemo/` — 流程等价对照（见 `02-CONTEXT.md`）
-
 ## PATTERN MAPPING COMPLETE

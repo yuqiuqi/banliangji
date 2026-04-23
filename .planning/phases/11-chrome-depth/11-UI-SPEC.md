@@ -9,7 +9,7 @@ created: 2026-04-22
 # Phase 11 — UI Design Contract（增量）
 
 > **基线：** 仓库根目录 `UI-SPEC.md` + `DESIGN.md` + Phase 9 交付的 iOS 26 Chrome。  
-> **本文件**只锁定 Phase 11 新增的 **深色**、**降低透明度**、**Liquid Glass 纵深（工程近似）** 合同；不重复定义 SharkBook / 业务布局。
+> **本文件**只锁定 Phase 11 新增的 **深色**、**降低透明度**、**Liquid Glass 纵深（工程近似）** 合同；不重复定义其他产品的布局样板 / 业务 IA。
 
 ---
 

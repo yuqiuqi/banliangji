@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SwiftCostRN",
-    "slug": "SwiftCostRN",
+    "name": "半两记",
+    "slug": "banliangji",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

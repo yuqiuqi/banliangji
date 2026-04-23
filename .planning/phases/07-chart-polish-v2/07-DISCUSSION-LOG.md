@@ -1,9 +1,9 @@
-# Phase 7: 图表 Shark 级表现层（v2）- Discussion Log
+# Phase 7: 图表 高规格表现层（v2）- Discussion Log
 
 > **Audit trail only.** Decisions live in `07-CONTEXT.md`.
 
 **Date:** 2026-04-22  
-**Phase:** 7 — shark-v2  
+**Phase:** 7 — chart-polish-v2  
 **Mode:** `--auto` + `--analyze`（全灰区自动选「推荐」项）
 
 **Areas auto-selected:** 动效技术、柱条视觉、周期切换、分类列表、空态、验收对标  
@@ -18,7 +18,7 @@
 |----------|------|------|
 | Reanimated | 高性能复杂手势/串联动画 | 新依赖、与 Phase 6「默认不加」冲突 |
 | RN `Animated` + 少量 `LayoutAnimation` | 与 Phase 6 一致、Expo 现成 | 极复杂编排代码量略高 |
-| 纯样式无动画 | 最简单 | 难达「Shark 向」切换与柱反馈 |
+| 纯样式无动画 | 最简单 | 难达「图表精致化向」切换与柱反馈 |
 
 **Recommended:** RN `Animated` / `LayoutAnimation` only — 对齐 `06-CONTEXT` D-M01。
 
@@ -48,7 +48,7 @@
 |----------|------|------|
 | 横向 PagerView | 沉浸 | 重构大、超 scope |
 | 淡入淡出 / 轻位移 | 实现快、风险低 | 较含蓄 |
-| 仅数据刷新无动画 | 零风险 | 不满足 Shark 向期望 |
+| 仅数据刷新无动画 | 零风险 | 不满足 图表精致化向期望 |
 
 **Recommended:** **opacity（+ 可选轻 translateY）150–250ms**。
 

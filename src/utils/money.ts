@@ -1,4 +1,4 @@
-/** 近似 Swift `Float.string()` 的展示规则 */
+/** 金额展示与截断规则（半两记产品默认） */
 export function formatAmountDisplay(value: number): string {
   const rounded = Math.round(value * 100) / 100;
   if (Number.isInteger(rounded)) {

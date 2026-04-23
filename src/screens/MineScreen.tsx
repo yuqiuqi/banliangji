@@ -53,8 +53,8 @@ export function MineScreen(): React.ReactElement {
             <Text style={styles.cardTitle}>关于</Text>
             {aboutOpen ? (
               <View>
-                <Text style={styles.sub}>SwiftCost RN</Text>
-                <Text style={styles.sub}>复刻自 GitHub IANIx/SwiftCost</Text>
+                <Text style={styles.sub}>半两记</Text>
+                <Text style={styles.sub}>React Native · Expo · 离线本地记账</Text>
                 <Text style={styles.sub}>Expo SDK {Constants.expoConfig?.sdkVersion ?? "54"}</Text>
                 <Text style={styles.sub}>本应用不收集账号；记账数据仅保存在本机 SQLite 数据库中。</Text>
               </View>

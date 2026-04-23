@@ -8,7 +8,7 @@
 
 ## Phase Boundary
 
-在 **不新增业务功能** 的前提下，将 SwiftCostRN **全部现有屏与共享组件** 的 UI/UX 统一为 **iOS / iPadOS 26 + Liquid Glass** 取向；验收以 `09-VERIFICATION.md` 全表 + `npm run verify` 为准。Dark Mode 为 **follow-up**（本阶段默认仅 Light 达标）。
+在 **不新增业务功能** 的前提下，将 半两记 **全部现有屏与共享组件** 的 UI/UX 统一为 **iOS / iPadOS 26 + Liquid Glass** 取向；验收以 `09-VERIFICATION.md` 全表 + `npm run verify` 为准。Dark Mode 为 **follow-up**（本阶段默认仅 Light 达标）。
 
 </domain>
 

@@ -1,4 +1,4 @@
-# Phase 7: shark-v2 - Research
+# Phase 7: chart-polish-v2 - Research
 
 **Researched:** 2026-04-22  
 **Domain:** React Native (Expo 54) chart presentation — `Animated`, StyleSheet, Clay tokens  

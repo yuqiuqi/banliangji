@@ -1,4 +1,4 @@
-# 发布检查清单（SwiftCostRN）
+# 发布检查清单（半两记）
 
 **应用版本（须一致）：** `package.json` 的 `version` 与 `app.json` 的 `expo.version` — 当前均为 **1.0.0**。
 
