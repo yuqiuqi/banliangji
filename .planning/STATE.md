@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.4
 milestone_name: iOS 26 Chrome 副路径全量对齐
-status: executing
-last_updated: "2026-04-23T13:40:00.000Z"
+status: verifying
+last_updated: "2026-04-23T14:00:00.000Z"
 last_activity: 2026-04-23
 progress:
   total_phases: 1
   completed_phases: 0
   total_plans: 2
-  completed_plans: 1
-  percent: 50
+  completed_plans: 2
+  percent: 100
 ---
 
 # Project State
@@ -19,7 +19,7 @@ progress:
 
 Phase: **13**（chrome-uat-signoff）— **v2.4 已立项**；范围已扩大为 **副路径四屏** 与 Apple **iOS 26 Liquid Glass** 全量对齐  
 Plan: **`13-01-PLAN` + `13-02-PLAN`**（Wave 1 实现 · Wave 2 手测与结转收口）  
-Status: **Wave 1 已落地**；**Wave 2** 见 `13-02-PLAN.md`（`autonomous: false`，须设备手测）
+Status: **Plan 01+02 已执行完毕**（SUMMARY 已写）；**里程碑未闭合** — LG-02 设备矩阵与 DATA-02 仍待本地补证（见 `13-VERIFICATION`、`DATA-02-SMOKE`）
 
 - **Phase:** **13** — 见 `.planning/phases/13-chrome-uat-signoff/README.md`  
 - **权威参考：** `.planning/research/IOS26-LIQUID-GLASS-REFERENCE.md`（Apple Developer + HIG 原则）  
@@ -38,13 +38,14 @@ Status: **Wave 1 已落地**；**Wave 2** 见 `13-02-PLAN.md`（`autonomous: fal
 
 ## Blockers
 
-- 无（工程构建级）。
+- **工程构建级：** 无（`npm run verify` 须保持绿）。  
+- **验收级：** **DATA-02** 杀进程冒烟仍 **BLOCKED**；**LG-02** 四屏矩阵手测仍待维护者补跑（非 CI 可解）。
 
 ## Deferred Items
 
 | 类别 | 项 | 说明 |
 |------|----|------|
-| DATA-02 | 杀进程冒烟 | 仍 **BLOCKED** — 见 `DATA-02-SMOKE.md`；与 v2.4 并行直至 **PASS/FAIL** |
+| DATA-02 | 杀进程冒烟 | 仍 **BLOCKED** — 见 `.planning/phases/10-persist-uat/DATA-02-SMOKE.md`；与 v2.4 并行直至 **PASS/FAIL** |
 
 ## Accumulated Context
 
@@ -53,8 +54,8 @@ Status: **Wave 1 已落地**；**Wave 2** 见 `13-02-PLAN.md`（`autonomous: fal
 
 ## When User Says "where were we?"
 
-- **v2.4：** Phase 13 待 **plan → execute**；优先对齐 **图表 / 预算 / 资产 / 我的** 与 iOS 26 Chrome。  
-- **结转：** `DATA-02-SMOKE.md`、`11-VERIFICATION` / `11-UAT` 手测项。
+- **v2.4：** Phase 13 **两则计划已执行**；优先补 **LG-02 手测矩阵** 与 **DATA-02** 设备取证。  
+- **结转：** `.planning/phases/10-persist-uat/DATA-02-SMOKE.md`、`11-VERIFICATION` / `11-UAT`、`13-VERIFICATION`（**P13-LG02-UAT**）。
 
 ---
-*Last updated: 2026-04-23 — `discuss-phase 13 --auto --analyze`：`13-CONTEXT` + `13-01-PLAN` + `13-VERIFICATION` 模板*
+*Last updated: 2026-04-23 — `/gsd-execute-phase 13`：01/02 SUMMARY + `13-VERIFICATION` 诚实 deviation*

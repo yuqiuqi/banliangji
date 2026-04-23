@@ -87,7 +87,7 @@
 | 10 | 2/2 | Executed（DATA-02 文档已建，手测 BLOCKED；QA-04 已闭环） | 2026-04-22 |
 | 11 | 3/3 | **Complete**（`11-01`…`11-03` SUMMARY 已归档；verify 绿；手测见 `11-VERIFICATION`） | 2026-04-23 |
 | 12 | 2/2 | **Executed**（文档与跟踪已更新；**DATA-02 设备 Result 仍为 BLOCKED**，见 SMOKE §3） | 2026-04-23 |
-| 13 | 1/1 | **Planning complete**（`13-CONTEXT` + `13-01-PLAN`；**待 execute**） | — |
+| 13 | 2/2 | **Executed**（`13-01-SUMMARY` / `13-02-SUMMARY`；LG-02 设备矩阵与 DATA-02 仍待本地补证） | — |
 
 ---
 

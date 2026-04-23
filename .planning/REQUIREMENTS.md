@@ -46,8 +46,8 @@
 
 | Requirement | Phase | Status |
 |---------------|-------|--------|
-| **LG-02** | **Phase 13（v2.4）** | **Pending** — 四副路径屏 iOS 26 Chrome 全量对齐 |
-| DATA-02 | Phase 12（收口）/ v2.4 结转 | Blocked — `DATA-02-SMOKE.md` 仍为 BLOCKED；目标 **2026-05-01** 前设备补跑并更新 Result |
+| **LG-02** | **Phase 13（v2.4）** | **Pending** — 代码 Wave 1 已合主干；**浅色/深色/降低透明度** 手测见 `13-VERIFICATION.md`（**P13-LG02-UAT**），补测通过后勾选本 REQ |
+| DATA-02 | Phase 12（收口）/ v2.4 结转 | Blocked — 见 `.planning/phases/10-persist-uat/DATA-02-SMOKE.md`（`Result: BLOCKED`）；目标 **2026-05-01** 前设备补跑 |
 | QA-04 | Phase 10 | Done |
 | THEME-01 | Phase 13 | Pending |
 | A11Y-01 | Phase 13 | Pending |
