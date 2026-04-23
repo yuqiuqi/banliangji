@@ -48,6 +48,7 @@ completed: 2026-04-23
 
 - `npm run verify`：**PASSED**（2026-04-23；初版收口）
 - `npm run verify`：**PASSED**（2026-04-23 — **`--wave 2` 重跑后**）
+- `npm run verify`：**PASSED**（2026-04-23 — **`--wave 2` 再次清点，SMOKE 仍 BLOCKED**）
 
 ## Deviations
 
@@ -61,3 +62,12 @@ completed: 2026-04-23
 - **任务 2（REQUIREMENTS/STATE）：** 与 **BLOCKED** 一致，无需改勾选；**STATE** 页脚已更新为本轮执行说明。
 - **任务 3（01-VERIFICATION）：** **跳过**（非 PASS）。
 - **`npm run verify`：** 见本节下方 Self-Check 时间戳。
+
+---
+
+## Wave 2 — 再次执行（清点）
+
+- **`DATA-02-SMOKE.md`：** 仍为 **`Result: BLOCKED`**（与上一轮相同）；未收到新的设备 PASS/FAIL。
+- **任务 2：** `REQUIREMENTS` / `STATE` / `10-VERIFICATION` Sign-off **保持 Blocked 镜像**，无必改 diff。
+- **任务 3：** 仍 **跳过**。
+- **`npm run verify`：** 见 **Self-Check** 第三条（本轮）。
