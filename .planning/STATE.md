@@ -24,7 +24,7 @@ Status: **`13-01-PLAN` Wave 1 已落地**（四屏 + `modalScrim` + `npm run ver
 - **Phase:** **13** — 见 `.planning/phases/13-chrome-uat-signoff/README.md`  
 - **权威参考：** `.planning/research/IOS26-LIQUID-GLASS-REFERENCE.md`（Apple Developer + HIG 原则）  
 - **Last activity:** 2026-04-23 — `/gsd-new-milestone`（用户定调：图表/预算/资产/我的须与 iOS 26 **动画、透明度、交互、色彩**一致）  
-- **Resume：** `13-CONTEXT.md` · `/gsd-execute-phase 13` · `UI-SPEC.md` · `11-MATERIAL-MOTION-SPEC.md`
+- **Resume：** `13-CONTEXT.md` · **`13-UI-SPEC.md`（Phase 13 设计契约）** · `/gsd-execute-phase 13` · 根目录 `UI-SPEC.md` · `11-MATERIAL-MOTION-SPEC.md`
 
 ## Current Status
 
