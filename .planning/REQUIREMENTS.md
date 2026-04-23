@@ -1,4 +1,4 @@
-# Requirements: SwiftCostRN
+# Requirements: 半两记
 
 **Milestone:** v2.3 — 质量验证与系统外观  
 **Defined:** 2026-04-22  
@@ -40,8 +40,8 @@
 
 | Requirement | Phase | Status |
 |---------------|-------|--------|
-| DATA-02 | Phase 10 | Blocked（见 `DATA-02-SMOKE.md`，待设备补跑） |
+| DATA-02 | Phase 12（缺口收口） | Pending（目标：关闭审计 gaps；原 Phase 10 实现已交付，缺设备证据） |
 | QA-04 | Phase 10 | Done |
-| THEME-01 | Phase 11 | Pending |
-| A11Y-01 | Phase 11 | Pending |
-| LG-01 | Phase 11 | Pending |
+| THEME-01 | Phase 13（缺口收口） | Pending |
+| A11Y-01 | Phase 13（缺口收口） | Pending |
+| LG-01 | Phase 13（缺口收口） | Pending |

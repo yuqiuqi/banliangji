@@ -8,7 +8,7 @@
 | v2.0 | SharkBook 体验融合 | Phases 5–7 | 2026-04-22 |
 | v2.1 | 账单流 · 查账 · 我的 | Phase 8 | 2026-04-22 |
 | ✅ **v2.2** | **iOS 26 全局 Chrome（Liquid Glass）** | **Phase 9** | **2026-04-22** |
-| **v2.3** | **质量验证与系统外观** | **Phases 10–11** | — |
+| **v2.3** | **质量验证与系统外观** | **Phases 10–13**（12–13 缺口收口） | — |
 
 - **完整路线图（v1–v9 全文）：** [`.planning/milestones/v2.2-ROADMAP.md`](milestones/v2.2-ROADMAP.md)  
 - **需求快照（至 v2.2）：** [`.planning/milestones/v2.2-REQUIREMENTS.md`](milestones/v2.2-REQUIREMENTS.md)  
@@ -16,7 +16,7 @@
 
 ## v2.3 质量验证与系统外观
 
-编号自上一里程碑 **Phase 9** 延续：**10–11**。需求与阶段映射见 `REQUIREMENTS.md` Traceability。
+编号自上一里程碑 **Phase 9** 延续：**10–13**（其中 **12–13** 由 `v2.3-MILESTONE-AUDIT.md` 驱动，收口未闭合的设备/手测与验证文档）。需求与阶段映射见 `REQUIREMENTS.md` Traceability。
 
 ### Phase 10: 持久化与 UAT 闭环
 
@@ -35,6 +35,24 @@
 | **非目标** | **不计划** 云同步、在线资源、账号/登录、远程配置等任何联网需求；核心仍为 **本机 SQLite + 本地 UI**。 |
 | **Requirements** | THEME-01, A11Y-01, **LG-01** |
 | **Success criteria** | 1) 深色外观下关键屏可读（THEME-01）。 2) 降低透明度下主路径可完成（A11Y-01）。 3) **LG-01**：按 `11-MATERIAL-MOTION-SPEC` §4 完成 **材质栈 + 动效栈** 中约定的 Tab/顶栏/记一笔 Dock 等 **Tier-1** 改造，或逐项 **Accepted deviation** 记入 Phase 11 `VERIFICATION`；真机 spot-check 无「单层灰雾 Tab」与「线性僵硬」主导体验。 4) `UI-SPEC.md` / `DESIGN.md` 同步偏差说明。 5) `npm run verify` 通过。 |
+
+### Phase 12: DATA-02 与 Phase 10 验证归档（缺口收口）
+
+| 项 | 内容 |
+|----|------|
+| **Goal** | 用**设备可引用证据**关闭 **DATA-02**；补齐 **Phase 10** 与 ROADMAP 对齐的验证产出（`10-*-VERIFICATION.md` 或等价、`DATA-02-SMOKE.md` 终态）。 |
+| **Requirements** | DATA-02 |
+| **Gap closure** | 来源：`v2.3-MILESTONE-AUDIT.md`（DATA-02 unsatisfied、无 `10-VERIFICATION`、E2E 杀进程流 blocked）。 |
+| **Success criteria** | 1) `DATA-02-SMOKE.md` 为 `PASS` 或 `FAIL`（不得长期 `BLOCKED` 且无计划）。 2) `REQUIREMENTS.md` 中 DATA-02 可 honest 勾选或记录 **Accepted deviation** + 跟进取证。 3) 存在可检索的 `10-*-VERIFICATION.md`（或审计认可的等价物）。 4) `npm run verify` 仍通过。 |
+
+### Phase 13: Phase 11 手测签字与 SYS/LG 需求勾选（缺口收口）
+
+| 项 | 内容 |
+|----|------|
+| **Goal** | 在设备上完成 **THEME-01 / A11Y-01 / LG-01** 的验收，回填 `11-VERIFICATION.md`、`11-UAT.md`，并闭合 `11-VALIDATION.md` 中待签字项（如适用）。 |
+| **Requirements** | THEME-01, A11Y-01, LG-01 |
+| **Gap closure** | 来源：`v2.3-MILESTONE-AUDIT.md`（三项 partial、手测未勾选、集成观感未在文档记 pass）。 |
+| **Success criteria** | 1) `11-VERIFICATION.md` 与 `11-UAT.md` 中相关项已 **pass** 或 **Accepted deviation** 有表可查。 2) `REQUIREMENTS.md` 三项可 honest 勾选。 3) `npm run verify` 仍通过。 |
 
 ## Phases（摘要）
 
@@ -62,7 +80,9 @@
 | 1–9 | 24/24 | Complete | 2026-04-22 |
 | 10 | 2/2 | Executed（DATA-02 文档已建，手测 BLOCKED；QA-04 已闭环） | 2026-04-22 |
 | 11 | 3/3 | **Complete**（`11-01`…`11-03` SUMMARY 已归档；verify 绿；手测见 `11-VERIFICATION`） | 2026-04-23 |
+| 12 | 0/0 | **Planned**（缺口收口 · DATA-02 / Phase 10 验证） | — |
+| 13 | 0/0 | **Planned**（缺口收口 · Phase 11 手测与 REQ 勾选） | — |
 
 ---
 
-*Phase 1–9 历史目录保留在 `.planning/phases/`；v2.3 请新建 `10-*` / `11-*` 子目录承载计划与 UAT。*
+*Phase 1–9 历史目录保留在 `.planning/phases/`；v2.3 含 `10-*`…`13-*` 子目录（12–13 为审计后缺口阶段）。*
