@@ -5,15 +5,15 @@ source:
   - 13-01-SUMMARY.md
   - 13-02-SUMMARY.md
 started: "2026-04-23T14:10:00.000Z"
-updated: "2026-04-23T15:05:00.000Z"
+updated: "2026-04-23T15:10:00.000Z"
 ---
 
 ## Current Test
 
-number: 3
-name: 资产 Tab — 分组列表与 Modal
+number: 4
+name: 我的 Tab — 顶栏与折叠块
 expected: |
-  切到「资产」Tab。顶栏与预算类似（画布 + 分隔线）。有账户时：账户在 **单组圆角列表** 内分行显示。点「+ 添加账户」或空态「添加账户」：Modal 带 **变暗背景**，表单内主按钮为 **保存账户**。可取消关闭。
+  切到「我的」Tab。顶栏为 **画布色 + 底部分隔线**；下方 **关于 / 数据与存储 / 设置** 等为 **圆角分组卡片**。点「关于」等可展开说明；按压时有透明度反馈。
 awaiting: user response
 
 ## Tests
@@ -30,7 +30,8 @@ reported: "yes"
 
 ### 3. 资产 Tab — 分组列表与 Modal
 expected: 顶栏与预算类似（非孤立深色顶块）；有账户时 **单组圆角列表**内多行；点「+ 添加账户」或空态按钮打开 Modal，scrim + 表单；主按钮文案可见 **保存账户**（或等价）。
-result: pending
+result: pass
+reported: "yes"
 
 ### 4. 我的 Tab — 顶栏与折叠块
 expected: 「我的」顶栏为画布 + 分隔线；下方 **关于 / 数据与存储** 等为分组卡片；点按可展开说明，按压有透明度反馈。
@@ -47,9 +48,9 @@ result: pending
 ## Summary
 
 total: 6
-passed: 2
+passed: 3
 issues: 0
-pending: 4
+pending: 3
 skipped: 0
 blocked: 0
 
