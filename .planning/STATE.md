@@ -17,14 +17,14 @@ progress:
 
 ## Current Position
 
-Phase: 11 (chrome-depth) — **GSD 执行闭环完成**（3×SUMMARY）
-Plan: 3 of 3（`npm run verify` 绿）
+Phase: **12**（data02-closeout）— **Plan 01 已完成**；**Plan 02** 设备手测开放  
+Plan: 2 of 2 SUMMARY（`12-02` 文档收口完成；**DATA-02 Result 仍为 BLOCKED**，待设备）
 
-- **Phase:** **11** — 深色 · 无障碍 · Liquid Glass 纵深（`11-chrome-depth`）  
-- **Plan:** `11-01` → `11-02` → `11-03` — **SUMMARY 已提交**；实现此前已在主干  
-- **Status:** 自动化门禁绿；**设备 spot-check / `11-UAT`** 仍待人工；**DATA-02** 见 Deferred  
+- **Phase:** **12** — DATA-02 与 Phase 10 验证归档（缺口收口）  
+- **Plan:** `12-01` ✓（`10-VERIFICATION.md`）；`12-02` — 须在本地执行 `DATA-02-SMOKE.md` Steps 后更新 `Result:` 与 `REQUIREMENTS`  
+- **Status:** `npm run verify` 绿；**DATA-02** 仍以 SMOKE 为准（BLOCKED + **2026-05-01** 目标日，见 SMOKE 取证计划 §3）  
 - **Last activity:** 2026-04-23
-- **Resume（若补测）：** `11-VERIFICATION.md` · 根 `UI-SPEC.md` / `DESIGN.md`
+- **Resume：** `.planning/phases/10-persist-uat/DATA-02-SMOKE.md` · `10-VERIFICATION.md`
 
 ## Current Status
 
@@ -34,7 +34,7 @@ Plan: 3 of 3（`npm run verify` 绿）
 ## Progress Summary
 
 - 需求：`.planning/REQUIREMENTS.md`（4 条 REQ）  
-- 路线图：`.planning/ROADMAP.md`（Phase 10–11）  
+- 路线图：`.planning/ROADMAP.md`（Phase 10–13）  
 
 ## Blockers
 
@@ -44,7 +44,7 @@ Plan: 3 of 3（`npm run verify` 绿）
 
 | 类别 | 项 | 说明 |
 |------|----|------|
-| DATA-02 | 杀进程冒烟 | `Result: BLOCKED` — 见 `.planning/phases/10-persist-uat/DATA-02-SMOKE.md` 与 **下一步取证计划**；本地 Simulator/真机补跑后更新 Result 与 `REQUIREMENTS.md` 勾选。 |
+| DATA-02 | 杀进程冒烟 | `Result: BLOCKED` — 见 `DATA-02-SMOKE.md` **取证计划 §3**（目标 **2026-05-01** 前 PASS/FAIL）；完成后更新 `REQUIREMENTS.md`、本表与 `01-VERIFICATION.md`（若 PASS）。 |
 
 ## Accumulated Context
 
@@ -56,4 +56,4 @@ Plan: 3 of 3（`npm run verify` 绿）
 - 在 **v2.3**：**Phase 11** 计划与 SUMMARY 已齐；补跑 **DATA-02**、**11-VERIFICATION / 11-UAT** 后考虑 `/gsd-complete-milestone` 或里程碑审计。
 
 ---
-*Last updated: 2026-04-23 — `/gsd-execute-phase 11`：补 SUMMARY + verify；手测与 DATA-02 仍开放*
+*Last updated: 2026-04-23 — `/gsd-execute-phase 12`：10-VERIFICATION 已建；DATA-02 设备手测仍开放*

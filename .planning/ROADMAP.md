@@ -80,7 +80,7 @@
 | 1–9 | 24/24 | Complete | 2026-04-22 |
 | 10 | 2/2 | Executed（DATA-02 文档已建，手测 BLOCKED；QA-04 已闭环） | 2026-04-22 |
 | 11 | 3/3 | **Complete**（`11-01`…`11-03` SUMMARY 已归档；verify 绿；手测见 `11-VERIFICATION`） | 2026-04-23 |
-| 12 | 0/2 | **Planning complete**（`12-01`/`12-02` PLAN 已就绪；待 execute） | — |
+| 12 | 2/2 | **Executed**（文档与跟踪已更新；**DATA-02 设备 Result 仍为 BLOCKED**，见 SMOKE §3） | 2026-04-23 |
 | 13 | 0/0 | **Planned**（缺口收口 · Phase 11 手测与 REQ 勾选） | — |
 
 ---

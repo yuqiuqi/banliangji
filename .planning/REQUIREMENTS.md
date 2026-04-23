@@ -40,7 +40,7 @@
 
 | Requirement | Phase | Status |
 |---------------|-------|--------|
-| DATA-02 | Phase 12（缺口收口） | Pending（目标：关闭审计 gaps；原 Phase 10 实现已交付，缺设备证据） |
+| DATA-02 | Phase 12（缺口收口） | Blocked — `DATA-02-SMOKE.md` 仍为 BLOCKED；目标 **2026-05-01** 前设备补跑并更新 Result |
 | QA-04 | Phase 10 | Done |
 | THEME-01 | Phase 13（缺口收口） | Pending |
 | A11Y-01 | Phase 13（缺口收口） | Pending |

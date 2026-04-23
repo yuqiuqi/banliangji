@@ -8,7 +8,7 @@
 | **Git** | `dee49ee` |
 | **Expo** | `~54.0.33` |
 | **react-native** | `0.81.5` |
-| **iOS target** | 未在本环境执行 Simulator；维护者需补 **Simulator 机型+runtime** 或 **真机型号** |
+| **iOS target** | `BLOCKED`：设备杀进程手测尚未执行；须补 **Simulator 机型+runtime** 或 **真机型号**（停 Metro 不算杀进程） |
 
 ## Kill protocol（排除歧义）
 
@@ -45,6 +45,7 @@ Result: BLOCKED
 
 1. 本地：`npx expo run:ios` 或 Xcode 打开 workspace，按 Steps 执行一遍。
 2. 若 `FAIL`：在 **Investigation notes** 填 SQLite/事务结论（见 Phase 10 plan 01 任务 3）；必要时开 bugfix PR。
+3. **（Phase 12 · 2026-04-23）** 维护者须在 **2026-05-01** 前于 Simulator/真机完成 Kill protocol，并将本文件 `Result:` 更新为 `PASS` 或 `FAIL`；当前 Agent 会话**不代替**设备划掉 App。
 
 ## Note on verify
 
