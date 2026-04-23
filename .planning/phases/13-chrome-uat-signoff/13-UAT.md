@@ -5,15 +5,15 @@ source:
   - 13-01-SUMMARY.md
   - 13-02-SUMMARY.md
 started: "2026-04-23T14:10:00.000Z"
-updated: "2026-04-23T15:15:00.000Z"
+updated: "2026-04-23T15:20:00.000Z"
 ---
 
 ## Current Test
 
-number: 5
-name: 深色外观 — 四屏可读
+number: 6
+name: 降低透明度 — 主路径可用
 expected: |
-  在系统设置中切换为 **深色外观**，回到 App。依次快速打开 **图表 / 预算 / 资产 / 我的**：正文、卡片背景与分隔线应可辨，无大块灰糊或白字白底等不可读情况。
+  在系统 **辅助功能** 中开启 **降低透明度**，回到 App。进入 **预算** 或 **资产**，打开一次 **Modal**（设置预算 / 添加账户），再关闭。Tab 栏与 Modal 区域应 **非空白、可点击**；能正常返回。
 awaiting: user response
 
 ## Tests
@@ -40,7 +40,8 @@ reported: "yes"
 
 ### 5. 深色外观 — 四屏可读
 expected: 系统切换 **深色模式** 后，重复快速浏览图表/预算/资产/我的：正文、卡片背景与分隔线可辨，无大块不可读对比。
-result: pending
+result: pass
+reported: "yes"
 
 ### 6. 降低透明度 — 主路径可用
 expected: 系统开启 **降低透明度**（辅助功能）后，从 Tab 进入 **预算或资产** 打开一次 Modal 再关闭；Tab 栏与 Modal 区域 **非空白、可点**；能返回上一屏。
@@ -49,9 +50,9 @@ result: pending
 ## Summary
 
 total: 6
-passed: 4
+passed: 5
 issues: 0
-pending: 2
+pending: 1
 skipped: 0
 blocked: 0
 
