@@ -11,11 +11,15 @@ import { iosType } from "../theme/typography";
 function buildMineStyles(colors: AppPalette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.canvas },
-    header: {
-      padding: 16,
-      backgroundColor: colors.main,
+    headerBanner: {
+      paddingHorizontal: 16,
+      paddingTop: 8,
+      paddingBottom: 12,
+      backgroundColor: colors.canvas,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.divider,
     },
-    title: { ...iosType.largeTitle, color: colors.onMain },
+    title: { ...iosType.largeTitle, color: colors.title },
     list: { paddingVertical: 12 },
     insetBlock: {
       marginBottom: 10,
@@ -37,7 +41,7 @@ export function MineScreen(): React.ReactElement {
 
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
-      <View style={styles.header}>
+      <View style={styles.headerBanner}>
         <Text style={styles.title}>我的</Text>
       </View>
       <View style={styles.list}>

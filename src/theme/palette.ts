@@ -31,6 +31,8 @@ export const lightPalette = {
   detailHeroBackdropExpense: "rgba(255, 59, 48, 0.09)",
   detailHeroBackdropIncome: "rgba(52, 199, 89, 0.11)",
   detailRowLabel: "rgba(60, 60, 67, 0.52)",
+  /** Modal / sheet backdrop — Tier-2 scrim（对齐 UI-SPEC 分层） */
+  modalScrim: "rgba(0, 0, 0, 0.42)",
 } as const;
 
 /** iOS grouped dark — engineering approximation */
@@ -64,6 +66,7 @@ export const darkPalette = {
   detailHeroBackdropExpense: "rgba(255, 69, 58, 0.14)",
   detailHeroBackdropIncome: "rgba(48, 209, 88, 0.14)",
   detailRowLabel: "rgba(235, 235, 245, 0.52)",
+  modalScrim: "rgba(0, 0, 0, 0.58)",
 } as const;
 
 /** 亮色与深色共用键位；字面量色值随 scheme 变化。 */

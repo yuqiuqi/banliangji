@@ -72,7 +72,8 @@
 
 - 记一笔 / 日历：`presentation: "modal"`。  
 - 删除：`Alert` destructive。  
-- 日期：iOS `spinner` + 「完成」`systemBlue`。
+- 日期：iOS `spinner` + 「完成」`systemBlue`。  
+- **Tier-2：** 全屏透明 `Modal` 遮罩统一 `modalScrim`（`src/theme/palette.ts` 亮色/深色各一行），禁止业务屏写死 `rgba(0,0,0,…)`。
 
 ## 7. 验收
 

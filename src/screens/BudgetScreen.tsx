@@ -12,6 +12,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { GroupedInset } from "../components/ios";
 import { sumExpenseForCalendarMonth } from "../budget/monthExpense";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { getBudgetCap, upsertBudgetCap } from "../db/budgetRepo";
@@ -19,9 +20,8 @@ import { queryBillsForMonth } from "../db/billRepo";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
 import { pressedOpacity, radii, shadows } from "../theme/layout";
+import { iosType } from "../theme/typography";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
-
-const OVER_BUDGET_COLOR = "#dc3545";
 
 function monthKey(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
@@ -30,20 +30,18 @@ function monthKey(d: Date): string {
 function buildBudgetStyles(colors: AppPalette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.canvas },
-    header: {
+    headerBanner: {
       paddingHorizontal: 16,
-      paddingVertical: 14,
-      backgroundColor: colors.main,
+      paddingTop: 8,
+      paddingBottom: 12,
+      backgroundColor: colors.canvas,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.divider,
     },
-    headerTitle: { fontSize: 20, fontWeight: "600", color: colors.onMain },
-    headerSub: { marginTop: 4, fontSize: 14, color: colors.onMainSecondary },
-    scroll: { padding: 16, paddingBottom: 32 },
-    card: {
-      backgroundColor: colors.surface,
-      borderRadius: radii.card,
-      padding: 16,
-      ...shadows.grouped,
-    },
+    headerTitle: { ...iosType.largeTitle, color: colors.title },
+    headerSub: { marginTop: 4, ...iosType.footnote, color: colors.lightTitle },
+    scroll: { paddingTop: 16, paddingBottom: 32 },
+    cardInner: { padding: 16 },
     row: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
     label: { fontSize: 15, color: colors.lightTitle },
     amount: { fontSize: 17, fontWeight: "600", color: colors.title },
@@ -55,7 +53,7 @@ function buildBudgetStyles(colors: AppPalette) {
       overflow: "hidden",
     },
     trackFill: { height: "100%", borderRadius: 5 },
-    warn: { marginTop: 10, fontSize: 14, fontWeight: "600", color: OVER_BUDGET_COLOR },
+    warn: { marginTop: 10, fontSize: 14, fontWeight: "600", color: colors.expense },
     emptyTitle: { fontSize: 17, fontWeight: "600", color: colors.title },
     emptyHint: { marginTop: 8, fontSize: 14, color: colors.lightTitle, lineHeight: 20 },
     primaryBtn: {
@@ -84,7 +82,7 @@ function buildBudgetStyles(colors: AppPalette) {
     secondaryBtnText: { color: colors.title, fontSize: 15, fontWeight: "600" },
     modalBackdrop: {
       flex: 1,
-      backgroundColor: "rgba(0,0,0,0.35)",
+      backgroundColor: colors.modalScrim,
       justifyContent: "center",
       padding: 24,
     },
@@ -154,7 +152,7 @@ export function BudgetScreen(): React.ReactElement {
   const hasCap = capVal > 0;
   const over = hasCap && spent > capVal;
   const progress = hasCap ? Math.min(1, spent / capVal) : 0;
-  const barColor = over ? OVER_BUDGET_COLOR : colors.tabbarTint;
+  const barColor = over ? colors.expense : colors.tabbarTint;
 
   const openModal = (): void => {
     setCapInput(capRaw !== null && capVal > 0 ? formatAmountDisplay(capVal) : "");
@@ -171,53 +169,57 @@ export function BudgetScreen(): React.ReactElement {
 
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
-      <View style={styles.header}>
+      <View style={styles.headerBanner}>
         <Text style={styles.headerTitle}>预算</Text>
         <Text style={styles.headerSub}>{format(monthAnchor, "yyyy年M月", { locale: zhCN })}</Text>
       </View>
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
         {!hasCap ? (
-          <View style={styles.card}>
-            <Text style={styles.emptyTitle}>尚未设置本月预算</Text>
-            <Text style={styles.emptyHint}>设置后，将按支出账单统计进度（与图表支出口径一致）。</Text>
-            <Pressable
-              style={({ pressed }) => [
-                styles.primaryBtn,
-                pressed ? { opacity: pressedOpacity } : null,
-              ]}
-              onPress={openModal}
-              accessibilityRole="button"
-              accessibilityLabel="设置本月预算"
-            >
-              <Text style={styles.primaryBtnText}>设置预算</Text>
-            </Pressable>
-          </View>
-        ) : (
-          <View style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.label}>已用</Text>
-              <Text
-                style={styles.amount}
-                accessibilityLabel={`已用 ${formatAmountDisplay(spent)}，预算 ${formatAmountDisplay(capVal)}`}
+          <GroupedInset>
+            <View style={styles.cardInner}>
+              <Text style={styles.emptyTitle}>尚未设置本月预算</Text>
+              <Text style={styles.emptyHint}>设置后，将按支出账单统计进度（与图表支出口径一致）。</Text>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.primaryBtn,
+                  pressed ? { opacity: pressedOpacity } : null,
+                ]}
+                onPress={openModal}
+                accessibilityRole="button"
+                accessibilityLabel="设置本月预算"
               >
-                {formatAmountDisplay(spent)} / {formatAmountDisplay(capVal)}
-              </Text>
+                <Text style={styles.primaryBtnText}>设置预算</Text>
+              </Pressable>
             </View>
-            <View style={styles.track}>
-              <View style={[styles.trackFill, { width: `${Math.round(progress * 100)}%`, backgroundColor: barColor }]} />
+          </GroupedInset>
+        ) : (
+          <GroupedInset>
+            <View style={styles.cardInner}>
+              <View style={styles.row}>
+                <Text style={styles.label}>已用</Text>
+                <Text
+                  style={styles.amount}
+                  accessibilityLabel={`已用 ${formatAmountDisplay(spent)}，预算 ${formatAmountDisplay(capVal)}`}
+                >
+                  {formatAmountDisplay(spent)} / {formatAmountDisplay(capVal)}
+                </Text>
+              </View>
+              <View style={styles.track}>
+                <View style={[styles.trackFill, { width: `${Math.round(progress * 100)}%`, backgroundColor: barColor }]} />
+              </View>
+              {over ? (
+                <Text style={styles.warn}>已超出预算</Text>
+              ) : null}
+              <Pressable
+                style={({ pressed }) => [styles.secondaryBtn, pressed ? { opacity: pressedOpacity } : null]}
+                onPress={openModal}
+                accessibilityRole="button"
+                accessibilityLabel="修改本月预算"
+              >
+                <Text style={styles.secondaryBtnText}>修改预算</Text>
+              </Pressable>
             </View>
-            {over ? (
-              <Text style={styles.warn}>已超出预算</Text>
-            ) : null}
-            <Pressable
-              style={({ pressed }) => [styles.secondaryBtn, pressed ? { opacity: pressedOpacity } : null]}
-              onPress={openModal}
-              accessibilityRole="button"
-              accessibilityLabel="修改本月预算"
-            >
-              <Text style={styles.secondaryBtnText}>修改预算</Text>
-            </Pressable>
-          </View>
+          </GroupedInset>
         )}
       </ScrollView>
 

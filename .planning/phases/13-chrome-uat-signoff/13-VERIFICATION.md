@@ -7,10 +7,15 @@
 
 | 屏 | 浅色 | 深色 | 降低透明度 | 备注 / deviation |
 |----|------|------|------------|------------------|
-| Chart | [ ] | [ ] | [ ] | |
-| Budget | [ ] | [ ] | [ ] | |
-| Asset | [ ] | [ ] | [ ] | |
-| Mine | [ ] | [ ] | [ ] | |
+| Chart | [ ] | [ ] | [ ] | Wave 1：`GroupedInset` 包裹 KPI / 趋势 / 分类列表；分段条 `tertiaryFill` + hairline；周期 chip 去 `shadows.card` |
+| Budget | [ ] | [ ] | [ ] | Wave 1：`GroupedInset` 主卡片；超支条与文案 `colors.expense`；Modal `modalScrim`；顶栏 canvas + hairline |
+| Asset | [ ] | [ ] | [ ] | Wave 1：顶栏无 `colors.main` 实心块；账户列表单组 `GroupedInset`；Modal `modalScrim` |
+| Mine | [ ] | [ ] | [ ] | Wave 1：顶栏 canvas + hairline，标题 `colors.title`；正文仍为 `GroupedInset` |
+
+## 工程验收（Phase 13 / Plan 01）
+
+- `npm run verify`：在合并前须 **退出码 0**（CI 与本地一致）。
+- grep（Plan 01）：`BudgetScreen` 无 `OVER_BUDGET_COLOR` / `#dc3545`；`ChartScreen` 含 `GroupedInset`；`AssetScreen` 顶栏样式块无 `backgroundColor: colors.main`。
 
 ## 结转 THEME / A11Y / LG-01
 
