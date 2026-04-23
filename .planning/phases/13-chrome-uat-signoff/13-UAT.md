@@ -5,15 +5,15 @@ source:
   - 13-01-SUMMARY.md
   - 13-02-SUMMARY.md
 started: "2026-04-23T14:10:00.000Z"
-updated: "2026-04-23T15:10:00.000Z"
+updated: "2026-04-23T15:15:00.000Z"
 ---
 
 ## Current Test
 
-number: 4
-name: 我的 Tab — 顶栏与折叠块
+number: 5
+name: 深色外观 — 四屏可读
 expected: |
-  切到「我的」Tab。顶栏为 **画布色 + 底部分隔线**；下方 **关于 / 数据与存储 / 设置** 等为 **圆角分组卡片**。点「关于」等可展开说明；按压时有透明度反馈。
+  在系统设置中切换为 **深色外观**，回到 App。依次快速打开 **图表 / 预算 / 资产 / 我的**：正文、卡片背景与分隔线应可辨，无大块灰糊或白字白底等不可读情况。
 awaiting: user response
 
 ## Tests
@@ -35,7 +35,8 @@ reported: "yes"
 
 ### 4. 我的 Tab — 顶栏与折叠块
 expected: 「我的」顶栏为画布 + 分隔线；下方 **关于 / 数据与存储** 等为分组卡片；点按可展开说明，按压有透明度反馈。
-result: pending
+result: pass
+reported: "yes"
 
 ### 5. 深色外观 — 四屏可读
 expected: 系统切换 **深色模式** 后，重复快速浏览图表/预算/资产/我的：正文、卡片背景与分隔线可辨，无大块不可读对比。
@@ -48,9 +49,9 @@ result: pending
 ## Summary
 
 total: 6
-passed: 3
+passed: 4
 issues: 0
-pending: 3
+pending: 2
 skipped: 0
 blocked: 0
 
