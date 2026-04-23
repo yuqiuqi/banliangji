@@ -3,29 +3,17 @@ import DateTimePicker, { DateTimePickerAndroid } from "@react-native-community/d
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
-import {
-  Platform,
-  Pressable,
-  SectionList,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Platform, SectionList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoryIcon } from "../components/CategoryIcon";
+import { SpringPressable } from "../components/SpringPressable";
 import { GroupedInset } from "../components/ios";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { groupBillsByDayKey, queryBillsForMonth } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import {
-  headerFabIconSize,
-  headerFabSize,
-  pressedOpacity,
-  pressScale,
-  shadows,
-} from "../theme/layout";
+import { headerFabIconSize, headerFabSize, shadows } from "../theme/layout";
 import { iosType } from "../theme/typography";
 import type { Bill } from "../types/models";
 import {
@@ -135,51 +123,39 @@ export function HomeScreen(): React.ReactElement {
     navigation.setOptions({
       headerRight: () => (
         <View style={styles.headerActions}>
-          <Pressable
+          <SpringPressable
             onPress={() => {
               navigation.navigate("BillQuery");
             }}
             hitSlop={8}
             accessibilityLabel="查账-打开账单"
-            style={({ pressed }) => [
-              styles.headerChip,
-              styles.headerChipWash,
-              pressed ? { opacity: pressedOpacity, transform: [{ scale: pressScale }] } : null,
-            ]}
+            style={[styles.headerChip, styles.headerChipWash]}
           >
             <MaterialCommunityIcons name="filter-variant" size={22} color={colors.onMain} />
-          </Pressable>
-          <Pressable
+          </SpringPressable>
+          <SpringPressable
             onPress={() => {
               navigation.navigate("CreateBill");
             }}
             hitSlop={8}
             accessibilityLabel="记一笔"
-            style={({ pressed }) => [
-              styles.headerChip,
-              styles.headerChipAccent,
-              pressed ? { opacity: pressedOpacity, transform: [{ scale: pressScale }] } : null,
-            ]}
+            style={[styles.headerChip, styles.headerChipAccent]}
           >
             <MaterialCommunityIcons name="plus" size={headerFabIconSize} color={colors.onAccent} />
-          </Pressable>
+          </SpringPressable>
         </View>
       ),
       headerLeft: () => (
-        <Pressable
+        <SpringPressable
           onPress={() => {
             navigation.navigate("Calendar");
           }}
           hitSlop={8}
           accessibilityLabel="打开日历"
-          style={({ pressed }) => [
-            styles.headerChip,
-            styles.headerChipWash,
-            pressed ? { opacity: pressedOpacity, transform: [{ scale: pressScale }] } : null,
-          ]}
+          style={[styles.headerChip, styles.headerChipWash]}
         >
           <MaterialCommunityIcons name="calendar-month" size={22} color={colors.onMain} />
-        </Pressable>
+        </SpringPressable>
       ),
     });
   }, [navigation, colors, styles]);
@@ -241,8 +217,8 @@ export function HomeScreen(): React.ReactElement {
       const isExpense = item.type === 1;
       const prefix = isExpense ? "-" : "+";
       return (
-        <Pressable
-          style={({ pressed }) => [styles.row, pressed ? { opacity: pressedOpacity } : null]}
+        <SpringPressable
+          style={styles.row}
           onPress={() => {
             navigation.navigate("BillDetail", { billId: item.id });
           }}
@@ -256,7 +232,7 @@ export function HomeScreen(): React.ReactElement {
             {prefix}
             {formatAmountDisplay(parseAmount(item.amount))}
           </Text>
-        </Pressable>
+        </SpringPressable>
       );
     },
     [navigation, styles],
@@ -265,16 +241,13 @@ export function HomeScreen(): React.ReactElement {
   return (
     <SafeAreaView style={styles.safe} edges={["bottom"]}>
       <View style={[styles.headerBanner, shadows.raised]}>
-        <Pressable
-          style={({ pressed }) => [styles.headerLeft, pressed ? { opacity: pressedOpacity } : null]}
-          onPress={openMonthPicker}
-        >
+        <SpringPressable style={styles.headerLeft} onPress={openMonthPicker}>
           <Text style={styles.yearText}>{formatHeaderYear(monthAnchor)}</Text>
           <View style={styles.monthRow}>
             <Text style={styles.monthBig}>{formatHeaderMonth(monthAnchor)}</Text>
             <MaterialCommunityIcons name="menu-down" size={22} color={colors.onMain} />
           </View>
-        </Pressable>
+        </SpringPressable>
         <View style={styles.headerDivider} />
         <View style={styles.headerRight}>
           <View style={styles.statCol}>
@@ -309,12 +282,9 @@ export function HomeScreen(): React.ReactElement {
         <View style={styles.pickerOverlay}>
           <View style={styles.pickerCard}>
             <View style={styles.pickerToolbar}>
-              <Pressable
-                onPress={() => setIosPickerOpen(false)}
-                style={({ pressed }) => [pressed ? { opacity: pressedOpacity } : null]}
-              >
+              <SpringPressable onPress={() => setIosPickerOpen(false)}>
                 <Text style={styles.pickerDone}>完成</Text>
-              </Pressable>
+              </SpringPressable>
             </View>
             <DateTimePicker
               value={monthAnchor}

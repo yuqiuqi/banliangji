@@ -2,17 +2,11 @@ import DateTimePicker, { DateTimePickerAndroid } from "@react-native-community/d
 import { useNavigation, useRoute, type RouteProp } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  FlatList,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, Platform, StyleSheet, Text, View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { BillCalculator, BILL_CALCULATOR_CONTENT_HEIGHT } from "../components/BillCalculator";
+import { SpringPressable } from "../components/SpringPressable";
 import { CategoryIcon } from "../components/CategoryIcon";
 import { IOSChromeGlassBackground, SegmentedTwo } from "../components/ios";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
@@ -21,14 +15,13 @@ import { createBillNow, getBillById, updateBill } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { pressedOpacity, radii, shadows } from "../theme/layout";
+import { radii, shadows } from "../theme/layout";
+import { SPRING } from "../theme/motion";
 import type { BillAmountKind, CategoryItem } from "../types/models";
 import { formatAmountDisplay } from "../utils/money";
 
 const CALCULATOR_OVERLAY_HEIGHT = BILL_CALCULATOR_CONTENT_HEIGHT;
 const SAFE_CONTENT_INSET_EXTRA = 16;
-const DOCK_SPRING = { damping: 15, stiffness: 220 };
-
 function buildCreateBillStyles(colors: AppPalette, borderTopGlass: string) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.createBody },
@@ -139,9 +132,9 @@ export function CreateBillScreen(): React.ReactElement {
 
   useEffect(() => {
     if (calcVisible) {
-      dockScale.value = withSpring(0.985, DOCK_SPRING);
+      dockScale.value = withSpring(0.985, SPRING.UI);
       const t = setTimeout(() => {
-        dockScale.value = withSpring(1, DOCK_SPRING);
+        dockScale.value = withSpring(1, SPRING.UI);
       }, 140);
       return () => clearTimeout(t);
     }
@@ -291,8 +284,8 @@ export function CreateBillScreen(): React.ReactElement {
               renderItem={({ item }) => {
                 const on = selected?.categoryId === item.categoryId;
                 return (
-                  <Pressable
-                    style={({ pressed }) => [styles.cellHit, pressed ? { opacity: pressedOpacity } : null]}
+                  <SpringPressable
+                    style={styles.cellHit}
                     onPress={() => {
                       setSelected(item);
                       setCalcVisible(true);
@@ -304,7 +297,7 @@ export function CreateBillScreen(): React.ReactElement {
                         {item.name}
                       </Text>
                     </View>
-                  </Pressable>
+                  </SpringPressable>
                 );
               }}
             />
@@ -335,12 +328,9 @@ export function CreateBillScreen(): React.ReactElement {
         <View style={styles.pickerOverlay}>
           <View style={[styles.pickerCard, { paddingBottom: 24 + bottomComfort }]}>
             <View style={styles.pickerToolbar}>
-              <Pressable
-                onPress={() => setIosDateOpen(false)}
-                style={({ pressed }) => [pressed ? { opacity: pressedOpacity } : null]}
-              >
+              <SpringPressable onPress={() => setIosDateOpen(false)}>
                 <Text style={styles.pickerDone}>完成</Text>
-              </Pressable>
+              </SpringPressable>
             </View>
             <DateTimePicker
               value={billDate}

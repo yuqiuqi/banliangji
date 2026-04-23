@@ -1,6 +1,7 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { useCallback, useMemo, useState } from "react";
-import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
+import { SpringPressable } from "./SpringPressable";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
 import { radii, shadows } from "../theme/layout";
@@ -126,10 +127,6 @@ function buildCalcStyles(colors: AppPalette) {
     cellTextDone: {
       fontWeight: "600",
       color: colors.onAccent,
-    },
-    pressed: {
-      opacity: 0.88,
-      transform: [{ scale: 0.98 }],
     },
   });
 }
@@ -300,13 +297,9 @@ export function BillCalculator({
               const isComplete = b.kind === "done";
               const isDate = b.kind === "date";
               return (
-                <Pressable
+                <SpringPressable
                   key={`${ri}-${ci}`}
-                  style={({ pressed }) => [
-                    styles.cell,
-                    isComplete ? styles.cellAccent : null,
-                    pressed ? styles.pressed : null,
-                  ]}
+                  style={[styles.cell, isComplete ? styles.cellAccent : null]}
                   onPress={() => {
                     if (b.kind === "num") {
                       input(b.v);
@@ -335,7 +328,7 @@ export function BillCalculator({
                       {labelFor(b, billDateLabel)}
                     </Text>
                   )}
-                </Pressable>
+                </SpringPressable>
               );
             })}
           </View>
