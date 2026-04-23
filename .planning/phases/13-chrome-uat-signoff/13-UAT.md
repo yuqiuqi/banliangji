@@ -5,15 +5,15 @@ source:
   - 13-01-SUMMARY.md
   - 13-02-SUMMARY.md
 started: "2026-04-23T14:10:00.000Z"
-updated: "2026-04-23T15:00:00.000Z"
+updated: "2026-04-23T15:05:00.000Z"
 ---
 
 ## Current Test
 
-number: 2
-name: 预算 Tab — 顶栏与超支语义色
+number: 3
+name: 资产 Tab — 分组列表与 Modal
 expected: |
-  切到「预算」Tab。顶栏应为 **浅灰画布感 + 底部分隔线**（非整屏实心大块色）。若已设预算且支出超预算：进度条超支段为 **红色/语义支出色**。点「修改预算」或「设置预算」：弹出 Modal，**背景变暗**（scrim），中间白底圆角表单；可取消关闭。
+  切到「资产」Tab。顶栏与预算类似（画布 + 分隔线）。有账户时：账户在 **单组圆角列表** 内分行显示。点「+ 添加账户」或空态「添加账户」：Modal 带 **变暗背景**，表单内主按钮为 **保存账户**。可取消关闭。
 awaiting: user response
 
 ## Tests
@@ -25,7 +25,8 @@ reported: "yes"
 
 ### 2. 预算 Tab — 顶栏与超支语义色
 expected: 「预算」屏顶栏为 **浅灰画布感 + 底部分隔线**（非整屏实心品牌色块）；有预算时进度条超支段为 **系统红/语义支出色**（非随机 hex）；点「修改预算」弹出 Modal，**背景变暗**（scrim），中间白底圆角表单。
-result: pending
+result: pass
+reported: "yes"
 
 ### 3. 资产 Tab — 分组列表与 Modal
 expected: 顶栏与预算类似（非孤立深色顶块）；有账户时 **单组圆角列表**内多行；点「+ 添加账户」或空态按钮打开 Modal，scrim + 表单；主按钮文案可见 **保存账户**（或等价）。
@@ -46,9 +47,9 @@ result: pending
 ## Summary
 
 total: 6
-passed: 1
+passed: 2
 issues: 0
-pending: 5
+pending: 4
 skipped: 0
 blocked: 0
 
