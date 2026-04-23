@@ -1,61 +1,65 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.4
-milestone_name: iOS 26 Chrome 副路径全量对齐
-status: verifying
-last_updated: "2026-04-23T14:00:00.000Z"
+milestone: v3.0
+milestone_name: iOS 26 动效·交互·组件全面质感打磨
+status: planning
+last_updated: "2026-04-23T16:00:00.000Z"
 last_activity: 2026-04-23
 progress:
   total_phases: 1
   completed_phases: 0
-  total_plans: 2
-  completed_plans: 2
-  percent: 100
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Current Position
 
-Phase: **13**（chrome-uat-signoff）— **v2.4 已立项**；范围已扩大为 **副路径四屏** 与 Apple **iOS 26 Liquid Glass** 全量对齐  
-Plan: **`13-01-PLAN` + `13-02-PLAN`**（Wave 1 实现 · Wave 2 手测与结转收口）  
-Status: **LG-02 已验收**（`13-UAT` 6/6 + `13-VERIFICATION` 矩阵）；**里程碑仍未闭合** — **DATA-02**、**THEME-01 / A11Y-01 / LG-01**（Tier-1 / 11-VERIFICATION）待设备或 Phase 11 签字
+Phase: **14**（ios26-motion-polish）— **v3.0 已立项**；全局动效、交互与触觉打磨  
+Plan: 待 `/gsd-plan-phase 14`  
+Status: **里程碑已开始**；研究规格 `IOS26-MOTION-INTERACTION-SPEC.md` 已就绪
 
-- **Phase:** **13** — 见 `.planning/phases/13-chrome-uat-signoff/README.md`  
-- **权威参考：** `.planning/research/IOS26-LIQUID-GLASS-REFERENCE.md`（Apple Developer + HIG 原则）  
-- **Last activity:** 2026-04-23 — `/gsd-new-milestone`（用户定调：图表/预算/资产/我的须与 iOS 26 **动画、透明度、交互、色彩**一致）  
-- **Resume：** `13-CONTEXT.md` · **`13-UI-SPEC.md`（Phase 13 设计契约）** · `/gsd-execute-phase 13` · 根目录 `UI-SPEC.md` · `11-MATERIAL-MOTION-SPEC.md`
+- **Phase:** **14** — `IOS26-MOTION-INTERACTION-SPEC.md` + `REQUIREMENTS.md` v3.0
+- **权威参考：** `.planning/research/IOS26-MOTION-INTERACTION-SPEC.md`（iOS 26 弹簧参数、触觉策略、Reduce Motion 降级）
+- **Last activity:** 2026-04-23 — `/gsd-new-milestone v3.0`：研究 iOS 26 动效规格，定义 ANIM/INT/HAP/MOT 需求
+- **Resume：** `IOS26-MOTION-INTERACTION-SPEC.md` · `REQUIREMENTS.md` · `/gsd-plan-phase 14`
 
 ## Current Status
 
-- **上一已交付里程碑（全局 Chrome 基线）：** v2.2（Phase 9）  
-- **本里程碑焦点：** **LG-02** 四屏 + 结转 **DATA-02** / **THEME-01** / **A11Y-01** / **LG-01**
+- **上一已交付里程碑（副路径 Chrome）：** v2.4（Phase 13 · LG-02 Done）
+- **本里程碑焦点：** **感知质量** — 弹簧动效、触觉反馈、所有界面 Spring 按压、图表 Stagger、分段 Spring Thumb
 
 ## Progress Summary
 
-- 需求：`.planning/REQUIREMENTS.md`（**v2.4** + v2.3 结转）  
-- 路线图：`.planning/ROADMAP.md`（**Phase 13** = v2.4 主交付）
+- 需求：`.planning/REQUIREMENTS.md`（**v3.0** ANIM/INT/HAP/MOT + v2.4 结转）
+- 路线图：`.planning/ROADMAP.md`（**Phase 14** = v3.0 主交付）
+- 研究：`.planning/research/IOS26-MOTION-INTERACTION-SPEC.md`（弹簧参数表、场景规格、改造优先级矩阵）
 
 ## Blockers
 
-- **工程构建级：** 无（`npm run verify` 须保持绿）。  
-- **验收级：** **DATA-02** 杀进程冒烟仍 **BLOCKED**。**LG-02** 已由 `13-UAT` / `13-VERIFICATION` 关闭（2026-04-23）。
+- **工程构建级：** 无（`npm run verify` 须保持绿）
+- **结转：** DATA-02（`.planning/phases/10-persist-uat/DATA-02-SMOKE.md` 仍 BLOCKED）；THEME-01 / A11Y-01 / LG-01（11-VERIFICATION 手测未签字）
 
 ## Deferred Items
 
 | 类别 | 项 | 说明 |
 |------|----|------|
-| DATA-02 | 杀进程冒烟 | 仍 **BLOCKED** — 见 `.planning/phases/10-persist-uat/DATA-02-SMOKE.md`；与 v2.4 并行直至 **PASS/FAIL** |
+| DATA-02 | 杀进程冒烟 | 仍 **BLOCKED** — 见 `DATA-02-SMOKE.md`；2026-05-01 前设备补跑 |
+| Tab 动态收缩 | ANIM-07 | P2，下里程碑 |
+| Swipe-to-delete | INT-02 | P2，下里程碑 |
 
 ## Accumulated Context
 
-- v2.3 Phase 10–12 文档与 Phase 11 材质/动效规格保留在 `.planning/phases/`。  
-- **Liquid Glass 官方原则（验收口径）：** **Hierarchy**（内容焦点）、**Harmony**（与软硬件形态一致）、**Consistency**（跨上下文可预期）— 见 research 文件引用的 Apple Developer「Liquid Glass」与 HIG。
+- v2.2 Chrome 基线：`src/components/ios/` 原语、`UI-SPEC.md`、`DESIGN.md`
+- v2.4 副路径：`13-UI-SPEC.md`、`13-VERIFICATION.md`（矩阵已勾）
+- **v3.0 新增：** `src/theme/motion.ts`（待创建）、`src/hooks/useSpringPress.ts`（待创建）、`src/hooks/useReduceMotion.ts`（待创建）、`src/utils/haptics.ts`（待创建）
 
 ## When User Says "where were we?"
 
-- **v2.4：** Phase 13 **两则计划已执行**；优先补 **LG-02 手测矩阵** 与 **DATA-02** 设备取证。  
-- **结转：** `.planning/phases/10-persist-uat/DATA-02-SMOKE.md`、`11-VERIFICATION` / `11-UAT`、`13-VERIFICATION`（**P13-LG02-UAT**）。
+- **v3.0：** Phase 14 待 `/gsd-plan-phase 14`；重点是 `motion.ts` + `useSpringPress` + `expo-haptics` + 图表 stagger + 分段 Spring Thumb
+- **结转：** DATA-02 冒烟、11-VERIFICATION 手测签字
 
 ---
-*Last updated: 2026-04-23 — `/gsd-execute-phase 13`：01/02 SUMMARY + `13-VERIFICATION` 诚实 deviation*
+*Last updated: 2026-04-23 — `/gsd-new-milestone v3.0`：iOS 26 动效研究 + 9 项需求定义*

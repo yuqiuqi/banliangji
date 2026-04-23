@@ -12,18 +12,31 @@
 
 **v2.2 — iOS 26 全局 Chrome（2026-04-22）** 已封板：全站语义色与 Liquid Glass 取向、`src/components/ios/` 原语、根目录 **`UI-SPEC.md`**、宽屏居中；归档见 `.planning/milestones/v2.2-ROADMAP.md` / `v2.2-REQUIREMENTS.md`。
 
-## Current Milestone: v2.4 — iOS 26 Chrome 副路径全量对齐
+## Current Milestone: v3.0 — iOS 26 动效·交互·组件全面质感打磨
 
-**Goal:** 在 **iOS / iPadOS 26** 设计语言下，使 **图表、预算、资产、我的** 四屏在 **色彩（`iosSemantic`）、透明度与材质层次、动效与过渡、交互范式** 上与 **系统 Chrome + Liquid Glass** **系统性一致**；维护者反馈上述屏当前**不符合**核心 UI/UX，本里程碑以 **可验收** 方式收口（见 `.planning/research/IOS26-LIQUID-GLASS-REFERENCE.md` 官方锚点与 `UI-SPEC.md` / `11-MATERIAL-MOTION-SPEC.md` Tier-2 扩展）。
+**Goal:** 以 **iOS 26 / Liquid Glass** 物理动效与交互范式为锚，将 **半两记所有屏幕与组件** 从「视觉对齐」升级为「感知对齐」——弹簧动效、触觉反馈、分段滑动指示器、图表 stagger 生长、列表入场、Modal Spring 进出场、大标题折叠，统一 `motion.ts` 弹簧常量，全局 Reduce Motion 降级。**一个集中阶段，所有界面，彻底贴合 Apple iOS 26 手感。**
 
 **Target features:**
 
-- **LG-02**：四副路径屏（**图表**周/月/年视图、**预算**、**资产**、**我的**）端到端对齐 Tier-1 已建立的 **组件与语义色**；补全 **滚动—导航协同**、**Sheet/列表/分组** 与 **动态材质栈**，禁止「一屏一风格」。  
-- **THEME-01 / A11Y-01 / LG-01（结转）**：深色与**降低透明度**下四屏仍可读、可点；与 Phase 11 **Tier-1** 结论一致或可引用偏差表。  
-- **DATA-02（结转）**：设备杀进程冒烟 **PASS/FAIL** 可引用（不以「看起来像」替代）。  
-- **QA-04**：已闭环；若四屏改动引入新 UAT 项，在 Phase 13 `11-UAT` / `13-*` 跟踪。
+- **ANIM-01** — `motion.ts` 全局弹簧常量（`SPRING.UI / THUMB / SHEET / GESTURE`），替代散落参数；Reduce Motion 全局 hook  
+- **ANIM-02** — 分段控件 **Spring Thumb**：选中指示器以弹簧滑行，适用图表周/月/年与全局 `SegmentedTwo`  
+- **ANIM-03** — 图表柱图 **Staggered Spring 生长**：切换周期时各柱错时弹起；整区 Reanimated fade 替代 `Animated.timing`  
+- **ANIM-04** — 列表项 **Stagger FadeIn**：分类列表、账单列表数据从无到有时错时入场  
+- **ANIM-05** — Modal/Sheet **Spring 进出场**：卡片弹入 + Scrim 淡入联动；关闭弹出  
+- **ANIM-06** — 副路径屏 **Scroll Header Collapse**：大标题随滚动弹性收缩，顶栏材质协同  
+- **INT-01** — **useSpringPress** 全站统一：所有 `Pressable` 改 Reanimated `withSpring` scale + opacity  
+- **HAP-01** — **expo-haptics 全局触觉**：分段切换 selection、保存成功 notification、删除 error、边界 light；封装 `haptics.ts`  
+- **MOT-01** — **Reduce Motion 全局降级**：`useReduceMotion` hook，所有动效场景接受降级参数
 
-**范围说明：** **不新增**业务大功能（无新报表类型/云能力）；**持久化 schema 不变**；允许 **表现层与导航动效** 大改；**不承诺**与 Apple 私有像素逐帧一致，**须**文档化 RN/`expo-blur` **Accepted deviation**。
+**范围说明：** 不新增业务功能；不改数据库；允许全量重写各屏动效与按压代码；`src/theme/motion.ts`（新文件）为单一弹簧来源；允许 Accepted deviation（记入 `14-VERIFICATION`）。
+
+---
+
+## Prior milestone: v2.4 — iOS 26 Chrome 副路径全量对齐
+
+**Goal:** 图表/预算/资产/我的四屏 Tier-2 Chrome 对齐；LG-02 已验收（`13-UAT` 6/6 pass）。DATA-02 仍 BLOCKED（设备待补证）。
+
+**Status:** Code complete；LG-02 Done；DATA-02 / 11 结转待设备签字。
 
 ---
 
