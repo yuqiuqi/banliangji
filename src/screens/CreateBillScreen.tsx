@@ -1,8 +1,9 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { useNavigation, useRoute, type RouteProp } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
-import { FlatList, Platform, StyleSheet, Text, View } from "react-native";
+import { FlatList, Platform, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { BillCalculator, BILL_CALCULATOR_CONTENT_HEIGHT } from "../components/BillCalculator";
@@ -15,7 +16,7 @@ import { createBillNow, getBillById, updateBill } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { radii, shadows } from "../theme/layout";
+import { listContentInset, radii, shadows } from "../theme/layout";
 import { iosType } from "../theme/typography";
 import { SPRING } from "../theme/motion";
 import type { BillAmountKind, CategoryItem } from "../types/models";
@@ -24,13 +25,16 @@ import { hapticSuccess } from "../utils/haptics";
 
 const CALCULATOR_OVERLAY_HEIGHT = BILL_CALCULATOR_CONTENT_HEIGHT;
 const SAFE_CONTENT_INSET_EXTRA = 16;
+const GRID_COLS = 4;
+const GRID_COL_GAP = 10;
+
 function buildCreateBillStyles(colors: AppPalette, borderTopGlass: string) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.createBody },
     body: { flex: 1 },
     listOuter: {
       flex: 1,
-      marginHorizontal: 12,
+      marginHorizontal: listContentInset,
       marginBottom: 16,
       borderRadius: radii.card,
     },
@@ -70,17 +74,21 @@ function buildCreateBillStyles(colors: AppPalette, borderTopGlass: string) {
       width: "100%",
     },
     kindSegment: {
-      marginHorizontal: 12,
+      marginHorizontal: listContentInset,
       marginTop: 8,
       marginBottom: 8,
       backgroundColor: colors.createBody,
     },
-    grid: { paddingVertical: 14, paddingHorizontal: 6 },
-    row: { justifyContent: "flex-start" },
+    grid: { paddingVertical: 16, paddingHorizontal: 12 },
+    row: {
+      width: "100%",
+      flexDirection: "row",
+      justifyContent: "center",
+      columnGap: GRID_COL_GAP,
+      marginBottom: 6,
+    },
     cellHit: {
-      width: "25%",
-      paddingHorizontal: 4,
-      paddingVertical: 5,
+      paddingVertical: 4,
     },
     cellPlate: {
       alignItems: "center",
@@ -94,7 +102,16 @@ function buildCreateBillStyles(colors: AppPalette, borderTopGlass: string) {
       backgroundColor: colors.accentSelection,
       ...shadows.categoryCellOn,
     },
-    cellLabel: { marginTop: 6, fontSize: 12, color: colors.title, maxWidth: 72, textAlign: "center" },
+    cellLabel: { marginTop: 6, ...iosType.caption1, color: colors.title, textAlign: "center" },
+    headerDismiss: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingVertical: 6,
+      paddingRight: 8,
+      marginLeft: -4,
+    },
+    headerDismissText: { ...iosType.footnote, color: colors.onMain, marginLeft: 2 },
+    headerRightSpacer: { width: 56 },
     pickerOverlay: {
       ...StyleSheet.absoluteFillObject,
       backgroundColor: "rgba(0,0,0,0.35)",
@@ -107,10 +124,22 @@ function buildCreateBillStyles(colors: AppPalette, borderTopGlass: string) {
 }
 
 export function CreateBillScreen(): React.ReactElement {
+  const { width: windowWidth } = useWindowDimensions();
   const { colors, colorScheme } = useAppTheme();
   const borderTopGlass =
     colorScheme === "dark" ? "rgba(255, 255, 255, 0.12)" : "rgba(255, 255, 255, 0.45)";
   const styles = useMemo(() => buildCreateBillStyles(colors, borderTopGlass), [colors, borderTopGlass]);
+
+  /** 固定列宽 + 行 `justifyContent: center`，避免 `width: 25%` 在 columnWrapper 上算错导致整屏挤在左侧 */
+  const categoryCellWidth = useMemo(() => {
+    const gridPadH = 12 * 2;
+    const listMargins = listContentInset * 2;
+    const usable = windowWidth - listMargins - gridPadH;
+    return Math.max(
+      56,
+      Math.floor((usable - GRID_COL_GAP * (GRID_COLS - 1)) / GRID_COLS),
+    );
+  }, [windowWidth]);
 
   const dockScale = useSharedValue(1);
   const dockAnimStyle = useAnimatedStyle(() => ({
@@ -125,20 +154,24 @@ export function CreateBillScreen(): React.ReactElement {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerBackVisible: false,
+      headerTitleAlign: "center",
       headerLeft: () => (
         <SpringPressable
+          style={styles.headerDismiss}
           onPress={() => {
             navigation.goBack();
           }}
-          hitSlop={12}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           accessibilityRole="button"
           accessibilityLabel="放弃本次编辑"
         >
-          <Text style={{ color: colors.onMain, ...iosType.body }}>放弃本次编辑</Text>
+          <MaterialCommunityIcons name="chevron-left" size={24} color={colors.onMain} />
+          <Text style={styles.headerDismissText}>放弃</Text>
         </SpringPressable>
       ),
+      headerRight: () => <View style={styles.headerRightSpacer} />,
     });
-  }, [navigation, colors.onMain]);
+  }, [navigation, colors.onMain, styles]);
   const { refresh, generation } = useBillsRefresh();
   const editId = route.params?.billId;
 
@@ -306,7 +339,7 @@ export function CreateBillScreen(): React.ReactElement {
                 const on = selected?.categoryId === item.categoryId;
                 return (
                   <SpringPressable
-                    style={styles.cellHit}
+                    style={[styles.cellHit, { width: categoryCellWidth }]}
                     onPress={() => {
                       setSelected(item);
                       setCalcVisible(true);
@@ -314,7 +347,10 @@ export function CreateBillScreen(): React.ReactElement {
                   >
                     <View style={[styles.cellPlate, on ? styles.cellPlateOn : null]}>
                       <CategoryIcon categoryId={item.categoryId} />
-                      <Text style={styles.cellLabel} numberOfLines={1}>
+                      <Text
+                        style={[styles.cellLabel, { maxWidth: categoryCellWidth - 8 }]}
+                        numberOfLines={1}
+                      >
                         {item.name}
                       </Text>
                     </View>
