@@ -32,8 +32,8 @@ function buildMineStyles(colors: AppPalette) {
     cardInner: {
       padding: 16,
     },
-    cardTitle: { fontSize: 17, fontWeight: "600", color: colors.title, marginBottom: 6 },
-    sub: { marginTop: 8, fontSize: 14, color: colors.lightTitle, lineHeight: 20 },
+    cardTitle: { ...iosType.navTitle, color: colors.title, marginBottom: 6 },
+    sub: { marginTop: 8, ...iosType.footnote, color: colors.lightTitle },
     chevron: { fontSize: 14, color: colors.accent, marginTop: 4 },
   });
 }

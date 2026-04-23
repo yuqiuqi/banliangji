@@ -251,15 +251,15 @@ export function AssetScreen(): React.ReactElement {
         {accounts.length === 0 ? (
           <GroupedInset>
             <View style={styles.cardInner}>
-              <Text style={styles.emptyTitle}>暂无账户</Text>
+              <Text style={styles.emptyTitle}>暂无资产卡片</Text>
               <Text style={styles.emptyHint}>添加一个资产账户并记录当前余额。</Text>
               <SpringPressable
                 style={styles.primaryBtn}
                 onPress={openAdd}
                 accessibilityRole="button"
-                accessibilityLabel="添加账户"
+                accessibilityLabel="添加资产"
               >
-                <Text style={styles.primaryBtnText}>添加账户</Text>
+                <Text style={styles.primaryBtnText}>添加资产</Text>
               </SpringPressable>
             </View>
           </GroupedInset>
@@ -295,9 +295,9 @@ export function AssetScreen(): React.ReactElement {
               style={styles.footerAdd}
               onPress={openAdd}
               accessibilityRole="button"
-              accessibilityLabel="添加账户"
+              accessibilityLabel="添加资产"
             >
-              <Text style={styles.footerAddText}>+ 添加账户</Text>
+              <Text style={styles.footerAddText}>+ 添加资产</Text>
             </SpringPressable>
           </>
         )}
@@ -306,7 +306,7 @@ export function AssetScreen(): React.ReactElement {
       <Modal visible={modalOpen} transparent animationType="none">
         <Animated.View style={[styles.modalBackdrop, backdropAnimStyle]}>
           <Animated.View style={[styles.modalCard, sheetAnimStyle]}>
-            <Text style={styles.modalTitle}>{editingId === null ? "添加账户" : "编辑账户"}</Text>
+            <Text style={styles.modalTitle}>{editingId === null ? "添加资产" : "编辑账户"}</Text>
             <Text style={styles.fieldLabel}>名称</Text>
             <TextInput
               style={styles.input}

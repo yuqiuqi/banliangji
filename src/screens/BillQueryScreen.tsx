@@ -80,6 +80,7 @@ function buildBillQueryStyles(colors: AppPalette) {
     income: { color: colors.income },
     empty: { padding: 40, alignItems: "center" },
     emptyText: { color: colors.lightTitle, textAlign: "center" },
+    emptyCta: { marginTop: 16, fontSize: 17, fontWeight: "600", color: colors.accent },
     pickerOverlay: {
       ...StyleSheet.absoluteFillObject,
       backgroundColor: "rgba(0,0,0,0.35)",
@@ -198,6 +199,12 @@ export function BillQueryScreen(): React.ReactElement {
     [iosField],
   );
 
+  const listEmptyMessage =
+    mode === "range" && (rangeStart === null || rangeEnd === null)
+      ? "请选择日期区间以查看账单"
+      : "该条件下暂无账单";
+  const listEmptyShowCta = !(mode === "range" && (rangeStart === null || rangeEnd === null));
+
   const renderItem = useCallback(
     ({ item }: { item: Bill }) => {
       const t = item.billTime;
@@ -300,11 +307,18 @@ export function BillQueryScreen(): React.ReactElement {
           renderItem={renderItem}
           ListEmptyComponent={
             <View style={styles.empty}>
-              <Text style={styles.emptyText}>
-                {mode === "range" && (rangeStart === null || rangeEnd === null)
-                  ? "请选择日期区间以查看账单"
-                  : "该条件下暂无账单"}
-              </Text>
+              <Text style={styles.emptyText}>{listEmptyMessage}</Text>
+              {listEmptyShowCta ? (
+                <SpringPressable
+                  onPress={() => {
+                    navigation.navigate("CreateBill");
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="去记一笔"
+                >
+                  <Text style={styles.emptyCta}>去记一笔</Text>
+                </SpringPressable>
+              ) : null}
             </View>
           }
         />

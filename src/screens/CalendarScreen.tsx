@@ -88,6 +88,7 @@ function buildCalendarStyles(colors: AppPalette) {
     rowAmtIn: { color: colors.income },
     rowAmtOut: { color: colors.expense },
     empty: { textAlign: "center", color: colors.lightTitle, marginTop: 12 },
+    emptyCta: { marginTop: 12, fontSize: 17, fontWeight: "600", color: colors.accent },
     fab: {
       position: "absolute",
       right: 20,
@@ -211,7 +212,22 @@ export function CalendarScreen(): React.ReactElement {
               </SpringPressable>
             );
           }}
-          ListEmptyComponent={selectedKey ? <Text style={styles.empty}>当日无账单</Text> : null}
+          ListEmptyComponent={
+            selectedKey ? (
+              <View style={{ alignItems: "center", paddingVertical: 16 }}>
+                <Text style={styles.empty}>当日无账单</Text>
+                <SpringPressable
+                  onPress={() => {
+                    navigation.navigate("CreateBill", {});
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="去记一笔"
+                >
+                  <Text style={styles.emptyCta}>去记一笔</Text>
+                </SpringPressable>
+              </View>
+            ) : null
+          }
           contentContainerStyle={{ paddingBottom: 80 }}
         />
       </View>

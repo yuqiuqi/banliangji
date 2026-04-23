@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import { useAppTheme } from "../../theme/ThemeContext";
-import { radii, shadows } from "../../theme/layout";
+import { listContentInset, radii, shadows } from "../../theme/layout";
 
 type Props = {
   children: React.ReactNode;
@@ -14,7 +14,7 @@ export function GroupedInset({ children, style }: Props): React.ReactElement {
     () =>
       StyleSheet.create({
         outer: {
-          marginHorizontal: 16,
+          marginHorizontal: listContentInset,
           borderRadius: radii.card,
         },
         inner: {

@@ -13,6 +13,7 @@ import { useReduceMotion } from "../../hooks/useReduceMotion";
 import { useAppTheme } from "../../theme/ThemeContext";
 import type { AppPalette } from "../../theme/palette";
 import { radii, shadows } from "../../theme/layout";
+import { iosType } from "../../theme/typography";
 import { FADE_MS, SPRING } from "../../theme/motion";
 import { hapticSelect } from "../../utils/haptics";
 
@@ -52,8 +53,8 @@ function buildSegStyles(colors: AppPalette) {
       backgroundColor: "transparent",
     },
     text: {
-      fontSize: 15,
-      fontWeight: "500",
+      ...iosType.footnote,
+      fontWeight: "400",
       color: colors.lightTitle,
     },
     textOn: {

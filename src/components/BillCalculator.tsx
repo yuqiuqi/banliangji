@@ -64,7 +64,7 @@ function labelFor(b: CalcButton, dateLabel: string): string {
     return dateLabel;
   }
   if (b.kind === "done") {
-    return "完成";
+    return "保存账单";
   }
   return "";
 }
@@ -316,7 +316,7 @@ export function BillCalculator({
                     <MaterialCommunityIcons name="backspace-outline" size={24} color={colors.title} />
                   ) : isComplete ? (
                     <Text style={[styles.cellText, styles.cellTextDone]}>
-                      {operateType !== null ? "=" : "完成"}
+                      {operateType !== null ? "=" : "保存账单"}
                     </Text>
                   ) : (
                     <Text

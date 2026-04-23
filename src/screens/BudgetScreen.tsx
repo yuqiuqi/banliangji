@@ -243,8 +243,8 @@ export function BudgetScreen(): React.ReactElement {
         {!hasCap ? (
           <GroupedInset>
             <View style={styles.cardInner}>
-              <Text style={styles.emptyTitle}>尚未设置本月预算</Text>
-              <Text style={styles.emptyHint}>设置后，将按支出账单统计进度（与图表支出口径一致）。</Text>
+              <Text style={styles.emptyTitle}>还没有本月预算</Text>
+              <Text style={styles.emptyHint}>点下方设置后，将按支出账单统计进度（与图表支出口径一致）。</Text>
               <SpringPressable
                 style={styles.primaryBtn}
                 onPress={openModal}

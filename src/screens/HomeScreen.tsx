@@ -80,7 +80,7 @@ function buildHomeScreenStyles(colors: AppPalette) {
     headerRight: { flex: 1, flexDirection: "row", paddingLeft: 24, alignItems: "center" },
     statCol: { marginRight: 32 },
     statLabel: { fontSize: 10, color: colors.onMainSecondary },
-    statValue: { fontSize: 17, fontWeight: "300", color: colors.onMain, marginTop: 4 },
+    statValue: { ...iosType.body, fontWeight: "300", color: colors.onMain, marginTop: 4 },
     sectionHead: {
       backgroundColor: colors.light,
       paddingHorizontal: 16,
@@ -103,7 +103,8 @@ function buildHomeScreenStyles(colors: AppPalette) {
     expense: { color: colors.expense },
     income: { color: colors.income },
     empty: { padding: 40, alignItems: "center" },
-    emptyText: { color: colors.lightTitle },
+    emptyText: { ...iosType.caption1, color: colors.lightTitle, textAlign: "center" },
+    emptyCta: { marginTop: 16, ...iosType.body, fontWeight: "600", color: colors.accent },
     pickerOverlay: {
       ...StyleSheet.absoluteFillObject,
       backgroundColor: "rgba(0,0,0,0.35)",
@@ -284,6 +285,15 @@ export function HomeScreen(): React.ReactElement {
           ListEmptyComponent={
             <View style={styles.empty}>
               <Text style={styles.emptyText}>本月还没有账单</Text>
+              <SpringPressable
+                onPress={() => {
+                  navigation.navigate("CreateBill");
+                }}
+                accessibilityRole="button"
+                accessibilityLabel="去记一笔"
+              >
+                <Text style={styles.emptyCta}>去记一笔</Text>
+              </SpringPressable>
             </View>
           }
           stickySectionHeadersEnabled

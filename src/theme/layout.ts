@@ -7,6 +7,10 @@ import { lightPalette } from "./palette";
 /** iOS 分组列表行水平 inset — 与 `GroupedInset` 内列表左/右对齐 */
 export const listContentInset = 16;
 
+/** 垂直节奏（`15-UI-SPEC`）— 列表与分组块之间 margin */
+export const sectionGapTight = 16;
+export const sectionGapComfort = 24;
+
 /** Press / motion tokens — see `.planning/phases/06-ui-v2/06-UI-SPEC.md` */
 export const pressedOpacity = 0.92;
 export const pressScale = 0.98;

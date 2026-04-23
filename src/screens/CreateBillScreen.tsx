@@ -1,7 +1,7 @@
 import DateTimePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { useNavigation, useRoute, type RouteProp } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { FlatList, Platform, StyleSheet, Text, View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
@@ -16,6 +16,7 @@ import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
 import { radii, shadows } from "../theme/layout";
+import { iosType } from "../theme/typography";
 import { SPRING } from "../theme/motion";
 import type { BillAmountKind, CategoryItem } from "../types/models";
 import { formatAmountDisplay } from "../utils/money";
@@ -120,6 +121,24 @@ export function CreateBillScreen(): React.ReactElement {
   const bottomComfort = insets.bottom + SAFE_CONTENT_INSET_EXTRA;
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
   const route = useRoute<RouteProp<HomeStackParamList, "CreateBill">>();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerBackVisible: false,
+      headerLeft: () => (
+        <SpringPressable
+          onPress={() => {
+            navigation.goBack();
+          }}
+          hitSlop={12}
+          accessibilityRole="button"
+          accessibilityLabel="放弃本次编辑"
+        >
+          <Text style={{ color: colors.onMain, ...iosType.body }}>放弃本次编辑</Text>
+        </SpringPressable>
+      ),
+    });
+  }, [navigation, colors.onMain]);
   const { refresh, generation } = useBillsRefresh();
   const editId = route.params?.billId;
 

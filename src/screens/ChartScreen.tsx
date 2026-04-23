@@ -1,3 +1,5 @@
+import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Dimensions,
@@ -43,6 +45,7 @@ import { formatAmountDisplay, parseAmount } from "../utils/money";
 import { addDays, format } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import { useReduceMotion } from "../hooks/useReduceMotion";
+import type { RootTabParamList } from "../navigation/types";
 import { hapticSelect } from "../utils/haptics";
 
 const PAGE_H_PAD = 16;
@@ -117,6 +120,12 @@ function buildChartStyles(colors: AppPalette) {
       textAlign: "center",
       marginTop: 8,
     },
+    chartEmptyCta: {
+      marginTop: 12,
+      fontSize: 17,
+      fontWeight: "600",
+      color: colors.accent,
+    },
     chartPlot: {
       marginTop: 12,
       position: "relative",
@@ -138,13 +147,14 @@ function buildChartStyles(colors: AppPalette) {
       justifyContent: "space-between",
     },
     barCol: { flex: 1, alignItems: "center", marginHorizontal: 1 },
+    /** 支出趋势柱 — Phase 15：语义色 expense（15-UI-SPEC），非装饰 accent */
     bar: {
       width: 12,
       backgroundColor: colors.light,
       borderTopLeftRadius: 6,
       borderTopRightRadius: 6,
     },
-    barOn: { backgroundColor: colors.accent },
+    barOn: { backgroundColor: colors.expense },
     barLabel: { marginTop: 6, fontSize: 10, color: colors.lightTitle, maxWidth: 40, textAlign: "center" },
     listInner: { paddingVertical: 4, paddingHorizontal: 4 },
     catRow: { flexDirection: "row", alignItems: "center", paddingVertical: 12, paddingHorizontal: 8 },
@@ -169,7 +179,7 @@ function buildChartStyles(colors: AppPalette) {
       marginTop: 6,
       overflow: "hidden",
     },
-    progressFg: { height: 6, backgroundColor: colors.accent, borderRadius: 3 },
+    progressFg: { height: 6, backgroundColor: colors.expense, borderRadius: 3 },
     catAmt: {
       marginLeft: 8,
       fontSize: 15,
@@ -181,6 +191,12 @@ function buildChartStyles(colors: AppPalette) {
     emptyWrap: { alignItems: "center", paddingVertical: 28, paddingHorizontal: 12 },
     empty: { textAlign: "center", color: colors.title, fontSize: 15, fontWeight: "500", marginTop: 10 },
     emptyHint: { textAlign: "center", color: colors.lightTitle, fontSize: 12, marginTop: 8, lineHeight: 18 },
+    emptyListCta: {
+      marginTop: 12,
+      fontSize: 17,
+      fontWeight: "600",
+      color: colors.accent,
+    },
   });
 }
 
@@ -326,10 +342,14 @@ function TrendBar({
 }
 
 export function ChartScreen(): React.ReactElement {
+  const navigation = useNavigation<BottomTabNavigationProp<RootTabParamList>>();
   const { colors } = useAppTheme();
   const styles = useMemo(() => buildChartStyles(colors), [colors]);
   const reduceMotion = useReduceMotion();
   const { generation } = useBillsRefresh();
+  const goCreateBill = useCallback(() => {
+    navigation.navigate("HomeTab", { screen: "CreateBill" });
+  }, [navigation]);
   const [granularity, setGranularity] = useState<ChartGranularity>("week");
   const [periodIndex, setPeriodIndex] = useState(0);
   const [barAnimRevision, setBarAnimRevision] = useState(0);
@@ -502,6 +522,13 @@ export function ChartScreen(): React.ReactElement {
                   <View style={styles.chartEmptyBlock}>
                     <MaterialCommunityIcons name="chart-timeline-variant" size={36} color={colors.lightTitle} />
                     <Text style={styles.chartEmpty}>该时间段暂无支出记录</Text>
+                    <SpringPressable
+                      onPress={goCreateBill}
+                      accessibilityRole="button"
+                      accessibilityLabel="去记一笔"
+                    >
+                      <Text style={styles.chartEmptyCta}>去记一笔</Text>
+                    </SpringPressable>
                   </View>
                 ) : null}
                 <View style={styles.chartPlot}>
@@ -564,6 +591,13 @@ export function ChartScreen(): React.ReactElement {
                   <MaterialCommunityIcons name="chart-donut" size={40} color={colors.lightTitle} />
                   <Text style={styles.empty}>本区间暂无支出</Text>
                   <Text style={styles.emptyHint}>切换周/月/年或选择其他周期试试</Text>
+                  <SpringPressable
+                    onPress={goCreateBill}
+                    accessibilityRole="button"
+                    accessibilityLabel="去记一笔"
+                  >
+                    <Text style={styles.emptyListCta}>去记一笔</Text>
+                  </SpringPressable>
                 </View>
               ) : null}
             </View>
