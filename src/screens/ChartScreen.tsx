@@ -1,17 +1,23 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  Animated,
   Dimensions,
-  Easing,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
+  type LayoutChangeEvent,
 } from "react-native";
+import Animated, {
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoryIcon } from "../components/CategoryIcon";
 import { GroupedInset } from "../components/ios";
+import { SpringPressable } from "../components/SpringPressable";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
@@ -24,7 +30,8 @@ import { queryAllBills } from "../db/billRepo";
 import type { ChartGranularity } from "../types/models";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { chartFadeMs, pressedOpacity, radii } from "../theme/layout";
+import { radii, shadows } from "../theme/layout";
+import { FADE_MS, SPRING } from "../theme/motion";
 import {
   chartMonthPeriods,
   chartWeekPeriods,
@@ -34,12 +41,14 @@ import {
 import { formatAmountDisplay, parseAmount } from "../utils/money";
 import { addDays, format } from "date-fns";
 import { zhCN } from "date-fns/locale";
+import { useReduceMotion } from "../hooks/useReduceMotion";
+import { hapticSelect } from "../utils/haptics";
 
 const PAGE_H_PAD = 16;
-/** GroupedInset 左右 margin + 卡内左右 padding 各 16 */
 const CHART_W = Dimensions.get("window").width - 64;
 
-/** 周/月/年为三档，SegmentedTwo 仅两档，故保留 chip 行；选态底色用 palette.accentSelection。 */
+const GRAN_ORDER = ["week", "month", "year"] as const;
+
 function buildChartStyles(colors: AppPalette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.canvas },
@@ -54,9 +63,9 @@ function buildChartStyles(colors: AppPalette) {
       borderRadius: radii.chip,
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: colors.divider,
+      position: "relative",
     },
     segBtn: { flex: 1, paddingVertical: 8, borderRadius: radii.chip, alignItems: "center" },
-    segOn: { backgroundColor: colors.accentSelection },
     segText: { color: colors.onMain, fontSize: 15 },
     segTextOn: { fontWeight: "600", color: colors.accent },
     tabs: { maxHeight: 52, marginTop: 10 },
@@ -173,12 +182,155 @@ function buildChartStyles(colors: AppPalette) {
   });
 }
 
+function ChartGranularitySpringBar({
+  granularity,
+  onSelect,
+  styles,
+  colors,
+}: {
+  granularity: ChartGranularity;
+  onSelect: (g: ChartGranularity) => void;
+  styles: ReturnType<typeof buildChartStyles>;
+  colors: AppPalette;
+}): React.ReactElement {
+  const reduceMotion = useReduceMotion();
+  const layouts = useRef([
+    { x: 0, w: 0 },
+    { x: 0, w: 0 },
+    { x: 0, w: 0 },
+  ]);
+  const thumbX = useSharedValue(0);
+  const thumbW = useSharedValue(0);
+
+  const moveThumb = useCallback(
+    (i: number) => {
+      const L = layouts.current[i];
+      if (L === undefined || L.w <= 0) {
+        return;
+      }
+      if (reduceMotion) {
+        thumbX.value = withTiming(L.x, { duration: FADE_MS.fast });
+        thumbW.value = withTiming(L.w, { duration: FADE_MS.fast });
+      } else {
+        thumbX.value = withSpring(L.x, SPRING.THUMB);
+        thumbW.value = withSpring(L.w, SPRING.THUMB);
+      }
+    },
+    [reduceMotion],
+  );
+
+  const idx = GRAN_ORDER.indexOf(granularity);
+
+  useEffect(() => {
+    if (idx >= 0) {
+      moveThumb(idx);
+    }
+  }, [idx, moveThumb]);
+
+  const onSegLayout = (i: number) => (e: LayoutChangeEvent) => {
+    const { x, width } = e.nativeEvent.layout;
+    layouts.current[i] = { x, w: width };
+    if (GRAN_ORDER[i] === granularity) {
+      moveThumb(i);
+    }
+  };
+
+  const thumbAnim = useAnimatedStyle(() => ({
+    transform: [{ translateX: thumbX.value }],
+    width: thumbW.value,
+  }));
+
+  const thumbShell = useMemo(
+    () => ({
+      position: "absolute" as const,
+      left: 0,
+      top: 6,
+      bottom: 6,
+      backgroundColor: colors.surface,
+      borderRadius: radii.chip,
+      ...shadows.keyCap,
+      zIndex: 0,
+    }),
+    [colors.surface],
+  );
+
+  return (
+    <View style={styles.segBar}>
+      <Animated.View style={[thumbShell, thumbAnim]} pointerEvents="none" />
+      {GRAN_ORDER.map((g, i) => {
+        const on = granularity === g;
+        const title = g === "week" ? "周" : g === "month" ? "月" : "年";
+        return (
+          <SpringPressable
+            key={g}
+            style={[styles.segBtn, { zIndex: 1, backgroundColor: "transparent" }]}
+            onLayout={onSegLayout(i)}
+            accessibilityRole="button"
+            accessibilityState={{ selected: on }}
+            onPress={() => {
+              if (granularity !== g) {
+                hapticSelect();
+                onSelect(g);
+              }
+            }}
+          >
+            <Text style={[styles.segText, on ? styles.segTextOn : null]}>{title}</Text>
+          </SpringPressable>
+        );
+      })}
+    </View>
+  );
+}
+
+function TrendBar({
+  targetHeight,
+  index,
+  animRevision,
+  reduceMotion,
+  barStyle,
+  barOnStyle,
+  hasData,
+}: {
+  targetHeight: number;
+  index: number;
+  animRevision: number;
+  reduceMotion: boolean;
+  barStyle: object;
+  barOnStyle: object;
+  hasData: boolean;
+}): React.ReactElement {
+  const h = useSharedValue(0);
+
+  useEffect(() => {
+    cancelAnimation(h);
+    h.value = 0;
+    const full = Math.max(4, targetHeight);
+    if (reduceMotion) {
+      h.value = full;
+      return undefined;
+    }
+    const capped = Math.min(index, 11);
+    const tid = setTimeout(() => {
+      h.value = withSpring(full, SPRING.UI);
+    }, capped * 30);
+    return () => clearTimeout(tid);
+  }, [targetHeight, animRevision, reduceMotion, index]);
+
+  const barAnim = useAnimatedStyle(() => ({
+    height: h.value,
+  }));
+
+  return <Animated.View style={[barStyle, hasData ? barOnStyle : null, barAnim]} />;
+}
+
 export function ChartScreen(): React.ReactElement {
   const { colors } = useAppTheme();
   const styles = useMemo(() => buildChartStyles(colors), [colors]);
+  const reduceMotion = useReduceMotion();
   const { generation } = useBillsRefresh();
   const [granularity, setGranularity] = useState<ChartGranularity>("week");
   const [periodIndex, setPeriodIndex] = useState(0);
+  const [barAnimRevision, setBarAnimRevision] = useState(0);
 
   const allBills = useMemo(() => queryAllBills(), [generation]);
   const expenseAll = useMemo(() => filterExpense(allBills), [allBills]);
@@ -263,7 +415,7 @@ export function ChartScreen(): React.ReactElement {
 
   const chartEmpty = maxAmount <= 0;
 
-  const chartOpacity = useRef(new Animated.Value(1)).current;
+  const chartFade = useSharedValue(1);
   const skipChartFade = useRef(true);
 
   useEffect(() => {
@@ -271,19 +423,17 @@ export function ChartScreen(): React.ReactElement {
       skipChartFade.current = false;
       return;
     }
-    chartOpacity.setValue(0);
-    const id = requestAnimationFrame(() => {
-      Animated.timing(chartOpacity, {
-        toValue: 1,
-        duration: chartFadeMs,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
-      }).start();
-    });
-    return () => {
-      cancelAnimationFrame(id);
-    };
+    chartFade.value = 0;
+    chartFade.value = withTiming(1, { duration: FADE_MS.normal });
   }, [granularity, safeIndex]);
+
+  useEffect(() => {
+    setBarAnimRevision((r) => r + 1);
+  }, [granularity, safeIndex]);
+
+  const chartFadeStyle = useAnimatedStyle(() => ({
+    opacity: chartFade.value,
+  }));
 
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
@@ -294,28 +444,15 @@ export function ChartScreen(): React.ReactElement {
       >
         <View style={styles.pageTop}>
           <View style={styles.paddedRow}>
-            <View style={styles.segBar}>
-            {(["week", "month", "year"] as const).map((g) => {
-              const on = granularity === g;
-              const title = g === "week" ? "周" : g === "month" ? "月" : "年";
-              return (
-                <Pressable
-                  key={g}
-                  style={({ pressed }) => [
-                    styles.segBtn,
-                    on ? styles.segOn : null,
-                    pressed ? { opacity: pressedOpacity } : null,
-                  ]}
-                  onPress={() => {
-                    setGranularity(g);
-                    setPeriodIndex(0);
-                  }}
-                >
-                  <Text style={[styles.segText, on ? styles.segTextOn : null]}>{title}</Text>
-                </Pressable>
-              );
-            })}
-            </View>
+            <ChartGranularitySpringBar
+              granularity={granularity}
+              colors={colors}
+              styles={styles}
+              onSelect={(g) => {
+                setGranularity(g);
+                setPeriodIndex(0);
+              }}
+            />
           </View>
           <ScrollView
             horizontal
@@ -327,19 +464,18 @@ export function ChartScreen(): React.ReactElement {
             {periods.map((p, i) => {
               const on = i === safeIndex;
               return (
-                <Pressable
+                <SpringPressable
                   key={`${p.label}-${i}`}
-                  style={({ pressed }) => [
-                    styles.tabChip,
-                    on ? styles.tabChipOn : null,
-                    pressed ? { opacity: pressedOpacity } : null,
-                  ]}
+                  style={[styles.tabChip, on ? styles.tabChipOn : null]}
                   onPress={() => {
-                    setPeriodIndex(i);
+                    if (i !== safeIndex) {
+                      hapticSelect();
+                      setPeriodIndex(i);
+                    }
                   }}
                 >
                   <Text style={[styles.tabChipText, on ? styles.tabChipTextOn : null]}>{p.label}</Text>
-                </Pressable>
+                </SpringPressable>
               );
             })}
           </ScrollView>
@@ -359,7 +495,7 @@ export function ChartScreen(): React.ReactElement {
               <Text style={styles.cardSubtitle}>
                 与下方「分类构成」同一筛选；柱高为区间内相对值
               </Text>
-              <Animated.View style={{ opacity: chartOpacity }}>
+              <Animated.View style={chartFadeStyle}>
                 {chartEmpty ? (
                   <View style={styles.chartEmptyBlock}>
                     <MaterialCommunityIcons name="chart-timeline-variant" size={36} color={colors.lightTitle} />
@@ -373,12 +509,14 @@ export function ChartScreen(): React.ReactElement {
                       const h = maxAmount > 0 ? (pt.amount / maxAmount) * 132 : 0;
                       return (
                         <View key={`${pt.label}-${idx}`} style={styles.barCol}>
-                          <View
-                            style={[
-                              styles.bar,
-                              { height: Math.max(4, h) },
-                              pt.hasData ? styles.barOn : null,
-                            ]}
+                          <TrendBar
+                            targetHeight={h}
+                            index={idx}
+                            animRevision={barAnimRevision}
+                            reduceMotion={reduceMotion}
+                            barStyle={styles.bar}
+                            barOnStyle={styles.barOn}
+                            hasData={pt.hasData}
                           />
                           <Text style={styles.barLabel} numberOfLines={1}>
                             {pt.label}
