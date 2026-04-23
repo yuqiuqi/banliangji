@@ -23,7 +23,7 @@
   <img alt="platform" src="https://img.shields.io/badge/platform-iOS%20%7C%20Android-black">
   <img alt="stack" src="https://img.shields.io/badge/stack-Expo%20SDK%2054%20%2B%20TypeScript-3178c6">
   <img alt="ui" src="https://img.shields.io/badge/UI-iOS%2026%20Liquid%20Glass-007AFF">
-  <img alt="license" src="https://img.shields.io/badge/license-BPSAL%20v1.0-red">
+  <img alt="license" src="https://img.shields.io/badge/license-BPSAL%20v1.1-red">
   <img alt="status" src="https://img.shields.io/badge/status-v2.3%20executing-blueviolet">
 </p>
 
@@ -143,30 +143,28 @@ npm run verify         # typecheck + lint + test
 
 ## 贡献方式
 
-**本项目不接受 Fork、不接受 Pull Request。** 若你有想法或发现问题：
+**禁止修改本仓库代码或文档；不接受 Fork 后的公开/分发/改动；不接受 Pull Request。**
 
-- 前往 [Issues](https://github.com/yuqiuqi/banliangji/issues) 提交：
-  - **Bug 报告**：附截图、机型 / OS / Expo 版本、复现步骤。
-  - **功能建议**：描述使用场景与期望行为；请勿直接贴长代码。
-  - **安全漏洞**：标题前加 `[security]`，尽量私下先通知；无邮箱可走 Issue，但请先不披露 PoC。
+若你发现缺陷或有产品建议，**仅可通过** [GitHub Issues](https://github.com/yuqiuqi/banliangji/issues) 以文字方式提出：
 
-> 提交 Issue 即视为授权作者及团队在项目中自由使用该反馈，详见 [LICENSE](./LICENSE) §4。
+- **Bug 报告**：附截图、机型 / OS / Expo 版本、复现步骤。
+- **功能建议**：描述使用场景与期望行为；**请勿** 附带可合并的补丁、PR 或意图供作者直接合入的代码。
+- **安全漏洞**：标题前加 `[security]`；请勿在 Issue 中直接披露完整利用细节（可按说明逐步配合）。
+
+> 提交 Issue 即视为同意作者按 [LICENSE](./LICENSE) §4.3 使用其中的文字描述与复现信息；**这不授予你对本作品的修改权或商用权**。
 
 ---
 
 ## 许可证
 
-**BPSAL v1.0 — 半两记专有源码可见许可证** · 见 [LICENSE](./LICENSE)。
+**BPSAL v1.1 — 半两记专有源码可见许可证** · 见 [LICENSE](./LICENSE)。
 
 要点（非替代原文）：
 
-- **源码可见，非开源自由软件**；禁止商用。
-- **禁止 Fork 后的任何对外公开、再分发、修改**；Fork 按钮虽由 GitHub 平台提供，但法律层面明确禁止。
-- **禁止将本作品用于 AI 训练 / 微调数据集。**
+- **禁止商用**；**禁止** 对源码/文档作任何修改（含本地克隆后的编辑）。
+- **仅可通过 GitHub Issues** 提出问题类反馈（缺陷、建议、安全线索）；不接受 PR 或补丁式贡献。
+- **源码可见，非开源自由软件**；禁止再分发、禁止将本作品用于 AI 训练 / 微调数据集。
 - 仅作者本人与作者明确授权的 **半两记团队成员** 可修改、分发、商用。
-- 用户仅可通过 **GitHub Issues** 反馈。
-
-如需商业授权 / 加入团队 / 其他合作，请在 Issues 提出，标题前缀 `[商业授权]` / `[团队加入]`。
 
 ---
 
