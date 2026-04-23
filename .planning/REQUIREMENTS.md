@@ -1,10 +1,16 @@
 # Requirements: 半两记
 
-**Milestone:** v2.3 — 质量验证与系统外观  
-**Defined:** 2026-04-22  
-**Core Value:** 离线「记一笔 → 明细/日历/图表即时一致」闭环稳定可靠；数据以 **本机存储** 为准。**本里程碑规划不纳入网络/云服务**（见 Out of Scope）。在 iOS 26 Chrome 基线上补齐**可验证的持久化与验收**，并覆盖**深色与系统辅助设置**下的可读性，以及 **LG-01** 本地材质/动效。
+**Milestone:** **v2.4** — iOS 26 Chrome 副路径全量对齐（**Phase 13**）  
+**Defined:** 2026-04-23（v2.3 条目保留为结转）  
+**Core Value:** 离线「记一笔 → 明细/日历/图表即时一致」闭环稳定可靠；数据以 **本机存储** 为准。**本里程碑规划不纳入网络/云服务**（见 Out of Scope）。**视觉与交互**须以 **Apple iOS / iPadOS 26**（Liquid Glass、HIG：**Hierarchy / Harmony / Consistency**）与仓库 `UI-SPEC.md` / `DESIGN.md` 为锚点——**图表、预算、资产、我的** 不得长期偏离 Tier-1 已建立的 Chrome。
 
-## v2.3 Requirements（本里程碑）
+## v2.4 Requirements（本里程碑 · 新增）
+
+### Liquid Glass · Tier-2 表面 (LG)
+
+- [ ] **LG-02**: **副路径四屏**——**图表**（含周/月/年聚合与图表主路径）、**预算**、**资产**、**我的**——在 **色彩**（仅 `iosSemantic` / 设计令牌，禁止临时 hex 拼凑）、**透明度与材质分层**（与 `11-MATERIAL-MOTION-SPEC` Tier-2 及 `src/components/ios/*` 一致）、**动效**（导航/Sheet/列表滚动与 **Tab/顶栏协同** 若适用）、**交互**（按钮、列表行、分组、分段控件等）上与 **iOS 26 系统取向**一致；浅色与深色外观均验收。**无法**在 RN 复刻处须写入 **Accepted deviation** 表（链接到 `UI-SPEC.md` 或 Phase 13 `VERIFICATION`）。
+
+## v2.3 Requirements（结转 · 仍有效直至勾选）
 
 ### 数据与持久化 (DATA)
 
@@ -26,22 +32,23 @@
 ## Future（本里程碑不做）
 
 - **SYNC-***：云同步、多设备（见 `PROJECT.md` Out of Scope）。
-- **像素级** Figma / 第三方 App 逐帧对照（除非作为 THEME/A11Y 的 Accepted deviation 备注）。
+- **像素级**逐帧抄录任意第三方 App 或 Apple 未公开规格（除非记为 Accepted deviation）。
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| 新业务能力（新报表类型、社交、账户体系） | v2.3 为质量与系统外观补全 |
+| 新业务能力（新报表类型、社交、账户体系） | v2.4 为 **表现层与 Chrome 对齐**，不扩张业务 |
 | 替换 SQLite 或改动 `bill_list` 语义 | 仅验证与表现层；schema 变更另开里程碑 |
-| **Phase 11 内任何联网能力**（云同步、在线图库、远程配置、登录注册等） | 与产品 **本地存储核心** 及当前里程碑范围不符；另立里程碑再议 |
+| **任何联网能力**（云同步、在线图库、远程配置、登录注册等） | 与产品 **本地存储核心** 不符 |
 
 ## Traceability
 
 | Requirement | Phase | Status |
 |---------------|-------|--------|
-| DATA-02 | Phase 12（缺口收口） | Blocked — `DATA-02-SMOKE.md` 仍为 BLOCKED；目标 **2026-05-01** 前设备补跑并更新 Result |
+| **LG-02** | **Phase 13（v2.4）** | **Pending** — 四副路径屏 iOS 26 Chrome 全量对齐 |
+| DATA-02 | Phase 12（收口）/ v2.4 结转 | Blocked — `DATA-02-SMOKE.md` 仍为 BLOCKED；目标 **2026-05-01** 前设备补跑并更新 Result |
 | QA-04 | Phase 10 | Done |
-| THEME-01 | Phase 13（缺口收口） | Pending |
-| A11Y-01 | Phase 13（缺口收口） | Pending |
-| LG-01 | Phase 13（缺口收口） | Pending |
+| THEME-01 | Phase 13 | Pending |
+| A11Y-01 | Phase 13 | Pending |
+| LG-01 | Phase 13 | Pending |

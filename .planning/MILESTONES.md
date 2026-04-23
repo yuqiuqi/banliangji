@@ -1,8 +1,14 @@
 # Milestones: 半两记
 
-## v2.3 — 质量验证与系统外观（进行中）
+## v2.4 — iOS 26 Chrome 副路径全量对齐（进行中）
 
-**Started:** 2026-04-22 · **Scope:** Phases 10–11（DATA-02、UAT 对齐、深色、降低透明度）— 见 `.planning/ROADMAP.md`、`.planning/REQUIREMENTS.md`。
+**Started:** 2026-04-23 · **Scope:** **Phase 13**（扩大）：**图表 / 预算 / 资产 / 我的** 四屏与 **iOS 26 Liquid Glass + HIG**（色彩、材质/透明度、动效、交互）系统性一致；结转 **DATA-02**、**THEME/A11Y/LG-01**；新增 **LG-02**。权威参考：`.planning/research/IOS26-LIQUID-GLASS-REFERENCE.md`。
+
+---
+
+## v2.3 — 质量验证与系统外观（结转中）
+
+**Started:** 2026-04-22 · **未闭合项**并入 v2.4 / Phase 13（`REQUIREMENTS.md`）。原 Scope：Phases 10–12 及 11 材质/动效文档。
 
 ---
 

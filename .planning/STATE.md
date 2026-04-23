@@ -1,40 +1,40 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.3
-milestone_name: 质量验证与系统外观
-status: executing
-last_updated: "2026-04-23T03:00:00.000Z"
+milestone: v2.4
+milestone_name: iOS 26 Chrome 副路径全量对齐
+status: defining_execution
+last_updated: "2026-04-23T04:00:00.000Z"
 last_activity: 2026-04-23
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 5
-  completed_plans: 5
-  percent: 100
+  total_phases: 1
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Current Position
 
-Phase: **12**（data02-closeout）— **Plan 01 已完成**；**Plan 02** 设备手测开放  
-Plan: 2 of 2 SUMMARY（`12-02` 文档收口完成；**DATA-02 Result 仍为 BLOCKED**，待设备）
+Phase: **13**（chrome-uat-signoff）— **v2.4 已立项**；范围已扩大为 **副路径四屏** 与 Apple **iOS 26 Liquid Glass** 全量对齐  
+Plan: **待** `/gsd-plan-phase 13` → `/gsd-execute-phase 13`  
+Status: 规划与需求已写入 `PROJECT.md` / `REQUIREMENTS.md` / `ROADMAP.md`；**执行未开始**
 
-- **Phase:** **12** — DATA-02 与 Phase 10 验证归档（缺口收口）  
-- **Plan:** `12-01` ✓（`10-VERIFICATION.md`）；`12-02` — 须在本地执行 `DATA-02-SMOKE.md` Steps 后更新 `Result:` 与 `REQUIREMENTS`  
-- **Status:** `npm run verify` 绿；**DATA-02** 仍以 SMOKE 为准（BLOCKED + **2026-05-01** 目标日，见 SMOKE 取证计划 §3）  
-- **Last activity:** 2026-04-23
-- **Resume：** `.planning/phases/10-persist-uat/DATA-02-SMOKE.md` · `10-VERIFICATION.md`
+- **Phase:** **13** — 见 `.planning/phases/13-chrome-uat-signoff/README.md`  
+- **权威参考：** `.planning/research/IOS26-LIQUID-GLASS-REFERENCE.md`（Apple Developer + HIG 原则）  
+- **Last activity:** 2026-04-23 — `/gsd-new-milestone`（用户定调：图表/预算/资产/我的须与 iOS 26 **动画、透明度、交互、色彩**一致）  
+- **Resume：** `/gsd-plan-phase 13` · `UI-SPEC.md` · `11-MATERIAL-MOTION-SPEC.md`
 
 ## Current Status
 
-- **上一已交付里程碑：** v2.2（Phase 9 — iOS 26 Chrome）  
-- **本里程碑焦点：** DATA-02 设备记录、UAT/验证对齐、深色模式、降低透明度降级  
+- **上一已交付里程碑（全局 Chrome 基线）：** v2.2（Phase 9）  
+- **本里程碑焦点：** **LG-02** 四屏 + 结转 **DATA-02** / **THEME-01** / **A11Y-01** / **LG-01**
 
 ## Progress Summary
 
-- 需求：`.planning/REQUIREMENTS.md`（4 条 REQ）  
-- 路线图：`.planning/ROADMAP.md`（Phase 10–13）  
+- 需求：`.planning/REQUIREMENTS.md`（**v2.4** + v2.3 结转）  
+- 路线图：`.planning/ROADMAP.md`（**Phase 13** = v2.4 主交付）
 
 ## Blockers
 
@@ -44,16 +44,17 @@ Plan: 2 of 2 SUMMARY（`12-02` 文档收口完成；**DATA-02 Result 仍为 BLOC
 
 | 类别 | 项 | 说明 |
 |------|----|------|
-| DATA-02 | 杀进程冒烟 | `Result: BLOCKED` — 见 `DATA-02-SMOKE.md` **取证计划 §3**（目标 **2026-05-01** 前 PASS/FAIL）；完成后更新 `REQUIREMENTS.md`、本表与 `01-VERIFICATION.md`（若 PASS）。 |
+| DATA-02 | 杀进程冒烟 | 仍 **BLOCKED** — 见 `DATA-02-SMOKE.md`；与 v2.4 并行直至 **PASS/FAIL** |
 
 ## Accumulated Context
 
-- 历史阶段目录 **保留**于 `.planning/phases/`（未执行 `phases clear`，以免删除 01–09 文档）。  
-- v2.2 归档：`.planning/milestones/v2.2-*.md`  
+- v2.3 Phase 10–12 文档与 Phase 11 材质/动效规格保留在 `.planning/phases/`。  
+- **Liquid Glass 官方原则（验收口径）：** **Hierarchy**（内容焦点）、**Harmony**（与软硬件形态一致）、**Consistency**（跨上下文可预期）— 见 research 文件引用的 Apple Developer「Liquid Glass」与 HIG。
 
 ## When User Says "where were we?"
 
-- 在 **v2.3**：**Phase 11** 计划与 SUMMARY 已齐；补跑 **DATA-02**、**11-VERIFICATION / 11-UAT** 后考虑 `/gsd-complete-milestone` 或里程碑审计。
+- **v2.4：** Phase 13 待 **plan → execute**；优先对齐 **图表 / 预算 / 资产 / 我的** 与 iOS 26 Chrome。  
+- **结转：** `DATA-02-SMOKE.md`、`11-VERIFICATION` / `11-UAT` 手测项。
 
 ---
-*Last updated: 2026-04-23 — `/gsd-execute-phase 12 --wave 2`：仍为 `Result: BLOCKED`；human-verify 须本地设备；取证计划含目标日与执行人占位（见 `DATA-02-SMOKE.md` §下一步取证计划）*
+*Last updated: 2026-04-23 — 启动里程碑 **v2.4**（Phase 13 扩大范围）*
