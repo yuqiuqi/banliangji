@@ -73,7 +73,7 @@
 | 12 | 2/2 | Executed（DATA-02 仍 BLOCKED） | 2026-04-23 |
 | 13 | 2/2 | Executed（LG-02 Done；v2.4 收口） | 2026-04-23 |
 | **14** | **3/3** | **Executed** | 2026-04-23 |
-| **15** | **0/3** | **Planned** | — |
+| **15** | **3/3** | **Executed** | 2026-04-23 |
 
 ### Phase 15: ui的动画已经完美可是ui的美观度非常的差，你要以一个专业的美工角度去修正
 
@@ -83,9 +83,9 @@
 **Plans:** 3 plans
 
 Plans:
-- [ ] `15-01-PLAN.md` — 排版 / SegmentedTwo / layout 节奏 / GroupedInset
-- [ ] `15-02-PLAN.md` — 嵌套导航类型 + Home / Chart / BillQuery / Budget 空态与图表色
-- [ ] `15-03-PLAN.md` — Asset / Mine / CreateBill header + BillCalculator 文案 + Calendar + 15-VERIFICATION
+- [x] `15-01-PLAN.md` — 排版 / SegmentedTwo / layout 节奏 / GroupedInset
+- [x] `15-02-PLAN.md` — 嵌套导航类型 + Home / Chart / BillQuery / Budget 空态与图表色
+- [x] `15-03-PLAN.md` — Asset / Mine / CreateBill header + BillCalculator 文案 + Calendar + 15-VERIFICATION
 
 ---
 
