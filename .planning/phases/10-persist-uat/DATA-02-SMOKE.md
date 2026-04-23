@@ -8,6 +8,7 @@
 | **Git** | `dee49ee` |
 | **Expo** | `~54.0.33` |
 | **react-native** | `0.81.5` |
+| **验证范围** | **iOS**（Simulator 或 **真机**）；本 SMOKE **不**代表 Android 已验 |
 | **iOS target** | `BLOCKED`：设备杀进程手测尚未执行；须补 **Simulator 机型+runtime** 或 **真机型号**（停 Metro 不算杀进程） |
 
 ## Kill protocol（排除歧义）

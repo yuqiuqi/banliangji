@@ -12,6 +12,7 @@
 
 - **唯一手测协议与证据源：** [`.planning/phases/10-persist-uat/DATA-02-SMOKE.md`](./DATA-02-SMOKE.md)（Kill protocol、Steps、Environment、`Result:` 行）。
 - **与需求对齐：** `REQUIREMENTS.md` 中 **DATA-02** 条描述「记一笔 → 杀进程 → 冷启动 → 仍可查」；**是否满足以 `DATA-02-SMOKE.md` 的 `Result:` 为准**（`PASS` / `FAIL` / `BLOCKED` 及下文取证计划）。
+- **未完成判定：** 在 `DATA-02-SMOKE.md` 的 `Result:` 为 `PASS` 或 `FAIL` 之前，Phase 10 验证视为**未完成**（**证据待定**）。
 - **自动化：** `npm run verify` **不覆盖**本场景（见 SMOKE 文件 **Note on verify**）。
 
 ## QA-04（验收表对齐）
@@ -31,6 +32,8 @@
 | **DATA-02 Result（以 SMOKE 为准）** | `BLOCKED`（截至 2026-04-23 — 见 `DATA-02-SMOKE.md` 与取证计划第 3 条） |
 | **证据摘要** | 设备手测未完成；目标 **2026-05-01** 前更新 SMOKE 为 PASS/FAIL |
 | **执行人 / 日期** | ________________（设备手测完成后填写） |
+
+**Sign-off 说明：** 若 **DATA-02 Result** 为 `BLOCKED`，仅表示与 `DATA-02-SMOKE.md` **临时一致**的待定态，**不是** DATA-02 已在里程碑意义上验收闭合。
 
 ---
 
