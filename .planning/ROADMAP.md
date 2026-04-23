@@ -10,7 +10,7 @@
 | ✅ **v2.2** | **iOS 26 全局 Chrome（Liquid Glass）** | **Phase 9** | **2026-04-22** |
 | **v2.3** | 质量验证与系统外观 | Phases 10–12 + 结转 | 结转 v2.4 |
 | **v2.4** | iOS 26 Chrome 副路径全量对齐 | Phase 13 | 2026-04-23 |
-| **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phase 14** | — |
+| **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phases 14–15** | — |
 
 - **完整路线图（v1–v2.2 全文）：** [`.planning/milestones/v2.2-ROADMAP.md`](milestones/v2.2-ROADMAP.md)  
 - **v2.4 需求快照：** 已并入下方 v3.0 结转  
@@ -73,6 +73,19 @@
 | 12 | 2/2 | Executed（DATA-02 仍 BLOCKED） | 2026-04-23 |
 | 13 | 2/2 | Executed（LG-02 Done；v2.4 收口） | 2026-04-23 |
 | **14** | **3/3** | **Executed** | 2026-04-23 |
+| **15** | **0/3** | **Planned** | — |
+
+### Phase 15: ui的动画已经完美可是ui的美观度非常的差，你要以一个专业的美工角度去修正
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 14
+**Plans:** 3 plans
+
+Plans:
+- [ ] `15-01-PLAN.md` — 排版 / SegmentedTwo / layout 节奏 / GroupedInset
+- [ ] `15-02-PLAN.md` — 嵌套导航类型 + Home / Chart / BillQuery / Budget 空态与图表色
+- [ ] `15-03-PLAN.md` — Asset / Mine / CreateBill header + BillCalculator 文案 + Calendar + 15-VERIFICATION
 
 ---
 
