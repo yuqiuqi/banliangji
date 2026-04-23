@@ -10,20 +10,20 @@
 
 ### 动效系统 (ANIM)
 
-- [ ] **ANIM-01**: 新建 `src/theme/motion.ts`，集中声明 `SPRING.UI / THUMB / SHEET / GESTURE`、`REDUCE_SPRING`、`FADE_MS` 等全局常量；所有动效文件引用此模块，**禁止**各屏自行硬编码 `damping / stiffness`。
-- [ ] **ANIM-02**: 分段控件（图表周/月/年、`SegmentedTwo`）选中状态改为 **Spring Thumb**：独立 `Animated.View` 指示器以 `withSpring(SPRING.THUMB)` 在选项间滑行；视觉：白块 + `shadows.keyCap`；快速连点时追随不重置。
-- [ ] **ANIM-03**: `ChartScreen` 柱图切换周期/粒度时，各柱从 `height: 0` 以 `withSpring(SPRING.UI)` + `index × 30ms` stagger 弹起；整区改为 Reanimated `withTiming` fade 替代 `Animated.timing`；`chartFadeMs` 保留为 fallback 常量引用。
-- [ ] **ANIM-04**: 账单列表（`HomeScreen`）、分类构成列表（`ChartScreen`）、资产列表（`AssetScreen`）数据从无到有时，每行以 Reanimated `FadeInDown.delay(i * 40).springify()` 入场；Reduce Motion 时直接显示（无 stagger）。
-- [ ] **ANIM-05**: `BudgetScreen` / `AssetScreen` Modal 改为自定义 Spring 进出场：卡片 `translateY: 60 → 0` + `SPRING.SHEET`；Scrim `opacity: 0 → 1` 并行 `withTiming(250ms)`；关闭反向；保持 `colors.modalScrim`。
-- [ ] **ANIM-06**: `BudgetScreen` / `AssetScreen` / `MineScreen` 副路径屏实现 Scroll Header Collapse：大标题高度 72 → 44pt 随 `scrollY` 弹性插值；顶栏底 hairline 与内容层 shadow 协同显隐；`ChartScreen` 不折叠（固定分段区）。
+- [x] **ANIM-01**: 新建 `src/theme/motion.ts`，集中声明 `SPRING.UI / THUMB / SHEET / GESTURE`、`REDUCE_SPRING`、`FADE_MS` 等全局常量；所有动效文件引用此模块，**禁止**各屏自行硬编码 `damping / stiffness`。
+- [x] **ANIM-02**: 分段控件（图表周/月/年、`SegmentedTwo`）选中状态改为 **Spring Thumb**：独立 `Animated.View` 指示器以 `withSpring(SPRING.THUMB)` 在选项间滑行；视觉：白块 + `shadows.keyCap`；快速连点时追随不重置。
+- [x] **ANIM-03**: `ChartScreen` 柱图切换周期/粒度时，各柱从 `height: 0` 以 `withSpring(SPRING.UI)` + `index × 30ms` stagger 弹起；整区改为 Reanimated `withTiming` fade 替代 `Animated.timing`；`chartFadeMs` 保留为 fallback 常量引用。
+- [x] **ANIM-04**: 账单列表（`HomeScreen`）、分类构成列表（`ChartScreen`）、资产列表（`AssetScreen`）数据从无到有时，每行以 Reanimated `FadeInDown.delay(i * 40).springify()` 入场；Reduce Motion 时直接显示（无 stagger）。
+- [x] **ANIM-05**: `BudgetScreen` / `AssetScreen` Modal 改为自定义 Spring 进出场：卡片 `translateY: 60 → 0` + `SPRING.SHEET`；Scrim `opacity: 0 → 1` 并行 `withTiming(250ms)`；关闭反向；保持 `colors.modalScrim`。
+- [x] **ANIM-06**: `BudgetScreen` / `AssetScreen` / `MineScreen` 副路径屏实现 Scroll Header Collapse：大标题高度 72 → 44pt 随 `scrollY` 弹性插值；顶栏底 hairline 与内容层 shadow 协同显隐；`ChartScreen` 不折叠（固定分段区）。
 
 ### 交互系统 (INT)
 
-- [ ] **INT-01**: 新建 `src/components/SpringPressable.tsx`（`forwardRef` + **`PressableProps` 全量透传**），内用 Reanimated `withSpring(SPRING.UI)` 实现 `scale(0.97)` + `opacity(0.92)`；全站 **所有可点击行/卡片/按钮** 优先替换为 `SpringPressable`，替代零散 `pressedOpacity`；可选 `useSpringPress.ts` 仅作非 Pressable 容器内部复用（**14-REVIEWS** 主路径）。
+- [x] **INT-01**: 新建 `src/components/SpringPressable.tsx`（`forwardRef` + **`PressableProps` 全量透传**），内用 Reanimated `withSpring(SPRING.UI)` 实现 `scale(0.97)` + `opacity(0.92)`；全站 **所有可点击行/卡片/按钮** 优先替换为 `SpringPressable`，替代零散 `pressedOpacity`；可选 `useSpringPress.ts` 仅作非 Pressable 容器内部复用（**14-REVIEWS** 主路径）。
 
 ### 触觉反馈 (HAP)
 
-- [ ] **HAP-01**: 安装 `expo-haptics`，新建 `src/utils/haptics.ts` 封装 `haptic.select / success / error / light / medium`；全路径接入：
+- [x] **HAP-01**: 安装 `expo-haptics`，新建 `src/utils/haptics.ts` 封装 `haptic.select / success / error / light / medium`；全路径接入：
   - 分段/chip 切换 → `select`
   - 记一笔保存成功 → `success`
   - 删除账单/账户 Alert 确认 → `error`
@@ -33,7 +33,7 @@
 
 ### 无障碍适配 (MOT)
 
-- [ ] **MOT-01**: 新建 `src/hooks/useReduceMotion.ts`，监听 `AccessibilityInfo.isReduceMotionEnabled`；所有动效组件接受降级参数：scale/平移 → 短 opacity fade；stagger 入场 → 同帧显示；spring → `REDUCE_SPRING`；haptics 保留。
+- [x] **MOT-01**: 新建 `src/hooks/useReduceMotion.ts`，监听 `AccessibilityInfo.isReduceMotionEnabled`；所有动效组件接受降级参数：scale/平移 → 短 opacity fade；stagger 入场 → 同帧显示；spring → `REDUCE_SPRING`；haptics 保留。
 
 ---
 
@@ -80,15 +80,15 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| **ANIM-01** | Phase 14（v3.0） | Pending |
-| **ANIM-02** | Phase 14（v3.0） | Pending |
-| **ANIM-03** | Phase 14（v3.0） | Pending |
-| **ANIM-04** | Phase 14（v3.0） | Pending |
-| **ANIM-05** | Phase 14（v3.0） | Pending |
-| **ANIM-06** | Phase 14（v3.0） | Pending |
-| **INT-01**  | Phase 14（v3.0） | Pending |
-| **HAP-01**  | Phase 14（v3.0） | Pending |
-| **MOT-01**  | Phase 14（v3.0） | Pending |
+| **ANIM-01** | Phase 14（v3.0） | Done |
+| **ANIM-02** | Phase 14（v3.0） | Done |
+| **ANIM-03** | Phase 14（v3.0） | Done |
+| **ANIM-04** | Phase 14（v3.0） | Done |
+| **ANIM-05** | Phase 14（v3.0） | Done |
+| **ANIM-06** | Phase 14（v3.0） | Done |
+| **INT-01**  | Phase 14（v3.0） | Done |
+| **HAP-01**  | Phase 14（v3.0） | Done |
+| **MOT-01**  | Phase 14（v3.0） | Done |
 | LG-02 | Phase 13（v2.4） | Done |
 | DATA-02 | Phase 12 / v2.4 结转 | Blocked |
 | QA-04 | Phase 10 | Done |

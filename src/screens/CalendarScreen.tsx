@@ -2,16 +2,17 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useCallback, useMemo, useState } from "react";
-import { Dimensions, FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoryIcon } from "../components/CategoryIcon";
+import { SpringPressable } from "../components/SpringPressable";
 import { Fab } from "../components/ios";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { groupBillsByDayKey, queryBillsForMonth } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { pressedOpacity, radii, shadows } from "../theme/layout";
+import { radii, shadows } from "../theme/layout";
 import type { Bill } from "../types/models";
 import {
   addCalendarMonth,
@@ -122,31 +123,29 @@ export function CalendarScreen(): React.ReactElement {
   return (
     <SafeAreaView style={styles.safe} edges={["bottom"]}>
       <View style={styles.monthBar}>
-        <Pressable
+        <SpringPressable
           hitSlop={8}
           accessibilityLabel="上一月"
-          style={({ pressed }) => (pressed ? { opacity: pressedOpacity } : null)}
           onPress={() => {
             setMonth((m) => addCalendarMonth(m, -1));
             setSelectedKey(null);
           }}
         >
           <MaterialCommunityIcons name="chevron-left" size={28} color={colors.onMain} />
-        </Pressable>
+        </SpringPressable>
         <Text style={styles.monthTitle}>
           {month.getFullYear()}年{month.getMonth() + 1}月
         </Text>
-        <Pressable
+        <SpringPressable
           hitSlop={8}
           accessibilityLabel="下一月"
-          style={({ pressed }) => (pressed ? { opacity: pressedOpacity } : null)}
           onPress={() => {
             setMonth((m) => addCalendarMonth(m, 1));
             setSelectedKey(null);
           }}
         >
           <MaterialCommunityIcons name="chevron-right" size={28} color={colors.onMain} />
-        </Pressable>
+        </SpringPressable>
       </View>
       <View style={styles.gridCard}>
         <View style={styles.weekRow}>
@@ -165,14 +164,9 @@ export function CalendarScreen(): React.ReactElement {
             const has = (byDay.get(key)?.length ?? 0) > 0;
             const sel = selectedKey === key;
             return (
-              <Pressable
+              <SpringPressable
                 key={key}
-                style={({ pressed }) => [
-                  styles.dayCell,
-                  { width: DAY_CELL, height: DAY_CELL },
-                  sel ? styles.daySel : null,
-                  pressed ? { opacity: pressedOpacity } : null,
-                ]}
+                style={[styles.dayCell, { width: DAY_CELL, height: DAY_CELL }, sel ? styles.daySel : null]}
                 onPress={() => {
                   setSelectedKey(key);
                   refresh();
@@ -180,7 +174,7 @@ export function CalendarScreen(): React.ReactElement {
               >
                 <Text style={styles.dayNum}>{d.getDate()}</Text>
                 {has ? <View style={styles.dot} /> : null}
-              </Pressable>
+              </SpringPressable>
             );
           })}
         </View>
@@ -200,8 +194,8 @@ export function CalendarScreen(): React.ReactElement {
             const isExpense = item.type === 1;
             const prefix = isExpense ? "-" : "+";
             return (
-              <Pressable
-                style={({ pressed }) => [styles.row, pressed ? { opacity: pressedOpacity } : null]}
+              <SpringPressable
+                style={styles.row}
                 onPress={() => {
                   navigation.navigate("BillDetail", { billId: item.id });
                 }}
@@ -214,7 +208,7 @@ export function CalendarScreen(): React.ReactElement {
                   {prefix}
                   {formatAmountDisplay(parseAmount(item.amount))}
                 </Text>
-              </Pressable>
+              </SpringPressable>
             );
           }}
           ListEmptyComponent={selectedKey ? <Text style={styles.empty}>当日无账单</Text> : null}

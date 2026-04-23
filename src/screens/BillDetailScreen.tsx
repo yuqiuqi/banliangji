@@ -1,17 +1,19 @@
 import { useNavigation, useRoute, type RouteProp } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useLayoutEffect, useMemo } from "react";
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import { CategoryIcon } from "../components/CategoryIcon";
+import { SpringPressable } from "../components/SpringPressable";
 import { GroupedInset, ListRow } from "../components/ios";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { deleteBillById, getBillById } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { listContentInset, pressedOpacity } from "../theme/layout";
+import { listContentInset } from "../theme/layout";
 import { formatDetailDate } from "../utils/dates";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
+import { hapticError } from "../utils/haptics";
 
 function buildBillDetailStyles(colors: AppPalette) {
   return StyleSheet.create({
@@ -185,16 +187,16 @@ export function BillDetailScreen(): React.ReactElement {
       <View style={styles.footer}>
         <View style={styles.footerDivider} />
         <View style={styles.footerBtns}>
-          <Pressable
-            style={({ pressed }) => [styles.footerHalf, pressed ? { opacity: pressedOpacity } : null]}
+          <SpringPressable
+            style={styles.footerHalf}
             onPress={() => {
               navigation.navigate("CreateBill", { billId: bill.id });
             }}
           >
             <Text style={styles.footerText}>编辑</Text>
-          </Pressable>
-          <Pressable
-            style={({ pressed }) => [styles.footerHalf, pressed ? { opacity: pressedOpacity } : null]}
+          </SpringPressable>
+          <SpringPressable
+            style={styles.footerHalf}
             onPress={() => {
               Alert.alert("删除账单", "确定删除这条记录？", [
                 { text: "取消", style: "cancel" },
@@ -202,6 +204,7 @@ export function BillDetailScreen(): React.ReactElement {
                   text: "删除",
                   style: "destructive",
                   onPress: () => {
+                    hapticError();
                     deleteBillById(bill.id);
                     refresh();
                     navigation.goBack();
@@ -211,7 +214,7 @@ export function BillDetailScreen(): React.ReactElement {
             }}
           >
             <Text style={[styles.footerText, styles.footerDestructive]}>删除</Text>
-          </Pressable>
+          </SpringPressable>
         </View>
       </View>
     </View>

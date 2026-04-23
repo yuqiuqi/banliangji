@@ -72,7 +72,7 @@
 | 11 | 3/3 | Complete（verify 绿；手测签字待补） | 2026-04-23 |
 | 12 | 2/2 | Executed（DATA-02 仍 BLOCKED） | 2026-04-23 |
 | 13 | 2/2 | Executed（LG-02 Done；v2.4 收口） | 2026-04-23 |
-| **14** | **3/3** | **Ready to execute** | — |
+| **14** | **3/3** | **Executed** | 2026-04-23 |
 
 ---
 

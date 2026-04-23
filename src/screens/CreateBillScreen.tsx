@@ -19,6 +19,7 @@ import { radii, shadows } from "../theme/layout";
 import { SPRING } from "../theme/motion";
 import type { BillAmountKind, CategoryItem } from "../types/models";
 import { formatAmountDisplay } from "../utils/money";
+import { hapticSuccess } from "../utils/haptics";
 
 const CALCULATOR_OVERLAY_HEIGHT = BILL_CALCULATOR_CONTENT_HEIGHT;
 const SAFE_CONTENT_INSET_EXTRA = 16;
@@ -238,6 +239,7 @@ export function CreateBillScreen(): React.ReactElement {
         });
       }
       refresh();
+      hapticSuccess();
       navigation.goBack();
     },
     [billDate, editId, kind, navigation, refresh, selected],

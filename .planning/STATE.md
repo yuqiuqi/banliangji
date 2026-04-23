@@ -2,64 +2,56 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: iOS 26 动效·交互·组件全面质感打磨（Phase 14）
-status: executing
-last_updated: "2026-04-23T07:08:14.797Z"
+status: complete
+last_updated: "2026-04-23T15:25:00.000Z"
 last_activity: 2026-04-23
 progress:
   total_phases: 1
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 0
-  percent: 0
+  completed_plans: 3
+  percent: 100
 ---
 
 # Project State
 
 ## Current Position
 
-Phase: **14**（ios26-motion-polish）— **v3.0 已立项**；全局动效、交互与触觉打磨  
-Plan: 待 `/gsd-plan-phase 14`  
-Status: Ready to execute
+Phase: **14**（ios26-motion-polish）— **v3.0 动效/交互/触觉已落地**（`npm run verify` 绿）  
+Plan: **3/3** 已执行  
+Status: **Milestone v3.0 代码交付完成**（手测矩阵见 `14-VERIFICATION.md`）
 
-- **Phase:** **14** — `IOS26-MOTION-INTERACTION-SPEC.md` + `REQUIREMENTS.md` v3.0
-- **权威参考：** `.planning/research/IOS26-MOTION-INTERACTION-SPEC.md`（iOS 26 弹簧参数、触觉策略、Reduce Motion 降级）
-- **Last activity:** 2026-04-23
-- **Resume：** `IOS26-MOTION-INTERACTION-SPEC.md` · `REQUIREMENTS.md` · `/gsd-plan-phase 14`
+- **Resume：** `14-VERIFICATION.md` · 结转 DATA-02 / 11-VERIFICATION
 
 ## Current Status
 
-- **上一已交付里程碑（副路径 Chrome）：** v2.4（Phase 13 · LG-02 Done）
-- **本里程碑焦点：** **感知质量** — 弹簧动效、触觉反馈、所有界面 Spring 按压、图表 Stagger、分段 Spring Thumb
+- **Phase 14：** `motion.ts`、`SpringPressable`、`useReduceMotion`、`haptics`、图表 Spring Thumb + 柱 stagger、列表 `FadeInDown`、Budget/Asset Modal 弹簧、三屏顶栏随滚动收缩、`SpringPressable` 主路径收口（详见 git 历史 `feat(14-*)`）。
+- **未用 SpringPressable 的原语：** `Fab`、`ListRow`、`RootNavigator` 的 `PlatformPressable` — 见 `14-VERIFICATION.md` Accepted deviation。
 
 ## Progress Summary
 
-- 需求：`.planning/REQUIREMENTS.md`（**v3.0** ANIM/INT/HAP/MOT + v2.4 结转）
-- 路线图：`.planning/ROADMAP.md`（**Phase 14** = v3.0 主交付）
-- 研究：`.planning/research/IOS26-MOTION-INTERACTION-SPEC.md`（弹簧参数表、场景规格、改造优先级矩阵）
+- 需求：`REQUIREMENTS.md` v3.0 九项 Phase 14 已勾选 **Done**
+- 路线图：`ROADMAP.md` Phase 14 **Executed**
 
 ## Blockers
 
-- **工程构建级：** 无（`npm run verify` 须保持绿）
-- **结转：** DATA-02（`.planning/phases/10-persist-uat/DATA-02-SMOKE.md` 仍 BLOCKED）；THEME-01 / A11Y-01 / LG-01（11-VERIFICATION 手测未签字）
+- **结转：** DATA-02（`DATA-02-SMOKE.md` BLOCKED）；THEME-01 / A11Y-01 / LG-01（11-VERIFICATION 手测未签字）
 
 ## Deferred Items
 
 | 类别 | 项 | 说明 |
 |------|----|------|
-| DATA-02 | 杀进程冒烟 | 仍 **BLOCKED** — 见 `DATA-02-SMOKE.md`；2026-05-01 前设备补跑 |
-| Tab 动态收缩 | ANIM-07 | P2，下里程碑 |
-| Swipe-to-delete | INT-02 | P2，下里程碑 |
+| DATA-02 | 杀进程冒烟 | 仍 **BLOCKED** |
+| Tab 动态收缩 | ANIM-07 | P2 |
+| Swipe-to-delete | INT-02 | P2 |
 
 ## Accumulated Context
 
-- v2.2 Chrome 基线：`src/components/ios/` 原语、`UI-SPEC.md`、`DESIGN.md`
-- v2.4 副路径：`13-UI-SPEC.md`、`13-VERIFICATION.md`（矩阵已勾）
-- **v3.0 新增：** `src/theme/motion.ts`（待创建）、`src/hooks/useSpringPress.ts`（待创建）、`src/hooks/useReduceMotion.ts`（待创建）、`src/utils/haptics.ts`（待创建）
+- **v3.0 实现：** `src/theme/motion.ts`、`src/components/SpringPressable.tsx`、`src/hooks/useReduceMotion.ts`、`src/utils/haptics.ts`、`expo-haptics`
 
 ## When User Says "where were we?"
 
-- **v3.0：** Phase 14 待 `/gsd-plan-phase 14`；重点是 `motion.ts` + `useSpringPress` + `expo-haptics` + 图表 stagger + 分段 Spring Thumb
-- **结转：** DATA-02 冒烟、11-VERIFICATION 手测签字
+- **v3.0 代码：** Phase 14 已合并至主工作区；下一步：真机手测勾 `14-VERIFICATION.md`，并处理 DATA-02 / 11-VERIFICATION 结转
 
 ---
-*Last updated: 2026-04-23 — `/gsd-new-milestone v3.0`：iOS 26 动效研究 + 9 项需求定义*
+*Last updated: 2026-04-23 — `/gsd-execute-phase 14` 完成*

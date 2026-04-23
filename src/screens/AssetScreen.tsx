@@ -1,17 +1,19 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useCallback, useMemo, useState } from "react";
-import {
-  Alert,
-  Modal,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Alert, Modal, StyleSheet, Text, TextInput, View } from "react-native";
+import Animated, {
+  Extrapolation,
+  FadeInDown,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GroupedInset } from "../components/ios";
+import { SpringPressable } from "../components/SpringPressable";
 import type { AssetAccountRow } from "../db/assetRepo";
 import {
   deleteAssetAccount,
@@ -19,19 +21,22 @@ import {
   listAssetAccounts,
   updateAssetAccount,
 } from "../db/assetRepo";
+import { useReduceMotion } from "../hooks/useReduceMotion";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { pressedOpacity, radii, shadows } from "../theme/layout";
+import { radii, shadows } from "../theme/layout";
+import { FADE_MS, SPRING } from "../theme/motion";
 import { iosType } from "../theme/typography";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
+import { hapticError, hapticLight, hapticSuccess } from "../utils/haptics";
+
+const LIST_STAGGER_MAX = 12;
 
 function buildAssetStyles(colors: AppPalette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.canvas },
     headerBanner: {
       paddingHorizontal: 16,
-      paddingTop: 8,
-      paddingBottom: 12,
       backgroundColor: colors.canvas,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.divider,
@@ -71,7 +76,6 @@ function buildAssetStyles(colors: AppPalette) {
     footerAddText: { fontSize: 16, fontWeight: "600", color: colors.tabbarTint },
     modalBackdrop: {
       flex: 1,
-      backgroundColor: colors.modalScrim,
       justifyContent: "center",
       padding: 24,
     },
@@ -112,11 +116,37 @@ function buildAssetStyles(colors: AppPalette) {
 export function AssetScreen(): React.ReactElement {
   const { colors } = useAppTheme();
   const styles = useMemo(() => buildAssetStyles(colors), [colors]);
+  const reduceMotion = useReduceMotion();
+  const scrollY = useSharedValue(0);
   const [accounts, setAccounts] = useState<AssetAccountRow[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [nameInput, setNameInput] = useState("");
   const [balanceInput, setBalanceInput] = useState("");
+
+  const backdropOp = useSharedValue(0);
+  const sheetY = useSharedValue(60);
+
+  const onScroll = useAnimatedScrollHandler({
+    onScroll: (e) => {
+      scrollY.value = e.contentOffset.y;
+    },
+  });
+
+  const headerAnimatedStyle = useAnimatedStyle(() => ({
+    paddingTop: interpolate(scrollY.value, [0, 56], [8, 4], Extrapolation.CLAMP),
+    paddingBottom: interpolate(scrollY.value, [0, 56], [12, 6], Extrapolation.CLAMP),
+    minHeight: interpolate(scrollY.value, [0, 56], [72, 44], Extrapolation.CLAMP),
+  }));
+
+  const backdropAnimStyle = useAnimatedStyle(() => ({
+    backgroundColor: colors.modalScrim,
+    opacity: backdropOp.value,
+  }));
+
+  const sheetAnimStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: sheetY.value }],
+  }));
 
   const reload = useCallback(() => {
     setAccounts(listAssetAccounts());
@@ -127,6 +157,30 @@ export function AssetScreen(): React.ReactElement {
       reload();
     }, [reload]),
   );
+
+  useEffect(() => {
+    if (modalOpen) {
+      backdropOp.value = 0;
+      sheetY.value = 60;
+      backdropOp.value = withTiming(1, { duration: 250 });
+      if (reduceMotion) {
+        sheetY.value = withTiming(0, { duration: FADE_MS.normal });
+      } else {
+        sheetY.value = withSpring(0, SPRING.SHEET);
+      }
+      hapticLight();
+    }
+  }, [modalOpen, reduceMotion]);
+
+  const closeModalAnimated = useCallback(() => {
+    backdropOp.value = withTiming(0, { duration: 200 });
+    if (reduceMotion) {
+      sheetY.value = withTiming(60, { duration: FADE_MS.fast });
+    } else {
+      sheetY.value = withSpring(60, SPRING.SHEET);
+    }
+    setTimeout(() => setModalOpen(false), 220);
+  }, [backdropOp, sheetY, reduceMotion]);
 
   const openAdd = (): void => {
     setEditingId(null);
@@ -154,8 +208,17 @@ export function AssetScreen(): React.ReactElement {
     } else {
       updateAssetAccount(editingId, name, bal, now);
     }
-    setModalOpen(false);
-    reload();
+    hapticSuccess();
+    backdropOp.value = withTiming(0, { duration: 200 });
+    if (reduceMotion) {
+      sheetY.value = withTiming(60, { duration: FADE_MS.fast });
+    } else {
+      sheetY.value = withSpring(60, SPRING.SHEET);
+    }
+    setTimeout(() => {
+      setModalOpen(false);
+      reload();
+    }, 220);
   };
 
   const confirmDelete = (row: AssetAccountRow): void => {
@@ -165,6 +228,7 @@ export function AssetScreen(): React.ReactElement {
         text: "删除",
         style: "destructive",
         onPress: () => {
+          hapticError();
           deleteAssetAccount(row.id);
           reload();
         },
@@ -174,65 +238,74 @@ export function AssetScreen(): React.ReactElement {
 
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
-      <View style={styles.headerBanner}>
+      <Animated.View style={[styles.headerBanner, headerAnimatedStyle]}>
         <Text style={styles.headerTitle}>资产</Text>
         <Text style={styles.headerSub}>手动维护余额快照 · 与账单弱耦合</Text>
-      </View>
-      <ScrollView
+      </Animated.View>
+      <Animated.ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.listPad}
+        onScroll={onScroll}
+        scrollEventThrottle={16}
       >
         {accounts.length === 0 ? (
           <GroupedInset>
             <View style={styles.cardInner}>
               <Text style={styles.emptyTitle}>暂无账户</Text>
               <Text style={styles.emptyHint}>添加一个资产账户并记录当前余额。</Text>
-              <Pressable
-                style={({ pressed }) => [styles.primaryBtn, pressed ? { opacity: pressedOpacity } : null]}
+              <SpringPressable
+                style={styles.primaryBtn}
                 onPress={openAdd}
                 accessibilityRole="button"
                 accessibilityLabel="添加账户"
               >
                 <Text style={styles.primaryBtnText}>添加账户</Text>
-              </Pressable>
+              </SpringPressable>
             </View>
           </GroupedInset>
         ) : (
           <>
             <GroupedInset>
               {accounts.map((item, index) => (
-                <Pressable
+                <Animated.View
                   key={item.id}
-                  style={({ pressed }) => [
-                    styles.row,
-                    index < accounts.length - 1 ? styles.rowBorder : null,
-                    pressed ? { opacity: pressedOpacity } : null,
-                  ]}
-                  onPress={() => openEdit(item)}
-                  onLongPress={() => confirmDelete(item)}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${item.name}，余额 ${formatAmountDisplay(parseAmount(item.balance))}`}
+                  entering={
+                    reduceMotion
+                      ? undefined
+                      : FadeInDown.delay(Math.min(index, LIST_STAGGER_MAX - 1) * 40).springify()
+                  }
                 >
-                  <Text style={styles.rowName}>{item.name}</Text>
-                  <Text style={styles.rowBal}>{formatAmountDisplay(parseAmount(item.balance))}</Text>
-                </Pressable>
+                  <SpringPressable
+                    style={[
+                      styles.row,
+                      index < accounts.length - 1 ? styles.rowBorder : null,
+                    ]}
+                    onPress={() => openEdit(item)}
+                    onLongPress={() => confirmDelete(item)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${item.name}，余额 ${formatAmountDisplay(parseAmount(item.balance))}`}
+                  >
+                    <Text style={styles.rowName}>{item.name}</Text>
+                    <Text style={styles.rowBal}>{formatAmountDisplay(parseAmount(item.balance))}</Text>
+                  </SpringPressable>
+                </Animated.View>
               ))}
             </GroupedInset>
-            <Pressable
-              style={({ pressed }) => [styles.footerAdd, pressed ? { opacity: pressedOpacity } : null]}
+            <SpringPressable
+              style={styles.footerAdd}
               onPress={openAdd}
               accessibilityRole="button"
               accessibilityLabel="添加账户"
             >
               <Text style={styles.footerAddText}>+ 添加账户</Text>
-            </Pressable>
+            </SpringPressable>
           </>
         )}
-      </ScrollView>
+      </Animated.ScrollView>
 
-      <Modal visible={modalOpen} transparent animationType="fade">
-        <View style={styles.modalBackdrop}>
-          <View style={styles.modalCard}>
+      <Modal visible={modalOpen} transparent animationType="none">
+        <Animated.View style={[styles.modalBackdrop, backdropAnimStyle]}>
+          <Animated.View style={[styles.modalCard, sheetAnimStyle]}>
             <Text style={styles.modalTitle}>{editingId === null ? "添加账户" : "编辑账户"}</Text>
             <Text style={styles.fieldLabel}>名称</Text>
             <TextInput
@@ -252,24 +325,20 @@ export function AssetScreen(): React.ReactElement {
               placeholderTextColor={colors.lightTitle}
             />
             <View style={styles.modalActions}>
-              <Pressable
-                onPress={() => setModalOpen(false)}
-                style={({ pressed }) => [styles.modalCancel, pressed ? { opacity: pressedOpacity } : null]}
-                accessibilityRole="button"
-              >
+              <SpringPressable onPress={closeModalAnimated} style={styles.modalCancel} accessibilityRole="button">
                 <Text style={styles.modalCancelText}>取消</Text>
-              </Pressable>
-              <Pressable
+              </SpringPressable>
+              <SpringPressable
                 onPress={save}
-                style={({ pressed }) => [styles.modalSave, pressed ? { opacity: pressedOpacity } : null]}
+                style={styles.modalSave}
                 accessibilityRole="button"
                 accessibilityLabel="保存账户"
               >
                 <Text style={styles.modalSaveText}>保存账户</Text>
-              </Pressable>
+              </SpringPressable>
             </View>
-          </View>
-        </View>
+          </Animated.View>
+        </Animated.View>
       </Modal>
     </SafeAreaView>
   );

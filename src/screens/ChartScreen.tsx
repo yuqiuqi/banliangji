@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Animated, {
   cancelAnimation,
+  FadeInDown,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -48,6 +49,7 @@ const PAGE_H_PAD = 16;
 const CHART_W = Dimensions.get("window").width - 64;
 
 const GRAN_ORDER = ["week", "month", "year"] as const;
+const LIST_STAGGER_MAX = 12;
 
 function buildChartStyles(colors: AppPalette) {
   return StyleSheet.create({
@@ -533,8 +535,13 @@ export function ChartScreen(): React.ReactElement {
           <GroupedInset>
             <View style={styles.listInner}>
               {categories.map((c, i) => (
-                <View
+                <Animated.View
                   key={c.categoryId}
+                  entering={
+                    reduceMotion
+                      ? undefined
+                      : FadeInDown.delay(Math.min(i, LIST_STAGGER_MAX - 1) * 40).springify()
+                  }
                   style={[
                     styles.catRow,
                     i < categories.length - 1 ? styles.catRowBorder : null,
@@ -550,7 +557,7 @@ export function ChartScreen(): React.ReactElement {
                     </View>
                   </View>
                   <Text style={styles.catAmt}>¥{formatAmountDisplay(c.amount)}</Text>
-                </View>
+                </Animated.View>
               ))}
               {categories.length === 0 ? (
                 <View style={styles.emptyWrap}>

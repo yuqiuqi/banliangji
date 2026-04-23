@@ -22,7 +22,7 @@
 
 ## 自动化
 
-- `npm run verify` 退出码 0
+- `npm run verify` 退出码 0（2026-04-23 执行通过：typecheck + lint + vitest）
 
 ---
 
@@ -30,4 +30,6 @@
 
 | ID | 范围 | 理由 | 跟进 |
 |----|------|------|------|
-| — | — | （执行中填写） | — |
+| P14-D01 | `Fab.tsx`、`ListRow.tsx` | 仍为 RN `Pressable`；浮动按钮/列表行封装独立，避免与 Reanimated 手势栈重复 | 可选后续统一 |
+| P14-D02 | `RootNavigator` `PlatformPressable` | React Navigation 头/返回沿用官方组件 | 保持 |
+| P14-D06 | Header collapse 与 `contentInset` | 采用 `minHeight` + `padding` 插值；未做复杂 `contentInset` 同步 | 真机若见跳变再补 |

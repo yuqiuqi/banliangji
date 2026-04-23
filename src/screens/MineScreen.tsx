@@ -1,11 +1,18 @@
 import Constants from "expo-constants";
 import React, { useMemo, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import Animated, {
+  Extrapolation,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GroupedInset } from "../components/ios";
+import { SpringPressable } from "../components/SpringPressable";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { pressedOpacity } from "../theme/layout";
 import { iosType } from "../theme/typography";
 
 function buildMineStyles(colors: AppPalette) {
@@ -13,8 +20,6 @@ function buildMineStyles(colors: AppPalette) {
     safe: { flex: 1, backgroundColor: colors.canvas },
     headerBanner: {
       paddingHorizontal: 16,
-      paddingTop: 8,
-      paddingBottom: 12,
       backgroundColor: colors.canvas,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.divider,
@@ -36,18 +41,36 @@ function buildMineStyles(colors: AppPalette) {
 export function MineScreen(): React.ReactElement {
   const { colors } = useAppTheme();
   const styles = useMemo(() => buildMineStyles(colors), [colors]);
+  const scrollY = useSharedValue(0);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [dataOpen, setDataOpen] = useState(false);
 
+  const onScroll = useAnimatedScrollHandler({
+    onScroll: (e) => {
+      scrollY.value = e.contentOffset.y;
+    },
+  });
+
+  const headerAnimatedStyle = useAnimatedStyle(() => ({
+    paddingTop: interpolate(scrollY.value, [0, 56], [8, 4], Extrapolation.CLAMP),
+    paddingBottom: interpolate(scrollY.value, [0, 56], [12, 6], Extrapolation.CLAMP),
+    minHeight: interpolate(scrollY.value, [0, 56], [72, 44], Extrapolation.CLAMP),
+  }));
+
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
-      <View style={styles.headerBanner}>
+      <Animated.View style={[styles.headerBanner, headerAnimatedStyle]}>
         <Text style={styles.title}>我的</Text>
-      </View>
-      <View style={styles.list}>
+      </Animated.View>
+      <Animated.ScrollView
+        contentContainerStyle={styles.list}
+        onScroll={onScroll}
+        scrollEventThrottle={16}
+        keyboardShouldPersistTaps="handled"
+      >
         <GroupedInset style={styles.insetBlock}>
-          <Pressable
-            style={({ pressed }) => [styles.cardInner, pressed ? { opacity: pressedOpacity } : null]}
+          <SpringPressable
+            style={styles.cardInner}
             accessibilityRole="button"
             accessibilityLabel="关于本应用"
             onPress={() => {
@@ -65,12 +88,12 @@ export function MineScreen(): React.ReactElement {
             ) : (
               <Text style={styles.chevron}>点按展开</Text>
             )}
-          </Pressable>
+          </SpringPressable>
         </GroupedInset>
 
         <GroupedInset style={styles.insetBlock}>
-          <Pressable
-            style={({ pressed }) => [styles.cardInner, pressed ? { opacity: pressedOpacity } : null]}
+          <SpringPressable
+            style={styles.cardInner}
             accessibilityRole="button"
             accessibilityLabel="数据与存储说明"
             onPress={() => {
@@ -85,12 +108,12 @@ export function MineScreen(): React.ReactElement {
             ) : (
               <Text style={styles.chevron}>点按了解本机存储</Text>
             )}
-          </Pressable>
+          </SpringPressable>
         </GroupedInset>
 
         <GroupedInset style={styles.insetBlock}>
-          <Pressable
-            style={({ pressed }) => [styles.cardInner, pressed ? { opacity: pressedOpacity } : null]}
+          <SpringPressable
+            style={styles.cardInner}
             accessibilityRole="button"
             accessibilityLabel="设置"
             onPress={() => {
@@ -99,9 +122,9 @@ export function MineScreen(): React.ReactElement {
           >
             <Text style={styles.cardTitle}>设置</Text>
             <Text style={styles.sub}>功能尚未开放，后续版本将提供偏好与更多选项。</Text>
-          </Pressable>
+          </SpringPressable>
         </GroupedInset>
-      </View>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 }

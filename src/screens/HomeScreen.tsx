@@ -5,6 +5,7 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import { Platform, SectionList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import { CategoryIcon } from "../components/CategoryIcon";
 import { SpringPressable } from "../components/SpringPressable";
 import { GroupedInset } from "../components/ios";
@@ -12,6 +13,7 @@ import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { groupBillsByDayKey, queryBillsForMonth } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
+import { useReduceMotion } from "../hooks/useReduceMotion";
 import { useAppTheme } from "../theme/ThemeContext";
 import { headerFabIconSize, headerFabSize, shadows } from "../theme/layout";
 import { iosType } from "../theme/typography";
@@ -23,6 +25,8 @@ import {
   formatTimeShort,
 } from "../utils/dates";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
+
+const LIST_STAGGER_MAX = 12;
 
 type Section = { title: string; data: Bill[] };
 
@@ -113,6 +117,7 @@ function buildHomeScreenStyles(colors: AppPalette) {
 
 export function HomeScreen(): React.ReactElement {
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+  const reduceMotion = useReduceMotion();
   const { colors } = useAppTheme();
   const styles = useMemo(() => buildHomeScreenStyles(colors), [colors]);
   const { generation, refresh } = useBillsRefresh();
@@ -211,31 +216,36 @@ export function HomeScreen(): React.ReactElement {
   }, [monthAnchor]);
 
   const renderItem = useCallback(
-    ({ item }: { item: Bill }) => {
+    ({ item, index }: { item: Bill; index: number }) => {
       const t = item.billTime;
       const timeLabel = t === null || t === undefined ? "" : formatTimeShort(new Date(t * 1000));
       const isExpense = item.type === 1;
       const prefix = isExpense ? "-" : "+";
+      const entering = reduceMotion
+        ? undefined
+        : FadeInDown.delay(Math.min(index, LIST_STAGGER_MAX - 1) * 40).springify();
       return (
-        <SpringPressable
-          style={styles.row}
-          onPress={() => {
-            navigation.navigate("BillDetail", { billId: item.id });
-          }}
-        >
-          <CategoryIcon categoryId={item.categoryId} size={36} />
-          <View style={styles.rowMid}>
-            <Text style={styles.rowTitle}>{item.name ?? "未分类"}</Text>
-            <Text style={styles.rowSub}>{timeLabel}</Text>
-          </View>
-          <Text style={[styles.rowAmt, isExpense ? styles.expense : styles.income]}>
-            {prefix}
-            {formatAmountDisplay(parseAmount(item.amount))}
-          </Text>
-        </SpringPressable>
+        <Animated.View entering={entering}>
+          <SpringPressable
+            style={styles.row}
+            onPress={() => {
+              navigation.navigate("BillDetail", { billId: item.id });
+            }}
+          >
+            <CategoryIcon categoryId={item.categoryId} size={36} />
+            <View style={styles.rowMid}>
+              <Text style={styles.rowTitle}>{item.name ?? "未分类"}</Text>
+              <Text style={styles.rowSub}>{timeLabel}</Text>
+            </View>
+            <Text style={[styles.rowAmt, isExpense ? styles.expense : styles.income]}>
+              {prefix}
+              {formatAmountDisplay(parseAmount(item.amount))}
+            </Text>
+          </SpringPressable>
+        </Animated.View>
       );
     },
-    [navigation, styles],
+    [navigation, styles, reduceMotion],
   );
 
   return (
@@ -262,6 +272,7 @@ export function HomeScreen(): React.ReactElement {
       </View>
       <GroupedInset style={styles.listInset}>
         <SectionList
+          key={String(generation)}
           sections={sections}
           keyExtractor={(item) => String(item.id)}
           renderItem={renderItem}
