@@ -1,20 +1,20 @@
 ---
-status: testing
+status: complete
 phase: 13-chrome-uat-signoff
 source:
   - 13-01-SUMMARY.md
   - 13-02-SUMMARY.md
 started: "2026-04-23T14:10:00.000Z"
-updated: "2026-04-23T15:20:00.000Z"
+updated: "2026-04-23T15:25:00.000Z"
 ---
 
 ## Current Test
 
-number: 6
-name: 降低透明度 — 主路径可用
+number: —
+name: （会话已完成）
 expected: |
-  在系统 **辅助功能** 中开启 **降低透明度**，回到 App。进入 **预算** 或 **资产**，打开一次 **Modal**（设置预算 / 添加账户），再关闭。Tab 栏与 Modal 区域应 **非空白、可点击**；能正常返回。
-awaiting: user response
+  全部 6 项已由用户回复 pass。
+awaiting: none
 
 ## Tests
 
@@ -45,14 +45,15 @@ reported: "yes"
 
 ### 6. 降低透明度 — 主路径可用
 expected: 系统开启 **降低透明度**（辅助功能）后，从 Tab 进入 **预算或资产** 打开一次 Modal 再关闭；Tab 栏与 Modal 区域 **非空白、可点**；能返回上一屏。
-result: pending
+result: pass
+reported: "yes"
 
 ## Summary
 
 total: 6
-passed: 5
+passed: 6
 issues: 0
-pending: 1
+pending: 0
 skipped: 0
 blocked: 0
 

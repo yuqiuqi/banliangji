@@ -8,7 +8,7 @@
 
 ### Liquid Glass · Tier-2 表面 (LG)
 
-- [ ] **LG-02**: **副路径四屏**——**图表**（含周/月/年聚合与图表主路径）、**预算**、**资产**、**我的**——在 **色彩**（仅 `iosSemantic` / 设计令牌，禁止临时 hex 拼凑）、**透明度与材质分层**（与 `11-MATERIAL-MOTION-SPEC` Tier-2 及 `src/components/ios/*` 一致）、**动效**（导航/Sheet/列表滚动与 **Tab/顶栏协同** 若适用）、**交互**（按钮、列表行、分组、分段控件等）上与 **iOS 26 系统取向**一致；浅色与深色外观均验收。**无法**在 RN 复刻处须写入 **Accepted deviation** 表（链接到 `UI-SPEC.md` 或 Phase 13 `VERIFICATION`）。
+- [x] **LG-02**: **副路径四屏**——**图表**（含周/月/年聚合与图表主路径）、**预算**、**资产**、**我的**——在 **色彩**（仅 `iosSemantic` / 设计令牌，禁止临时 hex 拼凑）、**透明度与材质分层**（与 `11-MATERIAL-MOTION-SPEC` Tier-2 及 `src/components/ios/*` 一致）、**动效**（导航/Sheet/列表滚动与 **Tab/顶栏协同** 若适用）、**交互**（按钮、列表行、分组、分段控件等）上与 **iOS 26 系统取向**一致；浅色与深色外观均验收。**无法**在 RN 复刻处须写入 **Accepted deviation** 表（链接到 `UI-SPEC.md` 或 Phase 13 `VERIFICATION`）。**验收：** `13-UAT.md`（6/6）+ `13-VERIFICATION.md` 矩阵；Chart 动效见 **P13-D13-04**。
 
 ## v2.3 Requirements（结转 · 仍有效直至勾选）
 
@@ -46,7 +46,7 @@
 
 | Requirement | Phase | Status |
 |---------------|-------|--------|
-| **LG-02** | **Phase 13（v2.4）** | **Pending** — 代码 Wave 1 已合主干；**浅色/深色/降低透明度** 手测见 `13-VERIFICATION.md`（**P13-LG02-UAT**），补测通过后勾选本 REQ |
+| **LG-02** | **Phase 13（v2.4）** | **Done** — `13-UAT.md` 全通过 + `13-VERIFICATION.md`；动效偏差 **P13-D13-04** |
 | DATA-02 | Phase 12（收口）/ v2.4 结转 | Blocked — 见 `.planning/phases/10-persist-uat/DATA-02-SMOKE.md`（`Result: BLOCKED`）；目标 **2026-05-01** 前设备补跑 |
 | QA-04 | Phase 10 | Done |
 | THEME-01 | Phase 13 | Pending |
