@@ -31,7 +31,7 @@
 | **Goal** | 新建 `motion.ts` 弹簧常量 + `useSpringPress` + `expo-haptics` + 图表 stagger 动效 + 分段 Spring Thumb + 列表入场 + Modal Spring + Scroll Header Collapse；全应用感知对齐 iOS 26 |
 | **Requirements** | ANIM-01~06, INT-01, HAP-01, MOT-01 |
 | **Canonical spec** | `.planning/research/IOS26-MOTION-INTERACTION-SPEC.md`、`UI-SPEC.md`、`11-MATERIAL-MOTION-SPEC.md` |
-| **Success criteria** | 1) `motion.ts` 存在，所有 spring 参数经由此模块 2) `SegmentedTwo` / 图表分段指示器有弹簧位移 3) 图表柱切换有 stagger spring 4) 所有主 Pressable 使用 `useSpringPress` 5) `expo-haptics` 主路径（保存/删除/选择）接入 6) Reduce Motion 开启时所有动效降级 7) `npm run verify` 通过 |
+| **Success criteria** | 1) `motion.ts` 存在，所有 spring 参数经由此模块 2) `SegmentedTwo` / 图表分段指示器有弹簧位移 3) 图表柱切换有 stagger spring（含切换取消与 ≤12 根 stagger）4) 所有主路径可点击使用 `SpringPressable`（`PressableProps` 透传）5) `expo-haptics` 主路径（保存/删除/选择）接入且 `haptics` 封装 try/catch 6) Reduce Motion 开启时所有动效降级 7) Header collapse 与 `contentInset`/补偿联动避免列表跳变 8) `npm run verify` 通过 |
 
 ---
 
@@ -72,7 +72,7 @@
 | 11 | 3/3 | Complete（verify 绿；手测签字待补） | 2026-04-23 |
 | 12 | 2/2 | Executed（DATA-02 仍 BLOCKED） | 2026-04-23 |
 | 13 | 2/2 | Executed（LG-02 Done；v2.4 收口） | 2026-04-23 |
-| **14** | **—** | **Planning** | — |
+| **14** | **3/3** | **Ready to execute** | — |
 
 ---
 

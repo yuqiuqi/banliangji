@@ -19,7 +19,7 @@
 
 ### 交互系统 (INT)
 
-- [ ] **INT-01**: 新建 `src/hooks/useSpringPress.ts`，封装 Reanimated `withSpring(SPRING.UI)` 驱动的 `scale(0.97)` + `opacity(0.92)` 按压效果；全站 **所有可点击行/卡片/按钮** 替换为此 hook，替代零散 `pressedOpacity` 静态变量。
+- [ ] **INT-01**: 新建 `src/components/SpringPressable.tsx`（`forwardRef` + **`PressableProps` 全量透传**），内用 Reanimated `withSpring(SPRING.UI)` 实现 `scale(0.97)` + `opacity(0.92)`；全站 **所有可点击行/卡片/按钮** 优先替换为 `SpringPressable`，替代零散 `pressedOpacity`；可选 `useSpringPress.ts` 仅作非 Pressable 容器内部复用（**14-REVIEWS** 主路径）。
 
 ### 触觉反馈 (HAP)
 
