@@ -1,31 +1,45 @@
-# 结绳记 · Jieshengji
+# 半两记 · Banliangji
 
-> **结一个绳，记一笔账。**  
-> 华夏先民最早的记账之法是 *结绳记事*；本项目以此为名，做一款 **克制、离线、可信** 的中文移动记账 App。
+**Repository:** [github.com/yuqiuqi/banliangji](https://github.com/yuqiuqi/banliangji)
+
+> **半两之衡，一笔一清。**  
+> 「半两」为秦统一度量衡时的货币单位；本项目取「每一笔都清清楚楚」之意，做一款 **克制、离线、可信** 的中文移动记账 App。
+
+*English:* Offline-first Chinese personal finance app for iOS & Android — **Expo SDK 54**, **React Native**, **SQLite** on-device; no network calls for core flows.
+
+## 目录
+
+- [为什么叫「半两记」](#为什么叫半两记)
+- [它是什么](#它是什么)
+- [技术栈](#技术栈)
+- [环境要求](#环境要求)
+- [快速开始](#快速开始)
+- [规划 · GSD](#规划--gsd-工作法)
+- [贡献方式](#贡献方式)
+- [许可证](#许可证)
+- [致谢](#致谢)
 
 <p align="left">
   <img alt="platform" src="https://img.shields.io/badge/platform-iOS%20%7C%20Android-black">
   <img alt="stack" src="https://img.shields.io/badge/stack-Expo%20SDK%2054%20%2B%20TypeScript-3178c6">
   <img alt="ui" src="https://img.shields.io/badge/UI-iOS%2026%20Liquid%20Glass-007AFF">
-  <img alt="license" src="https://img.shields.io/badge/license-JPSAL%20v1.0-red">
+  <img alt="license" src="https://img.shields.io/badge/license-BPSAL%20v1.0-red">
   <img alt="status" src="https://img.shields.io/badge/status-v2.3%20executing-blueviolet">
 </p>
 
 ---
 
-## 为什么叫「结绳记」
+## 为什么叫「半两记」
 
-- **源头感。** 记账并非现代发明；在文字出现之前，先民以结绳记账、以刻齿记数。项目取其 *"最古老的记账动作"* 为名，提醒自己：**记账的本质是诚实，不是功能堆叠。**
-- **独特性。** 在中文独立应用、GitHub 仓库里几乎没有同名作品；短、上口、可作图标。
-- **文字美。** "结绳记" 三字同时包含动作（结）、载体（绳）、意图（记），像一句极短的诗。
-
-代码工作名仍使用 `SwiftCostRN`（RN = React Native），后续不改包名以避免大规模重命名。
+- **度量感。** 记账的本质是把收支落到可核对的刻度上；「半两」既是历史货币名，也暗示 **颗粒度清晰、不糊里糊涂**。
+- **辨识度。** 短、好记，适合产品名与图标文字。
+- **工程名。** npm / Expo 使用 `banliangji`，与仓库、包名一致。
 
 ---
 
 ## 它是什么
 
-一个 **完全离线、本地 SQLite、零网络请求** 的个人记账 App。走 **iOS 26 / Liquid Glass** 取向，尽可能把 UI 让位给内容。
+一个 **完全离线、本地 SQLite、零网络请求** 的个人记账 App。交互、信息架构与视觉 **为半两记独立设计**：以 **iOS 26 / Liquid Glass** 为质感基线，强调 **一眼可读、一步可记**，不是任何旧产品的换皮或迁移版。
 
 ### 核心能力
 
@@ -42,7 +56,7 @@
 
 ### 设计契约
 
-- 视觉来源：Apple **iOS 26 / Liquid Glass** 官方语义取向（非像素级复刻）。
+- 视觉语言：在半两记场景内落地 Apple **iOS 26 / Liquid Glass** 公开语义（工程近似，非像素级复刻官方材质）。
 - 合约文档：根目录 [`UI-SPEC.md`](./UI-SPEC.md)、[`DESIGN.md`](./DESIGN.md)。
 - 历史阶段与 UAT：`.planning/phases/*`。
 
@@ -59,12 +73,24 @@
 
 ---
 
+## 环境要求
+
+| 项 | 建议 |
+|----|------|
+| **Node.js** | 当前 LTS（如 20.x / 22.x） |
+| **包管理** | npm（随 Node 安装） |
+| **iOS** | macOS + Xcode + 模拟器或真机 |
+| **Android** | Android Studio / SDK + 模拟器或真机 |
+| **可选** | Expo Go 或自建 Dev Client（与 `react-native-worklets` 原生版本需与 SDK 对齐） |
+
+---
+
 ## 快速开始
 
 ```bash
 # 1. 克隆
-git clone https://github.com/yuqiuqi/jieshengji.git
-cd jieshengji
+git clone https://github.com/yuqiuqi/banliangji.git
+cd banliangji
 
 # 2. 安装依赖
 npm install
@@ -83,6 +109,16 @@ npm run verify         # typecheck + lint + test
 ```
 
 单独跑：`npm run typecheck` · `npm run lint` · `npm run test`。
+
+### 仓库结构（摘要）
+
+| 路径 | 说明 |
+|------|------|
+| `src/` | 页面、导航、主题、SQLite 与业务逻辑 |
+| `assets/` | 图标与静态资源 |
+| `app.json` | Expo 应用配置（名称、slug `banliangji`） |
+| `.planning/` | GSD 路线图、阶段文档与状态（可选读） |
+| `UI-SPEC.md` / `DESIGN.md` | UI 与设计契约 |
 
 ### 首次在新环境 iOS 红屏？
 
@@ -109,7 +145,7 @@ npm run verify         # typecheck + lint + test
 
 **本项目不接受 Fork、不接受 Pull Request。** 若你有想法或发现问题：
 
-- 前往 [Issues](https://github.com/yuqiuqi/jieshengji/issues) 提交：
+- 前往 [Issues](https://github.com/yuqiuqi/banliangji/issues) 提交：
   - **Bug 报告**：附截图、机型 / OS / Expo 版本、复现步骤。
   - **功能建议**：描述使用场景与期望行为；请勿直接贴长代码。
   - **安全漏洞**：标题前加 `[security]`，尽量私下先通知；无邮箱可走 Issue，但请先不披露 PoC。
@@ -120,14 +156,14 @@ npm run verify         # typecheck + lint + test
 
 ## 许可证
 
-**JPSAL v1.0 — 结绳记专有源码可见许可证** · 见 [LICENSE](./LICENSE)。
+**BPSAL v1.0 — 半两记专有源码可见许可证** · 见 [LICENSE](./LICENSE)。
 
 要点（非替代原文）：
 
 - **源码可见，非开源自由软件**；禁止商用。
 - **禁止 Fork 后的任何对外公开、再分发、修改**；Fork 按钮虽由 GitHub 平台提供，但法律层面明确禁止。
 - **禁止将本作品用于 AI 训练 / 微调数据集。**
-- 仅作者本人与作者明确授权的 **结绳记团队成员** 可修改、分发、商用。
+- 仅作者本人与作者明确授权的 **半两记团队成员** 可修改、分发、商用。
 - 用户仅可通过 **GitHub Issues** 反馈。
 
 如需商业授权 / 加入团队 / 其他合作，请在 Issues 提出，标题前缀 `[商业授权]` / `[团队加入]`。
@@ -136,12 +172,11 @@ npm run verify         # typecheck + lint + test
 
 ## 致谢
 
-- 记账 App 思路致敬 [IANIx/SwiftCost](https://github.com/IANIx/SwiftCost)。
 - UI 取向源自 Apple **Liquid Glass** 官方设计语言（本项目为工程近似，非授权品牌）。
 - 技术栈：Software Mansion、Expo、React Native 社区。
 
 ---
 
 <p align="center">
-  <sub><i>"上古结绳而治，后世圣人易之以书契。"</i> —— 《周易·系辞下》</sub>
+  <sub><i>「权然后知轻重，度然后知长短。」</i> —— 《孟子·梁惠王上》</sub>
 </p>
