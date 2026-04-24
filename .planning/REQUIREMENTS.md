@@ -45,10 +45,10 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| UAT-01 | Phase 21 | Pending |
-| UAT-02 | Phase 21 | Pending |
-| UAT-03 | Phase 21 | Pending |
-| UAT-04 | Phase 21 | Pending |
+| UAT-01 | Phase 21 | Blocked — DATA-02 仍为 Kill 手测 BLOCKED，见 `DATA-02-SMOKE.md` 与 `21-VERIFICATION.md` |
+| UAT-02 | Phase 21 | Blocked — THEME-01 手测未执行，已登记 Deferred UAT，见 `11-VERIFICATION.md` |
+| UAT-03 | Phase 21 | Blocked — A11Y-01 手测未执行，同上 |
+| UAT-04 | Phase 21 | Blocked — LG-01 手测未执行，同上 |
 | GLASS-01 | Phase 22 | Pending |
 | GLASS-02 | Phase 22 | Pending |
 

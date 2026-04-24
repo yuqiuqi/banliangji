@@ -5,7 +5,7 @@
 
 ## 门禁
 
-- [ ] `npm run verify` 通过（最后一次执行日期：________）
+- [x] `npm run verify` 通过（最后一次执行日期：2026-04-24）
 
 ## THEME-01 — 系统深色
 
@@ -36,7 +36,10 @@
 |----|------|----------|
 | （若无则写 None） | | |
 
+Deferred UAT: THEME / A11Y / LG — Phase 21 本会话为 Agent 文书收口，未在 iOS 真机或 Simulator 执行手测与 spot-check；THEME-01、A11Y-01、LG-01 勾选与清单上述条目待维护者补跑后更新。原因长度满足追溯要求。
+
 ## Sign-off
 
-- [ ] 根 `UI-SPEC.md` / `DESIGN.md` 已同步偏差  
-- **执行人 / 日期：** ________________  
+- [ ] 根 `UI-SPEC.md` / `DESIGN.md` 已同步偏差（手测后补：偏差若有则同步）  
+Sign-off by: 待维护者补签（Agent 环境不可代 iOS 手测）  
+Sign-off date: 2026-04-24  

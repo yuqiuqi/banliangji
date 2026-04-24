@@ -28,6 +28,8 @@ progress:
 - **Research：** 本里程碑跳过并行 domain research（结转验证 + 工程内 Glass 集成）。
 - **阶段编号：** 自 Phase **21** 起续编（未使用 `--reset-phase-numbers`）。
 
+Phase 21 收口索引：.planning/phases/21-smoke-uat-close/21-VERIFICATION.md
+
 ---
 
 *Last updated: 2026-04-24 — `/gsd-new-milestone` v3.1*

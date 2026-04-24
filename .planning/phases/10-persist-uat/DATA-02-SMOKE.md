@@ -4,8 +4,8 @@
 
 | 项 | 值 |
 |----|-----|
-| **Date** | 2026-04-22 |
-| **Git** | `dee49ee` |
+| **Date** | 2026-04-24（文书复核；Kill 手测仍待设备） |
+| **Git** | `9c04554`（Phase 21 文书提交；手测 PASS/FAIL 后请更新为当时提交） |
 | **Expo** | `~54.0.33` |
 | **react-native** | `0.81.5` |
 | **iOS target** | `BLOCKED`：设备杀进程手测尚未执行；须补 **Simulator 机型+runtime** 或 **真机型号**（停 Metro 不算杀进程） |
@@ -40,6 +40,8 @@
 Result: BLOCKED
 
 本环境（Agent/CI）无法完成 iOS 真机或 Simulator 的「划掉 App + 冷启动」手测；**Kill protocol 与步骤已书面固化**。维护者在本地按上表执行后，应将本行改为 `Result: PASS` 或 `Result: FAIL` 并补 Environment 表中的设备字段。
+
+**Phase 21（2026-04-24）文书收口：** 已交叉引用 `21-VERIFICATION.md` 与 `REQUIREMENTS` 追溯为 Blocked+理由；**未**将本 `Result:` 伪标为 PASS。
 
 ## 下一步取证计划
 
