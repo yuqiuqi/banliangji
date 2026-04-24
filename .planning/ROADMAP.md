@@ -10,7 +10,7 @@
 | ✅ **v2.2** | **iOS 26 全局 Chrome（Liquid Glass）** | **Phase 9** | **2026-04-22** |
 | **v2.3** | 质量验证与系统外观 | Phases 10–12 + 结转 | 结转 v2.4 |
 | **v2.4** | iOS 26 Chrome 副路径全量对齐 | Phase 13 | 2026-04-23 |
-| **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phases 14–19** | — |
+| **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phases 14–20** | — |
 
 - **完整路线图（v1–v2.2 全文）：** [`.planning/milestones/v2.2-ROADMAP.md`](milestones/v2.2-ROADMAP.md)  
 - **v2.4 需求快照：** 已并入下方 v3.0 结转  
@@ -78,6 +78,7 @@
 | **17** | **1/1** | **Executed** — Wave 1 Option A 完成（5 资产 + expo-haptics），verify 绿 | 2026-04-24 |
 | **18** | **2/2** | **Executed** — Tier 1 + Tier 2（7 资产 + expo-linear-gradient），verify 绿 | 2026-04-24 |
 | **19** | **1/1** | **Executed** — UI 集成 9 屏 + 新建 HeaderIconButton + 3 基础组件升级 | 2026-04-24 |
+| **20** | **1/1** | **Executed** — UI 精修（按压隔离/毛玻璃 Modal/inline DatePicker/SegmentedThumb/柱图立体） | 2026-04-24 |
 
 ### Phase 15: ui的动画已经完美可是ui的美观度非常的差，你要以一个专业的美工角度去修正
 
@@ -173,6 +174,16 @@ Plans:
 
 Plans:
 - [ ] TBD (run /gsd-plan-phase 19 to break down)
+
+### Phase 20: iOS 26 UI 精致化 — 按压联动消除/Modal毛玻璃/DatePicker inline/SegmentedTwo SpringThumb/Chart玻璃立体
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 19
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 20 to break down)
 
 ---
 

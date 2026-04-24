@@ -16,11 +16,11 @@ progress:
 
 ## Current Position
 
-Phase: **19**（ui-integration）— **UI 集成**（Phase 17/18 资产接入 9 屏 + 3 基础组件升级 + 废弃 token 清理）
+Phase: **20**（ui-polish）— **UI 精修**（按压隔离/毛玻璃 Modal/inline DatePicker/SegmentedThumb/柱图立体）
 Plan: **1/1** 已执行
 Status: Complete
 
-- **Resume：** `19-VERIFICATION.md` 全绿 · 按压连带感问题修复 · haptic 全仓覆盖
+- **Resume：** `20-VERIFICATION.md` 6 条用户反馈全部闭环 · 陀螺仪高光推迟 Phase 21
 
 ## Current Status
 

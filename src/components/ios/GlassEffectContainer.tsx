@@ -8,7 +8,7 @@
  * - 必须绝对定位于动态内容之上（v1.2 §3.15 约束 1）
  */
 import React from "react";
-import { StyleSheet, View, type ViewStyle } from "react-native";
+import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import { BlurView } from "expo-blur";
 
 import { radii } from "../../theme/layout";
@@ -20,7 +20,7 @@ export type GlassEffectContainerProps = {
   intensity?: number;
   tint?: Tint;
   borderRadius?: number;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
 };
 

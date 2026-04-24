@@ -13,7 +13,12 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-na
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { BillCalculator, BILL_CALCULATOR_CONTENT_HEIGHT } from "../components/BillCalculator";
 import { CategoryIcon } from "../components/CategoryIcon";
-import { IOSChromeGlassBackground, SegmentedTwo } from "../components/ios";
+import {
+  GlassEffectContainer,
+  IOSChromeGlassBackground,
+  SegmentedTwo,
+  VibrantText,
+} from "../components/ios";
 import { SpringPressable } from "../components/SpringPressable";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { flattenCategories } from "../data/categories";
@@ -103,12 +108,22 @@ function buildCreateBillStyles(colors: AppPalette, borderTopGlass: string) {
     cellLabel: { marginTop: 6, fontSize: 12, color: colors.title, maxWidth: 72, textAlign: "center" },
     pickerOverlay: {
       ...StyleSheet.absoluteFillObject,
-      backgroundColor: "rgba(0,0,0,0.35)",
+      backgroundColor: colors.modalScrim,
       justifyContent: "flex-end",
     },
-    pickerCard: { backgroundColor: colors.surface },
-    pickerToolbar: { alignItems: "flex-end", padding: 12 },
-    pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "600" },
+    pickerCard: {
+      marginHorizontal: 12,
+      marginBottom: 12,
+      borderRadius: 20,
+      overflow: "hidden",
+    },
+    pickerToolbar: {
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      paddingHorizontal: 16,
+      paddingVertical: 10,
+    },
+    pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "700" },
   });
 }
 
@@ -337,7 +352,11 @@ export function CreateBillScreen(): React.ReactElement {
       ) : null}
       {Platform.OS === "ios" && iosDateOpen ? (
         <View style={styles.pickerOverlay}>
-          <View style={[styles.pickerCard, { paddingBottom: 24 + bottomComfort }]}>
+          <GlassEffectContainer
+            intensity={70}
+            borderRadius={20}
+            style={[styles.pickerCard, { paddingBottom: 16 + bottomComfort }]}
+          >
             <View style={styles.pickerToolbar}>
               <SpringPressable
                 onPress={() => {
@@ -346,20 +365,22 @@ export function CreateBillScreen(): React.ReactElement {
                 }}
                 hapticOn={false}
               >
-                <Text style={styles.pickerDone}>完成</Text>
+                <VibrantText style={styles.pickerDone}>完成</VibrantText>
               </SpringPressable>
             </View>
             <DateTimePicker
               value={billDate}
               mode="date"
-              display="spinner"
+              display="inline"
+              accentColor={colors.accent}
+              themeVariant={colorScheme === "dark" ? "dark" : "light"}
               onChange={(_e, d) => {
                 if (d !== undefined) {
                   setBillDate(d);
                 }
               }}
             />
-          </View>
+          </GlassEffectContainer>
         </View>
       ) : null}
     </SafeAreaView>

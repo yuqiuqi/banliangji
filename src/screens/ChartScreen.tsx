@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import { CategoryIcon } from "../components/CategoryIcon";
 import { GroupedInset } from "../components/ios";
 import { SpringPressable } from "../components/SpringPressable";
@@ -129,11 +130,31 @@ function buildChartStyles(colors: AppPalette) {
     barCol: { flex: 1, alignItems: "center", marginHorizontal: 1 },
     bar: {
       width: 12,
+      borderTopLeftRadius: 6,
+      borderTopRightRadius: 6,
+      overflow: "hidden",
       backgroundColor: colors.light,
+    },
+    barShadow: {
+      // 立体阴影（仅 iOS 明显）
+      shadowColor: colors.expense,
+      shadowOpacity: 0.28,
+      shadowRadius: 4,
+      shadowOffset: { width: 0, height: 2 },
+    },
+    barFill: {
+      ...StyleSheet.absoluteFillObject,
       borderTopLeftRadius: 6,
       borderTopRightRadius: 6,
     },
-    barOn: { backgroundColor: colors.accent },
+    barHighlight: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: "rgba(255,255,255,0.55)",
+    },
     barLabel: { marginTop: 6, fontSize: 10, color: colors.lightTitle, maxWidth: 40, textAlign: "center" },
     listInner: { paddingVertical: 4, paddingHorizontal: 4 },
     catRow: { flexDirection: "row", alignItems: "center", paddingVertical: 12, paddingHorizontal: 8 },
@@ -158,7 +179,19 @@ function buildChartStyles(colors: AppPalette) {
       marginTop: 6,
       overflow: "hidden",
     },
-    progressFg: { height: 6, backgroundColor: colors.accent, borderRadius: 3 },
+    progressFg: {
+      height: 6,
+      borderRadius: 3,
+      overflow: "hidden",
+    },
+    progressHighlight: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: "rgba(255,255,255,0.45)",
+    },
     catAmt: {
       marginLeft: 8,
       fontSize: 15,
@@ -377,9 +410,21 @@ export function ChartScreen(): React.ReactElement {
                             style={[
                               styles.bar,
                               { height: Math.max(4, h) },
-                              pt.hasData ? styles.barOn : null,
+                              pt.hasData ? styles.barShadow : null,
                             ]}
-                          />
+                          >
+                            {pt.hasData ? (
+                              <>
+                                <LinearGradient
+                                  colors={[colors.expense, "rgba(255,59,48,0.55)"]}
+                                  start={{ x: 0, y: 0 }}
+                                  end={{ x: 0, y: 1 }}
+                                  style={styles.barFill}
+                                />
+                                <View style={styles.barHighlight} />
+                              </>
+                            ) : null}
+                          </View>
                           <Text style={styles.barLabel} numberOfLines={1}>
                             {pt.label}
                           </Text>
@@ -408,7 +453,15 @@ export function ChartScreen(): React.ReactElement {
                   <View style={styles.catMid}>
                     <Text style={styles.catName}>{c.name}</Text>
                     <View style={styles.progressBg}>
-                      <View style={[styles.progressFg, { width: `${Math.round(c.ratio * 100)}%` }]} />
+                      <View style={[styles.progressFg, { width: `${Math.round(c.ratio * 100)}%` }]}>
+                        <LinearGradient
+                          colors={[colors.expense, "rgba(255,59,48,0.55)"]}
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          style={StyleSheet.absoluteFill}
+                        />
+                        <View style={styles.progressHighlight} />
+                      </View>
                     </View>
                   </View>
                   <Text style={styles.catAmt}>¥{formatAmountDisplay(c.amount)}</Text>

@@ -11,7 +11,12 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoryIcon } from "../components/CategoryIcon";
-import { GroupedInset, SegmentedTwo } from "../components/ios";
+import {
+  GlassEffectContainer,
+  GroupedInset,
+  SegmentedTwo,
+  VibrantText,
+} from "../components/ios";
 import { SpringPressable } from "../components/SpringPressable";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { queryBillsForCalendarDay, queryBillsInRange } from "../db/billRepo";
@@ -89,12 +94,23 @@ function buildBillQueryStyles(colors: AppPalette) {
     emptyText: { color: colors.lightTitle, textAlign: "center" },
     pickerOverlay: {
       ...StyleSheet.absoluteFillObject,
-      backgroundColor: "rgba(0,0,0,0.35)",
+      backgroundColor: colors.modalScrim,
       justifyContent: "flex-end",
     },
-    pickerCard: { backgroundColor: colors.surface, paddingBottom: 24 },
-    pickerToolbar: { alignItems: "flex-end", padding: 12 },
-    pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "600" },
+    pickerCard: {
+      marginHorizontal: 12,
+      marginBottom: 12,
+      borderRadius: 20,
+      overflow: "hidden",
+      paddingBottom: 16,
+    },
+    pickerToolbar: {
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      paddingHorizontal: 16,
+      paddingVertical: 10,
+    },
+    pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "700" },
   });
 }
 
@@ -326,7 +342,11 @@ export function BillQueryScreen(): React.ReactElement {
       </GroupedInset>
       {Platform.OS === "ios" && iosOpen ? (
         <View style={styles.pickerOverlay}>
-          <View style={styles.pickerCard}>
+          <GlassEffectContainer
+            intensity={70}
+            borderRadius={20}
+            style={styles.pickerCard}
+          >
             <View style={styles.pickerToolbar}>
               <SpringPressable
                 onPress={() => {
@@ -335,7 +355,7 @@ export function BillQueryScreen(): React.ReactElement {
                 }}
                 hapticOn={false}
               >
-                <Text style={styles.pickerDone}>完成</Text>
+                <VibrantText style={styles.pickerDone}>完成</VibrantText>
               </SpringPressable>
             </View>
             <DateTimePicker
@@ -347,12 +367,14 @@ export function BillQueryScreen(): React.ReactElement {
                     : (rangeEnd ?? new Date())
               }
               mode="date"
-              display="spinner"
+              display="inline"
+              accentColor={colors.accent}
+              themeVariant={colors.canvas === "#000000" ? "dark" : "light"}
               onChange={(_e, d) => {
                 onIosChange(d);
               }}
             />
-          </View>
+          </GlassEffectContainer>
         </View>
       ) : null}
     </SafeAreaView>

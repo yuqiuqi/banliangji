@@ -9,13 +9,13 @@
  * - 不可合并动态变化的元素（用 Morphing，不用 Union）
  */
 import React from "react";
-import { StyleSheet, View, type ViewStyle } from "react-native";
+import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 
 import { radii } from "../../theme/layout";
 
 export type GlassEffectUnionProps = {
   borderRadius?: number;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
 };
 
