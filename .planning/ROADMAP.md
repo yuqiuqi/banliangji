@@ -10,7 +10,7 @@
 | ✅ **v2.2** | **iOS 26 全局 Chrome（Liquid Glass）** | **Phase 9** | **2026-04-22** |
 | **v2.3** | 质量验证与系统外观 | Phases 10–12 + 结转 | 结转 v2.4 |
 | **v2.4** | iOS 26 Chrome 副路径全量对齐 | Phase 13 | 2026-04-23 |
-| **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phases 14–17** | — |
+| **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phases 14–18** | — |
 
 - **完整路线图（v1–v2.2 全文）：** [`.planning/milestones/v2.2-ROADMAP.md`](milestones/v2.2-ROADMAP.md)  
 - **v2.4 需求快照：** 已并入下方 v3.0 结转  
@@ -76,6 +76,7 @@
 | **15** | **3/3** | **Executed（已 revert）** | 2026-04-23 |
 | **16** | **3/3** | **Executed** — v1.2 发布，20 条 REVIEW 全闭环 | 2026-04-24 |
 | **17** | **1/1** | **Executed** — Wave 1 Option A 完成（5 资产 + expo-haptics），verify 绿 | 2026-04-24 |
+| **18** | **2/2** | **Executed** — Tier 1 + Tier 2（7 资产 + expo-linear-gradient），verify 绿 | 2026-04-24 |
 
 ### Phase 15: ui的动画已经完美可是ui的美观度非常的差，你要以一个专业的美工角度去修正
 
@@ -140,6 +141,27 @@ Plans:
 
 **产物：** `src/theme/motion.ts` · `src/hooks/useReduceMotion.ts` · `src/utils/haptics.ts` (+ .test.ts) · `src/components/SpringPressable.tsx` · `expo-haptics ~15.0.8` · `17-VERIFICATION.md`
 **verify：** 4 test files / 17 tests passed
+
+### Phase 18: iOS 26 玻璃体系（glass-system）
+
+**目录：** [`.planning/phases/18-glass-system/`](phases/18-glass-system/)
+
+**Goal:** 承接 Phase 17 基础资产，按 v1.2 §3.10/§3.10bis/§3.8/§3.9/§3.12 建立 iOS 26 玻璃体系 RN 工程近似（Container / Union / VibrantText / Shimmer + 3 Hook），为 Phase 19+ 页面改造提供原语。
+
+**Scope（Option B，Tier 1 + Tier 2，8 资产 + 1 依赖）：**
+- Wave 1: `GlassEffectContainer` + `GlassEffectUnion` + `VibrantText` + `expo-linear-gradient`
+- Wave 2: `GlassShimmer` + `useTouchRipple` + `useMaterialize` + `18-VERIFICATION.md`
+
+**Requirements**: DESIGN-GLASS-01
+**Depends on:** Phase 17
+**Plans:** 2
+
+Plans:
+- [x] `18-01-PLAN.md` — Wave 1 Tier 1（4 tasks）✅
+- [x] `18-02-PLAN.md` — Wave 2 Tier 2（4 tasks）✅
+
+**产物：** `GlassEffectContainer` / `GlassEffectUnion` / `VibrantText` / `GlassShimmer` + `useTouchRipple` / `useMaterialize` + `expo-linear-gradient ~15.0.8`
+**v1.2 §18.2 进度：** 12/13 资产完成（92%），仅剩陀螺仪高光 P2 可选项
 
 ---
 
