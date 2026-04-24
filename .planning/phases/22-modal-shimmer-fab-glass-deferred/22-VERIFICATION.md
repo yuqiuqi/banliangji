@@ -22,7 +22,7 @@
 
 ## 自动化
 
-- `npm run verify`: **exit 0**（2026-04-24，git `12dacd3`）
+- `npm run verify`: **exit 0**（2026-04-24，git `4f20a2c`）
 
 ## Spot-check（设备侧 / 维护者补签）
 
