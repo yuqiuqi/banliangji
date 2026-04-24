@@ -10,7 +10,7 @@
 | ✅ **v2.2** | **iOS 26 全局 Chrome（Liquid Glass）** | **Phase 9** | **2026-04-22** |
 | **v2.3** | 质量验证与系统外观 | Phases 10–12 + 结转 | 结转 v2.4 |
 | **v2.4** | iOS 26 Chrome 副路径全量对齐 | Phase 13 | 2026-04-23 |
-| **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phases 14–15** | — |
+| **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phases 14–16** | — |
 
 - **完整路线图（v1–v2.2 全文）：** [`.planning/milestones/v2.2-ROADMAP.md`](milestones/v2.2-ROADMAP.md)  
 - **v2.4 需求快照：** 已并入下方 v3.0 结转  
@@ -73,7 +73,8 @@
 | 12 | 2/2 | Executed（DATA-02 仍 BLOCKED） | 2026-04-23 |
 | 13 | 2/2 | Executed（LG-02 Done；v2.4 收口） | 2026-04-23 |
 | **14** | **3/3** | **Executed** | 2026-04-23 |
-| **15** | **3/3** | **Executed** | 2026-04-23 |
+| **15** | **3/3** | **Executed（已 revert）** | 2026-04-23 |
+| **16** | **0/3** | **Ready to execute** — `16-CONTEXT.md` + `16-01..03-PLAN.md` 已产出 | — |
 
 ### Phase 15: ui的动画已经完美可是ui的美观度非常的差，你要以一个专业的美工角度去修正
 
@@ -86,6 +87,34 @@ Plans:
 - [x] `15-01-PLAN.md` — 排版 / SegmentedTwo / layout 节奏 / GroupedInset
 - [x] `15-02-PLAN.md` — 嵌套导航类型 + Home / Chart / BillQuery / Budget 空态与图表色
 - [x] `15-03-PLAN.md` — Asset / Mine / CreateBill header + BillCalculator 文案 + Calendar + 15-VERIFICATION
+
+### Phase 16: iOS 26 设计宪法 v1.2 修订（design-guide-v1.2）
+
+**目录：** [`.planning/phases/16-design-guide-v1.2/`](phases/16-design-guide-v1.2/)
+
+**输入：** [`.planning/IOS26-DESIGN-GUIDE.md`](IOS26-DESIGN-GUIDE.md) (v1.1) · [`.planning/IOS26-DESIGN-GUIDE-REVIEW.md`](IOS26-DESIGN-GUIDE-REVIEW.md)（Codex + Gemini 交叉评审）
+
+**Goal:** 按 REVIEW §七 行动清单（**P0 5 条 + P1 9 条 + P2 6 条**）将设计指南升级至 v1.2，使其可作为 Phase 17+ 所有 UI 编码的权威「设计宪法」。
+
+**Scope 摘要：**
+1. 修正 4 处事实错误（SwiftUI 公开 API 误标为私有、17pt 默认 vs 最小、`.clear` 三条件非官方、ALL CAPS 过度泛化）
+2. 补 3 项概念缺失（`glassEffectUnion` / App Icon Liquid Glass / 控件 Extra-Large + 不写死度量）
+3. 解决 3 处规范冲突（§1.2 vs §9.5、§3.10 vs §21 D2、§1.3 R5 vs §14）
+4. 降级 RN 不可行承诺（`react-native-shared-element` Tier 1、触点物理传染）
+5. 新增 §3.15 Expo Blur 实战约束
+6. 给所有规则加四栏标签（官方 / 归纳 / RN 近似 / 依赖）
+7. 新增组件实施卡片 + 快速查阅索引
+
+**Requirements**: DESIGN-SPEC-02（新建，见 REQUIREMENTS.md）
+
+**Depends on:** `IOS26-DESIGN-GUIDE.md` v1.1（已入库）
+
+**Plans:** 3 plans（3 Wave：P0 / P1 / P2）
+
+Plans:
+- [ ] `16-01-PLAN.md` — P0 止血：事实错误与规范冲突 5 条
+- [ ] `16-02-PLAN.md` — P1 新增 4 章节 + RN 文案降级 8 条
+- [ ] `16-03-PLAN.md` — P2 工程化 + 四栏标签 + `16-VERIFICATION.md`
 
 ---
 
