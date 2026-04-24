@@ -3,19 +3,29 @@ import DateTimePicker, { DateTimePickerAndroid } from "@react-native-community/d
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
-import { Platform, SectionList, StyleSheet, Text, View } from "react-native";
+import {
+  Platform,
+  Pressable,
+  SectionList,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Animated, { FadeInDown } from "react-native-reanimated";
 import { CategoryIcon } from "../components/CategoryIcon";
-import { SpringPressable } from "../components/SpringPressable";
 import { GroupedInset } from "../components/ios";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { groupBillsByDayKey, queryBillsForMonth } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
-import { useReduceMotion } from "../hooks/useReduceMotion";
 import { useAppTheme } from "../theme/ThemeContext";
-import { headerFabIconSize, headerFabSize, listContentInset, shadows } from "../theme/layout";
+import {
+  headerFabIconSize,
+  headerFabSize,
+  pressedOpacity,
+  pressScale,
+  shadows,
+} from "../theme/layout";
 import { iosType } from "../theme/typography";
 import type { Bill } from "../types/models";
 import {
@@ -25,8 +35,6 @@ import {
   formatTimeShort,
 } from "../utils/dates";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
-
-const LIST_STAGGER_MAX = 12;
 
 type Section = { title: string; data: Bill[] };
 
@@ -65,7 +73,7 @@ function buildHomeScreenStyles(colors: AppPalette) {
     },
     headerLeft: {
       width: 110,
-      paddingLeft: listContentInset,
+      paddingLeft: 16,
       paddingVertical: 8,
       justifyContent: "center",
     },
@@ -80,17 +88,17 @@ function buildHomeScreenStyles(colors: AppPalette) {
     headerRight: { flex: 1, flexDirection: "row", paddingLeft: 24, alignItems: "center" },
     statCol: { marginRight: 32 },
     statLabel: { fontSize: 10, color: colors.onMainSecondary },
-    statValue: { ...iosType.body, fontWeight: "300", color: colors.onMain, marginTop: 4 },
+    statValue: { fontSize: 17, fontWeight: "300", color: colors.onMain, marginTop: 4 },
     sectionHead: {
       backgroundColor: colors.light,
-      paddingHorizontal: listContentInset,
+      paddingHorizontal: 16,
       paddingVertical: 8,
     },
     sectionTitle: { ...iosType.footnote, color: colors.lightTitle },
     row: {
       flexDirection: "row",
       alignItems: "center",
-      paddingHorizontal: listContentInset,
+      paddingHorizontal: 16,
       paddingVertical: 12,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.divider,
@@ -103,8 +111,7 @@ function buildHomeScreenStyles(colors: AppPalette) {
     expense: { color: colors.expense },
     income: { color: colors.income },
     empty: { padding: 40, alignItems: "center" },
-    emptyText: { ...iosType.caption1, color: colors.lightTitle, textAlign: "center" },
-    emptyCta: { marginTop: 16, ...iosType.body, fontWeight: "600", color: colors.accent },
+    emptyText: { color: colors.lightTitle },
     pickerOverlay: {
       ...StyleSheet.absoluteFillObject,
       backgroundColor: "rgba(0,0,0,0.35)",
@@ -118,7 +125,6 @@ function buildHomeScreenStyles(colors: AppPalette) {
 
 export function HomeScreen(): React.ReactElement {
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
-  const reduceMotion = useReduceMotion();
   const { colors } = useAppTheme();
   const styles = useMemo(() => buildHomeScreenStyles(colors), [colors]);
   const { generation, refresh } = useBillsRefresh();
@@ -129,39 +135,51 @@ export function HomeScreen(): React.ReactElement {
     navigation.setOptions({
       headerRight: () => (
         <View style={styles.headerActions}>
-          <SpringPressable
+          <Pressable
             onPress={() => {
               navigation.navigate("BillQuery");
             }}
             hitSlop={8}
             accessibilityLabel="查账-打开账单"
-            style={[styles.headerChip, styles.headerChipWash]}
+            style={({ pressed }) => [
+              styles.headerChip,
+              styles.headerChipWash,
+              pressed ? { opacity: pressedOpacity, transform: [{ scale: pressScale }] } : null,
+            ]}
           >
             <MaterialCommunityIcons name="filter-variant" size={22} color={colors.onMain} />
-          </SpringPressable>
-          <SpringPressable
+          </Pressable>
+          <Pressable
             onPress={() => {
               navigation.navigate("CreateBill");
             }}
             hitSlop={8}
             accessibilityLabel="记一笔"
-            style={[styles.headerChip, styles.headerChipAccent]}
+            style={({ pressed }) => [
+              styles.headerChip,
+              styles.headerChipAccent,
+              pressed ? { opacity: pressedOpacity, transform: [{ scale: pressScale }] } : null,
+            ]}
           >
             <MaterialCommunityIcons name="plus" size={headerFabIconSize} color={colors.onAccent} />
-          </SpringPressable>
+          </Pressable>
         </View>
       ),
       headerLeft: () => (
-        <SpringPressable
+        <Pressable
           onPress={() => {
             navigation.navigate("Calendar");
           }}
           hitSlop={8}
           accessibilityLabel="打开日历"
-          style={[styles.headerChip, styles.headerChipWash]}
+          style={({ pressed }) => [
+            styles.headerChip,
+            styles.headerChipWash,
+            pressed ? { opacity: pressedOpacity, transform: [{ scale: pressScale }] } : null,
+          ]}
         >
           <MaterialCommunityIcons name="calendar-month" size={22} color={colors.onMain} />
-        </SpringPressable>
+        </Pressable>
       ),
     });
   }, [navigation, colors, styles]);
@@ -217,48 +235,46 @@ export function HomeScreen(): React.ReactElement {
   }, [monthAnchor]);
 
   const renderItem = useCallback(
-    ({ item, index }: { item: Bill; index: number }) => {
+    ({ item }: { item: Bill }) => {
       const t = item.billTime;
       const timeLabel = t === null || t === undefined ? "" : formatTimeShort(new Date(t * 1000));
       const isExpense = item.type === 1;
       const prefix = isExpense ? "-" : "+";
-      const entering = reduceMotion
-        ? undefined
-        : FadeInDown.delay(Math.min(index, LIST_STAGGER_MAX - 1) * 40).springify();
       return (
-        <Animated.View entering={entering}>
-          <SpringPressable
-            style={styles.row}
-            onPress={() => {
-              navigation.navigate("BillDetail", { billId: item.id });
-            }}
-          >
-            <CategoryIcon categoryId={item.categoryId} size={36} />
-            <View style={styles.rowMid}>
-              <Text style={styles.rowTitle}>{item.name ?? "未分类"}</Text>
-              <Text style={styles.rowSub}>{timeLabel}</Text>
-            </View>
-            <Text style={[styles.rowAmt, isExpense ? styles.expense : styles.income]}>
-              {prefix}
-              {formatAmountDisplay(parseAmount(item.amount))}
-            </Text>
-          </SpringPressable>
-        </Animated.View>
+        <Pressable
+          style={({ pressed }) => [styles.row, pressed ? { opacity: pressedOpacity } : null]}
+          onPress={() => {
+            navigation.navigate("BillDetail", { billId: item.id });
+          }}
+        >
+          <CategoryIcon categoryId={item.categoryId} size={36} />
+          <View style={styles.rowMid}>
+            <Text style={styles.rowTitle}>{item.name ?? "未分类"}</Text>
+            <Text style={styles.rowSub}>{timeLabel}</Text>
+          </View>
+          <Text style={[styles.rowAmt, isExpense ? styles.expense : styles.income]}>
+            {prefix}
+            {formatAmountDisplay(parseAmount(item.amount))}
+          </Text>
+        </Pressable>
       );
     },
-    [navigation, styles, reduceMotion],
+    [navigation, styles],
   );
 
   return (
     <SafeAreaView style={styles.safe} edges={["bottom"]}>
       <View style={[styles.headerBanner, shadows.raised]}>
-        <SpringPressable style={styles.headerLeft} onPress={openMonthPicker}>
+        <Pressable
+          style={({ pressed }) => [styles.headerLeft, pressed ? { opacity: pressedOpacity } : null]}
+          onPress={openMonthPicker}
+        >
           <Text style={styles.yearText}>{formatHeaderYear(monthAnchor)}</Text>
           <View style={styles.monthRow}>
             <Text style={styles.monthBig}>{formatHeaderMonth(monthAnchor)}</Text>
             <MaterialCommunityIcons name="menu-down" size={22} color={colors.onMain} />
           </View>
-        </SpringPressable>
+        </Pressable>
         <View style={styles.headerDivider} />
         <View style={styles.headerRight}>
           <View style={styles.statCol}>
@@ -273,7 +289,6 @@ export function HomeScreen(): React.ReactElement {
       </View>
       <GroupedInset style={styles.listInset}>
         <SectionList
-          key={String(generation)}
           sections={sections}
           keyExtractor={(item) => String(item.id)}
           renderItem={renderItem}
@@ -285,15 +300,6 @@ export function HomeScreen(): React.ReactElement {
           ListEmptyComponent={
             <View style={styles.empty}>
               <Text style={styles.emptyText}>本月还没有账单</Text>
-              <SpringPressable
-                onPress={() => {
-                  navigation.navigate("CreateBill");
-                }}
-                accessibilityRole="button"
-                accessibilityLabel="去记一笔"
-              >
-                <Text style={styles.emptyCta}>去记一笔</Text>
-              </SpringPressable>
             </View>
           }
           stickySectionHeadersEnabled
@@ -303,9 +309,12 @@ export function HomeScreen(): React.ReactElement {
         <View style={styles.pickerOverlay}>
           <View style={styles.pickerCard}>
             <View style={styles.pickerToolbar}>
-              <SpringPressable onPress={() => setIosPickerOpen(false)}>
+              <Pressable
+                onPress={() => setIosPickerOpen(false)}
+                style={({ pressed }) => [pressed ? { opacity: pressedOpacity } : null]}
+              >
                 <Text style={styles.pickerDone}>完成</Text>
-              </SpringPressable>
+              </Pressable>
             </View>
             <DateTimePicker
               value={monthAnchor}

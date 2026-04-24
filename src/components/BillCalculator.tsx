@@ -1,10 +1,9 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { useCallback, useMemo, useState } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
-import { SpringPressable } from "./SpringPressable";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { listContentInset, radii, shadows } from "../theme/layout";
+import { radii, shadows } from "../theme/layout";
 import { formatAmountDisplay } from "../utils/money";
 
 type Operate = "add" | "less" | "del";
@@ -64,7 +63,7 @@ function labelFor(b: CalcButton, dateLabel: string): string {
     return dateLabel;
   }
   if (b.kind === "done") {
-    return "保存账单";
+    return "完成";
   }
   return "";
 }
@@ -81,7 +80,7 @@ function buildCalcStyles(colors: AppPalette) {
     displayRow: {
       minHeight: 52,
       justifyContent: "center",
-      paddingHorizontal: listContentInset,
+      paddingHorizontal: 16,
       paddingVertical: 6,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.divider,
@@ -93,20 +92,17 @@ function buildCalcStyles(colors: AppPalette) {
       color: colors.title,
     },
     grid: {
-      paddingHorizontal: listContentInset,
+      paddingHorizontal: 12,
       paddingTop: 10,
       paddingBottom: 16,
       gap: KEY_ROW_GAP,
     },
     gridRow: {
       flexDirection: "row",
-      width: "100%",
-      alignSelf: "stretch",
       gap: KEY_COL_GAP,
     },
     cell: {
       flex: 1,
-      minWidth: 0,
       height: 54,
       alignItems: "center",
       justifyContent: "center",
@@ -130,6 +126,10 @@ function buildCalcStyles(colors: AppPalette) {
     cellTextDone: {
       fontWeight: "600",
       color: colors.onAccent,
+    },
+    pressed: {
+      opacity: 0.88,
+      transform: [{ scale: 0.98 }],
     },
   });
 }
@@ -300,9 +300,13 @@ export function BillCalculator({
               const isComplete = b.kind === "done";
               const isDate = b.kind === "date";
               return (
-                <SpringPressable
+                <Pressable
                   key={`${ri}-${ci}`}
-                  style={[styles.cell, isComplete ? styles.cellAccent : null]}
+                  style={({ pressed }) => [
+                    styles.cell,
+                    isComplete ? styles.cellAccent : null,
+                    pressed ? styles.pressed : null,
+                  ]}
                   onPress={() => {
                     if (b.kind === "num") {
                       input(b.v);
@@ -319,7 +323,7 @@ export function BillCalculator({
                     <MaterialCommunityIcons name="backspace-outline" size={24} color={colors.title} />
                   ) : isComplete ? (
                     <Text style={[styles.cellText, styles.cellTextDone]}>
-                      {operateType !== null ? "=" : "保存账单"}
+                      {operateType !== null ? "=" : "完成"}
                     </Text>
                   ) : (
                     <Text
@@ -331,7 +335,7 @@ export function BillCalculator({
                       {labelFor(b, billDateLabel)}
                     </Text>
                   )}
-                </SpringPressable>
+                </Pressable>
               );
             })}
           </View>

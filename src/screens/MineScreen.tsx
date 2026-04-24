@@ -1,26 +1,20 @@
 import Constants from "expo-constants";
 import React, { useMemo, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Animated, {
-  Extrapolation,
-  interpolate,
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  useSharedValue,
-} from "react-native-reanimated";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GroupedInset } from "../components/ios";
-import { SpringPressable } from "../components/SpringPressable";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { listContentInset } from "../theme/layout";
+import { pressedOpacity } from "../theme/layout";
 import { iosType } from "../theme/typography";
 
 function buildMineStyles(colors: AppPalette) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: colors.canvas },
     headerBanner: {
-      paddingHorizontal: listContentInset,
+      paddingHorizontal: 16,
+      paddingTop: 8,
+      paddingBottom: 12,
       backgroundColor: colors.canvas,
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.divider,
@@ -33,8 +27,8 @@ function buildMineStyles(colors: AppPalette) {
     cardInner: {
       padding: 16,
     },
-    cardTitle: { ...iosType.navTitle, color: colors.title, marginBottom: 6 },
-    sub: { marginTop: 8, ...iosType.footnote, color: colors.lightTitle },
+    cardTitle: { fontSize: 17, fontWeight: "600", color: colors.title, marginBottom: 6 },
+    sub: { marginTop: 8, fontSize: 14, color: colors.lightTitle, lineHeight: 20 },
     chevron: { fontSize: 14, color: colors.accent, marginTop: 4 },
   });
 }
@@ -42,36 +36,18 @@ function buildMineStyles(colors: AppPalette) {
 export function MineScreen(): React.ReactElement {
   const { colors } = useAppTheme();
   const styles = useMemo(() => buildMineStyles(colors), [colors]);
-  const scrollY = useSharedValue(0);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [dataOpen, setDataOpen] = useState(false);
 
-  const onScroll = useAnimatedScrollHandler({
-    onScroll: (e) => {
-      scrollY.value = e.contentOffset.y;
-    },
-  });
-
-  const headerAnimatedStyle = useAnimatedStyle(() => ({
-    paddingTop: interpolate(scrollY.value, [0, 56], [8, 4], Extrapolation.CLAMP),
-    paddingBottom: interpolate(scrollY.value, [0, 56], [12, 6], Extrapolation.CLAMP),
-    minHeight: interpolate(scrollY.value, [0, 56], [72, 44], Extrapolation.CLAMP),
-  }));
-
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
-      <Animated.View style={[styles.headerBanner, headerAnimatedStyle]}>
+      <View style={styles.headerBanner}>
         <Text style={styles.title}>我的</Text>
-      </Animated.View>
-      <Animated.ScrollView
-        contentContainerStyle={styles.list}
-        onScroll={onScroll}
-        scrollEventThrottle={16}
-        keyboardShouldPersistTaps="handled"
-      >
+      </View>
+      <View style={styles.list}>
         <GroupedInset style={styles.insetBlock}>
-          <SpringPressable
-            style={styles.cardInner}
+          <Pressable
+            style={({ pressed }) => [styles.cardInner, pressed ? { opacity: pressedOpacity } : null]}
             accessibilityRole="button"
             accessibilityLabel="关于本应用"
             onPress={() => {
@@ -89,12 +65,12 @@ export function MineScreen(): React.ReactElement {
             ) : (
               <Text style={styles.chevron}>点按展开</Text>
             )}
-          </SpringPressable>
+          </Pressable>
         </GroupedInset>
 
         <GroupedInset style={styles.insetBlock}>
-          <SpringPressable
-            style={styles.cardInner}
+          <Pressable
+            style={({ pressed }) => [styles.cardInner, pressed ? { opacity: pressedOpacity } : null]}
             accessibilityRole="button"
             accessibilityLabel="数据与存储说明"
             onPress={() => {
@@ -109,12 +85,12 @@ export function MineScreen(): React.ReactElement {
             ) : (
               <Text style={styles.chevron}>点按了解本机存储</Text>
             )}
-          </SpringPressable>
+          </Pressable>
         </GroupedInset>
 
         <GroupedInset style={styles.insetBlock}>
-          <SpringPressable
-            style={styles.cardInner}
+          <Pressable
+            style={({ pressed }) => [styles.cardInner, pressed ? { opacity: pressedOpacity } : null]}
             accessibilityRole="button"
             accessibilityLabel="设置"
             onPress={() => {
@@ -123,9 +99,9 @@ export function MineScreen(): React.ReactElement {
           >
             <Text style={styles.cardTitle}>设置</Text>
             <Text style={styles.sub}>功能尚未开放，后续版本将提供偏好与更多选项。</Text>
-          </SpringPressable>
+          </Pressable>
         </GroupedInset>
-      </Animated.ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
