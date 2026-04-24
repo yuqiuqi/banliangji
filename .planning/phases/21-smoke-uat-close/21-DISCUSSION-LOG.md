@@ -1,62 +1,60 @@
 # Phase 21: 验证闭合（smoke-uat-close）- Discussion Log
 
-> **Audit trail only.** Decisions live in `21-CONTEXT.md`.
+> **Audit trail only.** 不作为 planner/research/execute 的输入。决策以 `21-CONTEXT.md` 为准。
 
 **Date:** 2026-04-24  
 **Phase:** 21-smoke-uat-close  
-**Mode:** Auto-equivalent（无交互；推荐默认一次性锁定）  
-**Areas covered:** DATA-02 证据格式 · 11-VERIFICATION 签字 · iOS 主测 · Phase 22 边界  
+**Areas covered:** DATA-02 终态、11-VERIFICATION 签字/等效、设备环境、与 Phase 22 边界、verify 门
+
+**Session type:** 单次会话、无 TUI 交互；灰区在 **`REQUIREMENTS.md`、ROADMAP Phase 21 Success criteria、既有 `DATA-02-SMOKE.md` / `11-VERIFICATION.md`** 下收束为 Context 决策，替代逐项口头问答。
 
 ---
 
-## DATA-02 与 Kill protocol
+## DATA-02：PASS 与 BLOCKED 何者为「相完成可接受」
 
 | Option | Description | Selected |
 |--------|-------------|----------|
-| A | 严格遵循 `DATA-02-SMOKE.md`，仅更新 Result/Environment/Investigation | ✓ |
-| B | 放宽杀进程定义（不推荐） | |
+| A | 必须跑通 `PASS` 才允许关闭 Phase 21 |  |
+| B | `PASS` 或**带日期的** `BLOCKED`+原因+环境信息均算满足 SC | ✓ |
 
-**User's choice:** N/A — `[auto]` Selected A（与项目既有文档一致）
+**Rationale:** 与 ROADMAP 明文 Success criteria 及历史「Agent/CI 无法代手测」一致，避免本相被无限阻塞。
 
 ---
 
-## THEME / A11Y / LG 清单载体
+## 11-VERIFICATION：「Signed / 等效」操作定义
 
 | Option | Description | Selected |
 |--------|-------------|----------|
-| A | 继续使用 `11-chrome-depth/11-VERIFICATION.md` + Sign-off | ✓ |
-| B | 新建并行 checklist（增加漂移风险） | |
+| A | 必须纸质/第二人双签 |  |
+| B | 维护者单人 Sign-off + 日期 + 各节 checklist 可核验见证 | ✓ |
+| C | 完全省略手测、仅打勾不写字 |  |
 
-**User's choice:** `[auto]` Selected A
+**Rationale:** 小团队/单维护者；等效=可追溯书面记录，非空勾。
 
 ---
 
-## 执行平台
+## 执行环境：真机 vs Simulator
 
 | Option | Description | Selected |
 |--------|-------------|----------|
-| A | iOS Simulator/真机为主；Android 本相不强制，未测则 deviation 说明 | ✓ |
-| B | iOS + Android 双端必测 | |
-
-**User's choice:** `[auto]` Selected A
+| A | 仅接受真机 |  |
+| B | 真机或 Simulator 均可，Kill protocol 与 `DATA-02` 一致即可；Simulator 可配合 sqlite3 注记 | ✓ |
 
 ---
 
-## Phase 22 范围隔离
+## Phase 与 GLASS 边界
 
 | Option | Description | Selected |
 |--------|-------------|----------|
-| A | Phase 21 仅验证文档 + 最小缺陷修复；GLASS 工作全部 Phase 22 | ✓ |
-| B | 合并 Modal/Shimmer 进 Phase 21 | |
-
-**User's choice:** `[auto]` Selected A
+| A | Phase 21 可顺手做 GLASS-01/02 |  |
+| B | 严格不纳入 21，GLASS 仅 Phase 22 / REQUIREMENTS 映射 | ✓ |
 
 ---
 
 ## Claude's Discretion
 
-- Planner 可将手测拆分为多 Wave；executor 以 `21-CONTEXT.md` 的 D-xx 为硬约束。
+- 文件间交叉引用、措辞与编号格式，由实现阶段在不改变语义前提下列入 Context「Claude's Discretion」。
 
 ## Deferred Ideas
 
-- Android 全量；999.x SUMMARY backlog（见 CONTEXT deferred）
+- GLASS-01、GLASS-02 — 见 `21-CONTEXT.md` `<deferred>` 与 `REQUIREMENTS.md`。
