@@ -1,5 +1,10 @@
 export { Fab } from "./Fab";
+export { GlassEffectContainer } from "./GlassEffectContainer";
+export { GlassEffectUnion } from "./GlassEffectUnion";
+export { GlassShimmer } from "./GlassShimmer";
 export { GroupedInset } from "./GroupedInset";
+export { HeaderIconButton } from "./HeaderIconButton";
 export { IOSChromeGlassBackground } from "./IOSChromeGlassBackground";
 export { ListRow } from "./ListRow";
 export { SegmentedTwo } from "./SegmentedTwo";
+export { VibrantText } from "./VibrantText";

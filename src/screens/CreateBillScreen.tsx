@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   FlatList,
   Platform,
-  Pressable,
   StyleSheet,
   Text,
   View,
@@ -15,13 +14,15 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import { BillCalculator, BILL_CALCULATOR_CONTENT_HEIGHT } from "../components/BillCalculator";
 import { CategoryIcon } from "../components/CategoryIcon";
 import { IOSChromeGlassBackground, SegmentedTwo } from "../components/ios";
+import { SpringPressable } from "../components/SpringPressable";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { flattenCategories } from "../data/categories";
 import { createBillNow, getBillById, updateBill } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { pressedOpacity, radii, shadows } from "../theme/layout";
+import { radii, shadows } from "../theme/layout";
+import { haptic } from "../utils/haptics";
 import type { BillAmountKind, CategoryItem } from "../types/models";
 import { formatAmountDisplay } from "../utils/money";
 
@@ -291,8 +292,11 @@ export function CreateBillScreen(): React.ReactElement {
               renderItem={({ item }) => {
                 const on = selected?.categoryId === item.categoryId;
                 return (
-                  <Pressable
-                    style={({ pressed }) => [styles.cellHit, pressed ? { opacity: pressedOpacity } : null]}
+                  <SpringPressable
+                    style={styles.cellHit}
+                    hapticOn="pressIn"
+                    hapticIntensity="select"
+                    scaleTo={0.94}
                     onPress={() => {
                       setSelected(item);
                       setCalcVisible(true);
@@ -304,7 +308,7 @@ export function CreateBillScreen(): React.ReactElement {
                         {item.name}
                       </Text>
                     </View>
-                  </Pressable>
+                  </SpringPressable>
                 );
               }}
             />
@@ -335,12 +339,15 @@ export function CreateBillScreen(): React.ReactElement {
         <View style={styles.pickerOverlay}>
           <View style={[styles.pickerCard, { paddingBottom: 24 + bottomComfort }]}>
             <View style={styles.pickerToolbar}>
-              <Pressable
-                onPress={() => setIosDateOpen(false)}
-                style={({ pressed }) => [pressed ? { opacity: pressedOpacity } : null]}
+              <SpringPressable
+                onPress={() => {
+                  void haptic.select();
+                  setIosDateOpen(false);
+                }}
+                hapticOn={false}
               >
                 <Text style={styles.pickerDone}>完成</Text>
-              </Pressable>
+              </SpringPressable>
             </View>
             <DateTimePicker
               value={billDate}

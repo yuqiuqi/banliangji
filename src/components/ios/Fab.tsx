@@ -1,15 +1,11 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useMemo } from "react";
-import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+
+import { SpringPressable } from "../SpringPressable";
 import { useAppTheme } from "../../theme/ThemeContext";
 import type { AppPalette } from "../../theme/palette";
-import {
-  fabIconSize,
-  fabSize,
-  pressScale,
-  pressedOpacity,
-  shadows,
-} from "../../theme/layout";
+import { fabIconSize, fabSize, shadows } from "../../theme/layout";
 
 type IconName = React.ComponentProps<typeof MaterialCommunityIcons>["name"];
 
@@ -36,23 +32,28 @@ function buildFabStyles(colors: AppPalette) {
   });
 }
 
-export function Fab({ onPress, accessibilityLabel, icon = "plus", style }: Props): React.ReactElement {
+export function Fab({
+  onPress,
+  accessibilityLabel,
+  icon = "plus",
+  style,
+}: Props): React.ReactElement {
   const { colors } = useAppTheme();
   const styles = useMemo(() => buildFabStyles(colors), [colors]);
 
   return (
-    <Pressable
+    <SpringPressable
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
       onPress={onPress}
-      style={({ pressed }) => [
-        style,
-        pressed ? { opacity: pressedOpacity, transform: [{ scale: pressScale }] } : null,
-      ]}
+      hapticOn="pressIn"
+      hapticIntensity="medium"
+      scaleTo={0.94}
+      style={style}
     >
       <View style={styles.disc}>
         <MaterialCommunityIcons name={icon} size={fabIconSize} color={colors.onAccent} />
       </View>
-    </Pressable>
+    </SpringPressable>
   );
 }

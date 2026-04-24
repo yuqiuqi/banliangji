@@ -7,11 +7,11 @@ import { lightPalette } from "./palette";
 /** iOS 分组列表行水平 inset — 与 `GroupedInset` 内列表左/右对齐 */
 export const listContentInset = 16;
 
-/** Press / motion tokens — see `.planning/phases/06-ui-v2/06-UI-SPEC.md` */
+/**
+ * React Navigation `PlatformPressable` 兼容值（Tab bar 按钮使用）。
+ * 新写按压动效请用 `SpringPressable`（对齐 v1.2 §11.3 / §13）。
+ */
 export const pressedOpacity = 0.92;
-export const pressScale = 0.98;
-export const pressTranslateY = 1;
-export const pressDurationMs = 100;
 
 /** 图表主图区淡入时长（ms）— Phase 7 `07-UI-SPEC` 约 150–250；供 `Animated` 与 07-02 使用 */
 export const chartFadeMs = 200;

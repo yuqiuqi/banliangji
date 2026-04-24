@@ -1,16 +1,17 @@
 import React, { useMemo } from "react";
 import {
   Platform,
-  Pressable,
   StyleSheet,
   Text,
   View,
   type StyleProp,
   type ViewStyle,
 } from "react-native";
+
+import { SpringPressable } from "../SpringPressable";
 import { useAppTheme } from "../../theme/ThemeContext";
 import type { AppPalette } from "../../theme/palette";
-import { pressedOpacity, radii } from "../../theme/layout";
+import { radii } from "../../theme/layout";
 
 type Props = {
   leftLabel: string;
@@ -74,30 +75,34 @@ export function SegmentedTwo({
 
   return (
     <View style={[styles.track, style]}>
-      <Pressable
-        style={({ pressed }) => [
-          styles.seg,
-          value === 0 ? styles.segOn : null,
-          pressed ? { opacity: pressedOpacity } : null,
-        ]}
+      <SpringPressable
+        style={[styles.seg, value === 0 ? styles.segOn : null]}
+        hapticOn="pressIn"
+        hapticIntensity="select"
+        scaleTo={0.98}
+        opacityTo={0.96}
         onPress={() => {
           onChange(0);
         }}
       >
-        <Text style={[styles.text, value === 0 ? styles.textOn : null]}>{leftLabel}</Text>
-      </Pressable>
-      <Pressable
-        style={({ pressed }) => [
-          styles.seg,
-          value === 1 ? styles.segOn : null,
-          pressed ? { opacity: pressedOpacity } : null,
-        ]}
+        <Text style={[styles.text, value === 0 ? styles.textOn : null]}>
+          {leftLabel}
+        </Text>
+      </SpringPressable>
+      <SpringPressable
+        style={[styles.seg, value === 1 ? styles.segOn : null]}
+        hapticOn="pressIn"
+        hapticIntensity="select"
+        scaleTo={0.98}
+        opacityTo={0.96}
         onPress={() => {
           onChange(1);
         }}
       >
-        <Text style={[styles.text, value === 1 ? styles.textOn : null]}>{rightLabel}</Text>
-      </Pressable>
+        <Text style={[styles.text, value === 1 ? styles.textOn : null]}>
+          {rightLabel}
+        </Text>
+      </SpringPressable>
     </View>
   );
 }

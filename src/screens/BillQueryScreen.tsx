@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   FlatList,
   Platform,
-  Pressable,
   StyleSheet,
   Text,
   View,
@@ -13,13 +12,15 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoryIcon } from "../components/CategoryIcon";
 import { GroupedInset, SegmentedTwo } from "../components/ios";
+import { SpringPressable } from "../components/SpringPressable";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { queryBillsForCalendarDay, queryBillsInRange } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
 import type { Bill } from "../types/models";
-import { pressedOpacity, radii, shadows } from "../theme/layout";
+import { radii, shadows } from "../theme/layout";
+import { haptic } from "../utils/haptics";
 import { getRangeFromInclusiveStartEndDay } from "../utils/billTimeRange";
 import { formatTimeShort } from "../utils/dates";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
@@ -211,8 +212,10 @@ export function BillQueryScreen(): React.ReactElement {
       const isExpense = item.type === 1;
       const prefix = isExpense ? "-" : "+";
       return (
-        <Pressable
-          style={({ pressed }) => [styles.row, pressed ? { opacity: pressedOpacity } : null]}
+        <SpringPressable
+          style={styles.row}
+          hapticOn="pressIn"
+          hapticIntensity="light"
           onPress={() => {
             navigation.navigate("BillDetail", { billId: item.id });
           }}
@@ -226,7 +229,7 @@ export function BillQueryScreen(): React.ReactElement {
             {prefix}
             {formatAmountDisplay(parseAmount(item.amount))}
           </Text>
-        </Pressable>
+        </SpringPressable>
       );
     },
     [navigation, styles],
@@ -251,8 +254,10 @@ export function BillQueryScreen(): React.ReactElement {
       />
 
       {mode === "day" ? (
-        <Pressable
-          style={({ pressed }) => [styles.dateBar, pressed ? { opacity: pressedOpacity } : null]}
+        <SpringPressable
+          style={styles.dateBar}
+          hapticOn="pressIn"
+          hapticIntensity="light"
           onPress={() => {
             openDateField("day");
           }}
@@ -261,11 +266,13 @@ export function BillQueryScreen(): React.ReactElement {
           <Text style={styles.dateBarValue}>
             {dayAnchor.getFullYear()}年{dayAnchor.getMonth() + 1}月{dayAnchor.getDate()}日
           </Text>
-        </Pressable>
+        </SpringPressable>
       ) : (
         <View style={styles.rangeRow}>
-          <Pressable
-            style={({ pressed }) => [styles.dateHalf, pressed ? { opacity: pressedOpacity } : null]}
+          <SpringPressable
+            style={styles.dateHalf}
+            hapticOn="pressIn"
+            hapticIntensity="light"
             onPress={() => {
               setRangeError(null);
               openDateField("start");
@@ -277,10 +284,12 @@ export function BillQueryScreen(): React.ReactElement {
                 ? `${rangeStart.getFullYear()}-${String(rangeStart.getMonth() + 1).padStart(2, "0")}-${String(rangeStart.getDate()).padStart(2, "0")}`
                 : "点选日期"}
             </Text>
-          </Pressable>
+          </SpringPressable>
           <Text style={styles.rangeDash}>—</Text>
-          <Pressable
-            style={({ pressed }) => [styles.dateHalf, pressed ? { opacity: pressedOpacity } : null]}
+          <SpringPressable
+            style={styles.dateHalf}
+            hapticOn="pressIn"
+            hapticIntensity="light"
             onPress={() => {
               setRangeError(null);
               openDateField("end");
@@ -292,7 +301,7 @@ export function BillQueryScreen(): React.ReactElement {
                 ? `${rangeEnd.getFullYear()}-${String(rangeEnd.getMonth() + 1).padStart(2, "0")}-${String(rangeEnd.getDate()).padStart(2, "0")}`
                 : "点选日期"}
             </Text>
-          </Pressable>
+          </SpringPressable>
         </View>
       )}
 
@@ -319,14 +328,15 @@ export function BillQueryScreen(): React.ReactElement {
         <View style={styles.pickerOverlay}>
           <View style={styles.pickerCard}>
             <View style={styles.pickerToolbar}>
-              <Pressable
+              <SpringPressable
                 onPress={() => {
+                  void haptic.select();
                   setIosOpen(false);
                 }}
-                style={({ pressed }) => [pressed ? { opacity: pressedOpacity } : null]}
+                hapticOn={false}
               >
                 <Text style={styles.pickerDone}>完成</Text>
-              </Pressable>
+              </SpringPressable>
             </View>
             <DateTimePicker
               value={

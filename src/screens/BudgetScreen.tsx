@@ -4,7 +4,6 @@ import { zhCN } from "date-fns/locale";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Modal,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,13 +12,15 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GroupedInset } from "../components/ios";
+import { SpringPressable } from "../components/SpringPressable";
 import { sumExpenseForCalendarMonth } from "../budget/monthExpense";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { getBudgetCap, upsertBudgetCap } from "../db/budgetRepo";
 import { queryBillsForMonth } from "../db/billRepo";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { pressedOpacity, radii, shadows } from "../theme/layout";
+import { radii, shadows } from "../theme/layout";
+import { haptic } from "../utils/haptics";
 import { iosType } from "../theme/typography";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
 
@@ -179,17 +180,16 @@ export function BudgetScreen(): React.ReactElement {
             <View style={styles.cardInner}>
               <Text style={styles.emptyTitle}>尚未设置本月预算</Text>
               <Text style={styles.emptyHint}>设置后，将按支出账单统计进度（与图表支出口径一致）。</Text>
-              <Pressable
-                style={({ pressed }) => [
-                  styles.primaryBtn,
-                  pressed ? { opacity: pressedOpacity } : null,
-                ]}
+              <SpringPressable
+                style={styles.primaryBtn}
                 onPress={openModal}
                 accessibilityRole="button"
                 accessibilityLabel="设置本月预算"
+                hapticOn="pressIn"
+                hapticIntensity="medium"
               >
                 <Text style={styles.primaryBtnText}>设置预算</Text>
-              </Pressable>
+              </SpringPressable>
             </View>
           </GroupedInset>
         ) : (
@@ -210,14 +210,16 @@ export function BudgetScreen(): React.ReactElement {
               {over ? (
                 <Text style={styles.warn}>已超出预算</Text>
               ) : null}
-              <Pressable
-                style={({ pressed }) => [styles.secondaryBtn, pressed ? { opacity: pressedOpacity } : null]}
+              <SpringPressable
+                style={styles.secondaryBtn}
                 onPress={openModal}
                 accessibilityRole="button"
                 accessibilityLabel="修改本月预算"
+                hapticOn="pressIn"
+                hapticIntensity="light"
               >
                 <Text style={styles.secondaryBtnText}>修改预算</Text>
-              </Pressable>
+              </SpringPressable>
             </View>
           </GroupedInset>
         )}
@@ -236,22 +238,28 @@ export function BudgetScreen(): React.ReactElement {
               placeholderTextColor={colors.lightTitle}
             />
             <View style={styles.modalActions}>
-              <Pressable
+              <SpringPressable
                 onPress={() => setModalOpen(false)}
-                style={({ pressed }) => [styles.modalCancel, pressed ? { opacity: pressedOpacity } : null]}
+                style={styles.modalCancel}
                 accessibilityRole="button"
                 accessibilityLabel="取消"
+                hapticOn="pressIn"
+                hapticIntensity="light"
               >
                 <Text style={styles.modalCancelText}>取消</Text>
-              </Pressable>
-              <Pressable
-                onPress={saveCap}
-                style={({ pressed }) => [styles.modalSave, pressed ? { opacity: pressedOpacity } : null]}
+              </SpringPressable>
+              <SpringPressable
+                onPress={() => {
+                  void haptic.success();
+                  saveCap();
+                }}
+                style={styles.modalSave}
                 accessibilityRole="button"
                 accessibilityLabel="保存预算"
+                hapticOn={false}
               >
                 <Text style={styles.modalSaveText}>保存</Text>
-              </Pressable>
+              </SpringPressable>
             </View>
           </View>
         </View>

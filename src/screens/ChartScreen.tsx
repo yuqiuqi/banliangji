@@ -3,7 +3,6 @@ import {
   Animated,
   Dimensions,
   Easing,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,6 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoryIcon } from "../components/CategoryIcon";
 import { GroupedInset } from "../components/ios";
+import { SpringPressable } from "../components/SpringPressable";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
@@ -24,7 +24,7 @@ import { queryAllBills } from "../db/billRepo";
 import type { ChartGranularity } from "../types/models";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { chartFadeMs, pressedOpacity, radii } from "../theme/layout";
+import { chartFadeMs, radii } from "../theme/layout";
 import {
   chartMonthPeriods,
   chartWeekPeriods,
@@ -299,20 +299,20 @@ export function ChartScreen(): React.ReactElement {
               const on = granularity === g;
               const title = g === "week" ? "周" : g === "month" ? "月" : "年";
               return (
-                <Pressable
+                <SpringPressable
                   key={g}
-                  style={({ pressed }) => [
-                    styles.segBtn,
-                    on ? styles.segOn : null,
-                    pressed ? { opacity: pressedOpacity } : null,
-                  ]}
+                  style={[styles.segBtn, on ? styles.segOn : null]}
+                  hapticOn="pressIn"
+                  hapticIntensity="select"
+                  scaleTo={0.96}
+                  opacityTo={0.96}
                   onPress={() => {
                     setGranularity(g);
                     setPeriodIndex(0);
                   }}
                 >
                   <Text style={[styles.segText, on ? styles.segTextOn : null]}>{title}</Text>
-                </Pressable>
+                </SpringPressable>
               );
             })}
             </View>
@@ -327,19 +327,19 @@ export function ChartScreen(): React.ReactElement {
             {periods.map((p, i) => {
               const on = i === safeIndex;
               return (
-                <Pressable
+                <SpringPressable
                   key={`${p.label}-${i}`}
-                  style={({ pressed }) => [
-                    styles.tabChip,
-                    on ? styles.tabChipOn : null,
-                    pressed ? { opacity: pressedOpacity } : null,
-                  ]}
+                  style={[styles.tabChip, on ? styles.tabChipOn : null]}
+                  hapticOn="pressIn"
+                  hapticIntensity="select"
+                  scaleTo={0.96}
+                  opacityTo={0.96}
                   onPress={() => {
                     setPeriodIndex(i);
                   }}
                 >
                   <Text style={[styles.tabChipText, on ? styles.tabChipTextOn : null]}>{p.label}</Text>
-                </Pressable>
+                </SpringPressable>
               );
             })}
           </ScrollView>

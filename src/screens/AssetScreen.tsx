@@ -3,7 +3,6 @@ import React, { useCallback, useMemo, useState } from "react";
 import {
   Alert,
   Modal,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,6 +11,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GroupedInset } from "../components/ios";
+import { SpringPressable } from "../components/SpringPressable";
 import type { AssetAccountRow } from "../db/assetRepo";
 import {
   deleteAssetAccount,
@@ -21,7 +21,8 @@ import {
 } from "../db/assetRepo";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { pressedOpacity, radii, shadows } from "../theme/layout";
+import { radii, shadows } from "../theme/layout";
+import { haptic } from "../utils/haptics";
 import { iosType } from "../theme/typography";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
 
@@ -187,45 +188,53 @@ export function AssetScreen(): React.ReactElement {
             <View style={styles.cardInner}>
               <Text style={styles.emptyTitle}>暂无账户</Text>
               <Text style={styles.emptyHint}>添加一个资产账户并记录当前余额。</Text>
-              <Pressable
-                style={({ pressed }) => [styles.primaryBtn, pressed ? { opacity: pressedOpacity } : null]}
+              <SpringPressable
+                style={styles.primaryBtn}
                 onPress={openAdd}
                 accessibilityRole="button"
                 accessibilityLabel="添加账户"
+                hapticOn="pressIn"
+                hapticIntensity="medium"
               >
                 <Text style={styles.primaryBtnText}>添加账户</Text>
-              </Pressable>
+              </SpringPressable>
             </View>
           </GroupedInset>
         ) : (
           <>
             <GroupedInset>
               {accounts.map((item, index) => (
-                <Pressable
+                <SpringPressable
                   key={item.id}
-                  style={({ pressed }) => [
+                  style={[
                     styles.row,
                     index < accounts.length - 1 ? styles.rowBorder : null,
-                    pressed ? { opacity: pressedOpacity } : null,
                   ]}
+                  hapticOn="pressIn"
+                  hapticIntensity="light"
                   onPress={() => openEdit(item)}
-                  onLongPress={() => confirmDelete(item)}
+                  onLongPress={() => {
+                    void haptic.medium();
+                    confirmDelete(item);
+                  }}
                   accessibilityRole="button"
                   accessibilityLabel={`${item.name}，余额 ${formatAmountDisplay(parseAmount(item.balance))}`}
                 >
                   <Text style={styles.rowName}>{item.name}</Text>
                   <Text style={styles.rowBal}>{formatAmountDisplay(parseAmount(item.balance))}</Text>
-                </Pressable>
+                </SpringPressable>
               ))}
             </GroupedInset>
-            <Pressable
-              style={({ pressed }) => [styles.footerAdd, pressed ? { opacity: pressedOpacity } : null]}
+            <SpringPressable
+              style={styles.footerAdd}
               onPress={openAdd}
               accessibilityRole="button"
               accessibilityLabel="添加账户"
+              hapticOn="pressIn"
+              hapticIntensity="medium"
             >
               <Text style={styles.footerAddText}>+ 添加账户</Text>
-            </Pressable>
+            </SpringPressable>
           </>
         )}
       </ScrollView>
@@ -252,20 +261,26 @@ export function AssetScreen(): React.ReactElement {
               placeholderTextColor={colors.lightTitle}
             />
             <View style={styles.modalActions}>
-              <Pressable
+              <SpringPressable
                 onPress={() => setModalOpen(false)}
-                style={({ pressed }) => [styles.modalCancel, pressed ? { opacity: pressedOpacity } : null]}
+                style={styles.modalCancel}
                 accessibilityRole="button"
+                hapticOn="pressIn"
+                hapticIntensity="light"
               >
                 <Text style={styles.modalCancelText}>取消</Text>
-              </Pressable>
-              <Pressable
-                onPress={save}
-                style={({ pressed }) => [styles.modalSave, pressed ? { opacity: pressedOpacity } : null]}
+              </SpringPressable>
+              <SpringPressable
+                onPress={() => {
+                  void haptic.success();
+                  save();
+                }}
+                style={styles.modalSave}
                 accessibilityRole="button"
+                hapticOn={false}
               >
                 <Text style={styles.modalSaveText}>保存</Text>
-              </Pressable>
+              </SpringPressable>
             </View>
           </View>
         </View>

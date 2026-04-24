@@ -1,11 +1,11 @@
 import Constants from "expo-constants";
 import React, { useMemo, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GroupedInset } from "../components/ios";
+import { SpringPressable } from "../components/SpringPressable";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { pressedOpacity } from "../theme/layout";
 import { iosType } from "../theme/typography";
 
 function buildMineStyles(colors: AppPalette) {
@@ -46,10 +46,12 @@ export function MineScreen(): React.ReactElement {
       </View>
       <View style={styles.list}>
         <GroupedInset style={styles.insetBlock}>
-          <Pressable
-            style={({ pressed }) => [styles.cardInner, pressed ? { opacity: pressedOpacity } : null]}
+          <SpringPressable
+            style={styles.cardInner}
             accessibilityRole="button"
             accessibilityLabel="关于本应用"
+            hapticOn="pressIn"
+            hapticIntensity="light"
             onPress={() => {
               setAboutOpen((o) => !o);
             }}
@@ -65,14 +67,16 @@ export function MineScreen(): React.ReactElement {
             ) : (
               <Text style={styles.chevron}>点按展开</Text>
             )}
-          </Pressable>
+          </SpringPressable>
         </GroupedInset>
 
         <GroupedInset style={styles.insetBlock}>
-          <Pressable
-            style={({ pressed }) => [styles.cardInner, pressed ? { opacity: pressedOpacity } : null]}
+          <SpringPressable
+            style={styles.cardInner}
             accessibilityRole="button"
             accessibilityLabel="数据与存储说明"
+            hapticOn="pressIn"
+            hapticIntensity="light"
             onPress={() => {
               setDataOpen((o) => !o);
             }}
@@ -85,21 +89,23 @@ export function MineScreen(): React.ReactElement {
             ) : (
               <Text style={styles.chevron}>点按了解本机存储</Text>
             )}
-          </Pressable>
+          </SpringPressable>
         </GroupedInset>
 
         <GroupedInset style={styles.insetBlock}>
-          <Pressable
-            style={({ pressed }) => [styles.cardInner, pressed ? { opacity: pressedOpacity } : null]}
+          <SpringPressable
+            style={styles.cardInner}
             accessibilityRole="button"
             accessibilityLabel="设置"
+            hapticOn="pressIn"
+            hapticIntensity="light"
             onPress={() => {
               // 占位，后续可接主题/语言等
             }}
           >
             <Text style={styles.cardTitle}>设置</Text>
             <Text style={styles.sub}>功能尚未开放，后续版本将提供偏好与更多选项。</Text>
-          </Pressable>
+          </SpringPressable>
         </GroupedInset>
       </View>
     </SafeAreaView>

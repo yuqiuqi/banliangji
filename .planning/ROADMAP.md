@@ -10,7 +10,7 @@
 | ✅ **v2.2** | **iOS 26 全局 Chrome（Liquid Glass）** | **Phase 9** | **2026-04-22** |
 | **v2.3** | 质量验证与系统外观 | Phases 10–12 + 结转 | 结转 v2.4 |
 | **v2.4** | iOS 26 Chrome 副路径全量对齐 | Phase 13 | 2026-04-23 |
-| **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phases 14–18** | — |
+| **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phases 14–19** | — |
 
 - **完整路线图（v1–v2.2 全文）：** [`.planning/milestones/v2.2-ROADMAP.md`](milestones/v2.2-ROADMAP.md)  
 - **v2.4 需求快照：** 已并入下方 v3.0 结转  
@@ -77,6 +77,7 @@
 | **16** | **3/3** | **Executed** — v1.2 发布，20 条 REVIEW 全闭环 | 2026-04-24 |
 | **17** | **1/1** | **Executed** — Wave 1 Option A 完成（5 资产 + expo-haptics），verify 绿 | 2026-04-24 |
 | **18** | **2/2** | **Executed** — Tier 1 + Tier 2（7 资产 + expo-linear-gradient），verify 绿 | 2026-04-24 |
+| **19** | **1/1** | **Executed** — UI 集成 9 屏 + 新建 HeaderIconButton + 3 基础组件升级 | 2026-04-24 |
 
 ### Phase 15: ui的动画已经完美可是ui的美观度非常的差，你要以一个专业的美工角度去修正
 
@@ -162,6 +163,16 @@ Plans:
 
 **产物：** `GlassEffectContainer` / `GlassEffectUnion` / `VibrantText` / `GlassShimmer` + `useTouchRipple` / `useMaterialize` + `expo-linear-gradient ~15.0.8`
 **v1.2 §18.2 进度：** 12/13 资产完成（92%），仅剩陀螺仪高光 P2 可选项
+
+### Phase 19: iOS 26 UI 集成 — Phase 17/18 资产接入各屏幕（SpringPressable/GlassEffect/haptic 全仓替换）
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 18
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 19 to break down)
 
 ---
 
