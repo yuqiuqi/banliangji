@@ -1,10 +1,11 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import DateTimePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
+import { BlurView } from "expo-blur";
 import {
-  Platform,
+  Modal,
+  Pressable,
   SectionList,
   StyleSheet,
   Text,
@@ -13,10 +14,9 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoryIcon } from "../components/CategoryIcon";
 import {
-  GlassEffectContainer,
   GroupedInset,
   HeaderIconButton,
-  VibrantText,
+  MonthYearPickerSheet,
 } from "../components/ios";
 import { SpringPressable } from "../components/SpringPressable";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
@@ -26,7 +26,6 @@ import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
 import { shadows } from "../theme/layout";
 import { iosType } from "../theme/typography";
-import { haptic } from "../utils/haptics";
 import type { Bill } from "../types/models";
 import {
   formatHeaderMonth,
@@ -46,11 +45,11 @@ function buildHomeScreenStyles(colors: AppPalette) {
       marginTop: 8,
       marginBottom: 16,
     },
-    headerActions: { flexDirection: "row", alignItems: "center", gap: 10 },
+    headerActions: { flexDirection: "row", alignItems: "center", gap: 14 },
     headerBanner: {
       flexDirection: "row",
       backgroundColor: colors.main,
-      minHeight: 72,
+      minHeight: 86,
       alignItems: "stretch",
     },
     headerLeft: {
@@ -62,12 +61,25 @@ function buildHomeScreenStyles(colors: AppPalette) {
     yearText: { fontSize: 10, color: colors.onMainSecondary },
     monthRow: { flexDirection: "row", alignItems: "flex-end" },
     monthBig: { fontSize: 30, fontWeight: "300", color: colors.onMain },
+    scopeHint: {
+      fontSize: 10,
+      color: colors.onMainSecondary,
+      marginTop: 4,
+      letterSpacing: 0.2,
+    },
     headerDivider: {
       width: StyleSheet.hairlineWidth,
       backgroundColor: colors.divider,
       marginVertical: 12,
     },
-    headerRight: { flex: 1, flexDirection: "row", paddingLeft: 24, alignItems: "center" },
+    headerRight: { flex: 1, flexDirection: "column", paddingLeft: 20, justifyContent: "center" },
+    statScope: {
+      fontSize: 10,
+      color: colors.onMainSecondary,
+      marginBottom: 6,
+      letterSpacing: 0.3,
+    },
+    statRow: { flexDirection: "row", alignItems: "flex-end" },
     statCol: { marginRight: 32 },
     statLabel: { fontSize: 10, color: colors.onMainSecondary },
     statValue: { fontSize: 17, fontWeight: "300", color: colors.onMain, marginTop: 4 },
@@ -94,35 +106,22 @@ function buildHomeScreenStyles(colors: AppPalette) {
     income: { color: colors.income },
     empty: { padding: 40, alignItems: "center" },
     emptyText: { color: colors.lightTitle },
-    pickerOverlay: {
+    modalShell: { flex: 1 },
+    modalSheetWrap: { flex: 1, justifyContent: "flex-end" },
+    scrimDim: {
       ...StyleSheet.absoluteFillObject,
       backgroundColor: colors.modalScrim,
-      justifyContent: "flex-end",
     },
-    pickerCard: {
-      marginHorizontal: 12,
-      marginBottom: 12,
-      borderRadius: 20,
-      overflow: "hidden",
-      paddingBottom: 16,
-    },
-    pickerToolbar: {
-      flexDirection: "row",
-      justifyContent: "flex-end",
-      paddingHorizontal: 16,
-      paddingVertical: 10,
-    },
-    pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "700" },
   });
 }
 
 export function HomeScreen(): React.ReactElement {
   const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
-  const { colors } = useAppTheme();
+  const { colors, colorScheme } = useAppTheme();
   const styles = useMemo(() => buildHomeScreenStyles(colors), [colors]);
   const { generation, refresh } = useBillsRefresh();
   const [monthAnchor, setMonthAnchor] = useState(() => new Date());
-  const [iosPickerOpen, setIosPickerOpen] = useState(false);
+  const [monthPickerOpen, setMonthPickerOpen] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -147,7 +146,8 @@ export function HomeScreen(): React.ReactElement {
           variant="wash"
           icon="calendar-month"
           onPress={() => navigation.navigate("Calendar")}
-          accessibilityLabel="打开日历"
+          accessibilityLabel="月历"
+          accessibilityHint="按日浏览的月历视图，与横幅中的账单筛选月份不同"
         />
       ),
     });
@@ -188,20 +188,8 @@ export function HomeScreen(): React.ReactElement {
   );
 
   const openMonthPicker = useCallback(() => {
-    if (Platform.OS === "android") {
-      DateTimePickerAndroid.open({
-        value: monthAnchor,
-        mode: "date",
-        onChange: (_e, date) => {
-          if (date !== undefined) {
-            setMonthAnchor(date);
-          }
-        },
-      });
-    } else {
-      setIosPickerOpen(true);
-    }
-  }, [monthAnchor]);
+    setMonthPickerOpen(true);
+  }, []);
 
   const renderItem = useCallback(
     ({ item }: { item: Bill }) => {
@@ -247,16 +235,20 @@ export function HomeScreen(): React.ReactElement {
             <Text style={styles.monthBig}>{formatHeaderMonth(monthAnchor)}</Text>
             <MaterialCommunityIcons name="menu-down" size={22} color={colors.onMain} />
           </View>
+          <Text style={styles.scopeHint}>列表与汇总 · 点按更改月份</Text>
         </SpringPressable>
         <View style={styles.headerDivider} />
         <View style={styles.headerRight}>
-          <View style={styles.statCol}>
-            <Text style={styles.statLabel}>收入</Text>
-            <Text style={styles.statValue}>{formatAmountDisplay(income)}</Text>
-          </View>
-          <View style={styles.statCol}>
-            <Text style={styles.statLabel}>支出</Text>
-            <Text style={styles.statValue}>{formatAmountDisplay(expense)}</Text>
+          <Text style={styles.statScope}>本月汇总（与左侧月份一致）</Text>
+          <View style={styles.statRow}>
+            <View style={styles.statCol}>
+              <Text style={styles.statLabel}>收入</Text>
+              <Text style={styles.statValue}>{formatAmountDisplay(income)}</Text>
+            </View>
+            <View style={styles.statCol}>
+              <Text style={styles.statLabel}>支出</Text>
+              <Text style={styles.statValue}>{formatAmountDisplay(expense)}</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -278,39 +270,37 @@ export function HomeScreen(): React.ReactElement {
           stickySectionHeadersEnabled
         />
       </GroupedInset>
-      {Platform.OS === "ios" && iosPickerOpen ? (
-        <View style={styles.pickerOverlay}>
-          <GlassEffectContainer
-            intensity={70}
-            borderRadius={20}
-            style={styles.pickerCard}
+      <Modal
+        visible={monthPickerOpen}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setMonthPickerOpen(false)}
+      >
+        <View style={styles.modalShell}>
+          <Pressable
+            style={StyleSheet.absoluteFill}
+            onPress={() => setMonthPickerOpen(false)}
+            accessibilityRole="button"
+            accessibilityLabel="关闭月份选择"
           >
-            <View style={styles.pickerToolbar}>
-              <SpringPressable
-                onPress={() => {
-                  void haptic.select();
-                  setIosPickerOpen(false);
-                }}
-                hapticOn={false}
-              >
-                <VibrantText style={styles.pickerDone}>完成</VibrantText>
-              </SpringPressable>
-            </View>
-            <DateTimePicker
-              value={monthAnchor}
-              mode="date"
-              display="inline"
-              accentColor={colors.accent}
-              themeVariant={colors.canvas === "#000000" ? "dark" : "light"}
-              onChange={(_e, date) => {
-                if (date !== undefined) {
-                  setMonthAnchor(date);
-                }
+            <BlurView
+              intensity={32}
+              tint={colorScheme === "dark" ? "dark" : "light"}
+              style={StyleSheet.absoluteFill}
+            />
+            <View style={styles.scrimDim} />
+          </Pressable>
+          <View pointerEvents="box-none" style={styles.modalSheetWrap}>
+            <MonthYearPickerSheet
+              anchorMonth={monthAnchor}
+              onCommit={(d) => {
+                setMonthAnchor(d);
+                setMonthPickerOpen(false);
               }}
             />
-          </GlassEffectContainer>
+          </View>
         </View>
-      ) : null}
+      </Modal>
     </SafeAreaView>
   );
 }

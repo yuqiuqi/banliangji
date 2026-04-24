@@ -13,7 +13,10 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSMotionUsageDescription": "用于在图表页根据设备姿态微调柱图透视（仅本机处理，不上传）。"
+      }
     },
     "android": {
       "adaptiveIcon": {

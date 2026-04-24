@@ -5,7 +5,8 @@
  * - **每个按钮有固定 size 外层 View**（headerFabSize × headerFabSize），
  *   彻底隔离按压 transform 对兄弟按钮的视觉影响
  * - 内层 SpringPressable 仅作用于圆形「按钮本体」，transform 不会溢出 outer
- * - scale 0.97（克制幅度）+ opacity 0.92 + SPRING.UI，松手弹回
+ * - **仅透明度反馈**（scale=1）：避免双按钮同排时几何缩放造成「整组一起在动」的错觉
+ * - opacity 0.80 + SPRING.UI，松手弹回
  * - 同帧触觉：accent → medium、wash → light
  *
  * 对齐 v1.2 §11.3 + §13.2 + §19.6。
@@ -32,6 +33,7 @@ export type HeaderIconButtonProps = {
   onPress: () => void;
   variant?: HeaderIconVariant;
   accessibilityLabel?: string;
+  accessibilityHint?: string;
   iconSize?: number;
   hitSlop?: number;
   style?: StyleProp<ViewStyle>;
@@ -73,6 +75,7 @@ export function HeaderIconButton({
   onPress,
   variant = "wash",
   accessibilityLabel,
+  accessibilityHint,
   iconSize,
   hitSlop = 8,
   style,
@@ -87,12 +90,13 @@ export function HeaderIconButton({
       <SpringPressable
         onPress={onPress}
         accessibilityLabel={accessibilityLabel}
+        accessibilityHint={accessibilityHint}
         accessibilityRole="button"
         hitSlop={hitSlop}
         hapticOn="pressIn"
         hapticIntensity={variant === "accent" ? "medium" : "light"}
-        scaleTo={0.97}
-        opacityTo={0.92}
+        scaleTo={1}
+        opacityTo={0.8}
         style={[styles.inner, variant === "accent" ? styles.accent : styles.wash]}
       >
         <MaterialCommunityIcons name={icon} size={resolvedIconSize} color={color} />
