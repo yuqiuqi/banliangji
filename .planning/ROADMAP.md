@@ -75,7 +75,7 @@
 | **14** | **3/3** | **Executed** | 2026-04-23 |
 | **15** | **3/3** | **Executed（已 revert）** | 2026-04-23 |
 | **16** | **3/3** | **Executed** — v1.2 发布，20 条 REVIEW 全闭环 | 2026-04-24 |
-| **17** | **0/0** | **Planned — 讨论中（`/gsd-discuss-phase 17`）** | — |
+| **17** | **0/1** | **Ready to execute** — `17-CONTEXT.md` + `17-01-PLAN.md` 已产出（Option A） | — |
 
 ### Phase 15: ui的动画已经完美可是ui的美观度非常的差，你要以一个专业的美工角度去修正
 
@@ -136,7 +136,7 @@ Plans:
 **Plans:** 0 plans — 待 `/gsd-plan-phase 17` 拆分
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 17 to break down)
+- [ ] `17-01-PLAN.md` — Option A：motion/haptics/SpringPressable + expo-haptics 重装（7 tasks）
 
 ---
 
