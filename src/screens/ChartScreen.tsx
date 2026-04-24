@@ -3,16 +3,20 @@ import {
   Animated,
   Dimensions,
   Easing,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
+import Reanimated from "react-native-reanimated";
 import { CategoryIcon } from "../components/CategoryIcon";
-import { GroupedInset } from "../components/ios";
+import { GlassEffectContainer, GroupedInset } from "../components/ios";
+import { SpringPressable } from "../components/SpringPressable";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
+import { useUiPrefs } from "../context/UiPrefsContext";
+import { useDeviceTilt } from "../hooks/useDeviceTilt";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   aggregateExpenseByCategory,
@@ -24,7 +28,7 @@ import { queryAllBills } from "../db/billRepo";
 import type { ChartGranularity } from "../types/models";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
-import { chartFadeMs, pressedOpacity, radii } from "../theme/layout";
+import { chartFadeMs, radii, shadows } from "../theme/layout";
 import {
   chartMonthPeriods,
   chartWeekPeriods,
@@ -128,12 +132,43 @@ function buildChartStyles(colors: AppPalette) {
     },
     barCol: { flex: 1, alignItems: "center", marginHorizontal: 1 },
     bar: {
-      width: 12,
+      width: 14,
+      borderTopLeftRadius: 7,
+      borderTopRightRadius: 7,
+      overflow: "hidden",
       backgroundColor: colors.light,
-      borderTopLeftRadius: 6,
-      borderTopRightRadius: 6,
     },
-    barOn: { backgroundColor: colors.accent },
+    barShadow: {
+      shadowColor: colors.expense,
+      shadowOpacity: 0.38,
+      shadowRadius: 6,
+      shadowOffset: { width: 0, height: 3 },
+      elevation: 4,
+    },
+    barFill: {
+      ...StyleSheet.absoluteFillObject,
+      borderTopLeftRadius: 7,
+      borderTopRightRadius: 7,
+    },
+    barHighlight: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: "rgba(255,255,255,0.65)",
+    },
+    barRim: {
+      position: "absolute",
+      left: 0,
+      right: 0,
+      bottom: 0,
+      top: 0,
+      borderTopLeftRadius: 7,
+      borderTopRightRadius: 7,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: "rgba(255,255,255,0.22)",
+    },
     barLabel: { marginTop: 6, fontSize: 10, color: colors.lightTitle, maxWidth: 40, textAlign: "center" },
     listInner: { paddingVertical: 4, paddingHorizontal: 4 },
     catRow: { flexDirection: "row", alignItems: "center", paddingVertical: 12, paddingHorizontal: 8 },
@@ -158,7 +193,19 @@ function buildChartStyles(colors: AppPalette) {
       marginTop: 6,
       overflow: "hidden",
     },
-    progressFg: { height: 6, backgroundColor: colors.accent, borderRadius: 3 },
+    progressFg: {
+      height: 6,
+      borderRadius: 3,
+      overflow: "hidden",
+    },
+    progressHighlight: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: "rgba(255,255,255,0.45)",
+    },
     catAmt: {
       marginLeft: 8,
       fontSize: 15,
@@ -176,6 +223,8 @@ function buildChartStyles(colors: AppPalette) {
 export function ChartScreen(): React.ReactElement {
   const { colors } = useAppTheme();
   const styles = useMemo(() => buildChartStyles(colors), [colors]);
+  const { chartMotionEnabled } = useUiPrefs();
+  const { chartStyle } = useDeviceTilt(chartMotionEnabled);
   const { generation } = useBillsRefresh();
   const [granularity, setGranularity] = useState<ChartGranularity>("week");
   const [periodIndex, setPeriodIndex] = useState(0);
@@ -299,20 +348,20 @@ export function ChartScreen(): React.ReactElement {
               const on = granularity === g;
               const title = g === "week" ? "周" : g === "month" ? "月" : "年";
               return (
-                <Pressable
+                <SpringPressable
                   key={g}
-                  style={({ pressed }) => [
-                    styles.segBtn,
-                    on ? styles.segOn : null,
-                    pressed ? { opacity: pressedOpacity } : null,
-                  ]}
+                  style={[styles.segBtn, on ? styles.segOn : null]}
+                  hapticOn="pressIn"
+                  hapticIntensity="select"
+                  scaleTo={0.96}
+                  opacityTo={0.96}
                   onPress={() => {
                     setGranularity(g);
                     setPeriodIndex(0);
                   }}
                 >
                   <Text style={[styles.segText, on ? styles.segTextOn : null]}>{title}</Text>
-                </Pressable>
+                </SpringPressable>
               );
             })}
             </View>
@@ -327,70 +376,89 @@ export function ChartScreen(): React.ReactElement {
             {periods.map((p, i) => {
               const on = i === safeIndex;
               return (
-                <Pressable
+                <SpringPressable
                   key={`${p.label}-${i}`}
-                  style={({ pressed }) => [
-                    styles.tabChip,
-                    on ? styles.tabChipOn : null,
-                    pressed ? { opacity: pressedOpacity } : null,
-                  ]}
+                  style={[styles.tabChip, on ? styles.tabChipOn : null]}
+                  hapticOn="pressIn"
+                  hapticIntensity="select"
+                  scaleTo={0.96}
+                  opacityTo={0.96}
                   onPress={() => {
                     setPeriodIndex(i);
                   }}
                 >
                   <Text style={[styles.tabChipText, on ? styles.tabChipTextOn : null]}>{p.label}</Text>
-                </Pressable>
+                </SpringPressable>
               );
             })}
           </ScrollView>
           <GroupedInset style={{ marginTop: 16 }}>
             <View style={styles.kpiInner}>
               <Text style={styles.kpiLabel}>本期支出</Text>
-              <Text style={styles.kpiValue} numberOfLines={1} adjustsFontSizeToFit>
-                ¥{formatAmountDisplay(periodTotal)}
-              </Text>
+              <Reanimated.View style={chartStyle}>
+                <Text style={styles.kpiValue} numberOfLines={1} adjustsFontSizeToFit>
+                  ¥{formatAmountDisplay(periodTotal)}
+                </Text>
+              </Reanimated.View>
               <Text style={styles.kpiHint}>{labelP} · 仅统计支出</Text>
             </View>
           </GroupedInset>
           <Text style={styles.sectionTitle}>支出趋势</Text>
-          <GroupedInset>
-            <View style={styles.trendInner}>
-              <Text style={styles.cardRange}>{rangeHint}</Text>
-              <Text style={styles.cardSubtitle}>
-                与下方「分类构成」同一筛选；柱高为区间内相对值
-              </Text>
-              <Animated.View style={{ opacity: chartOpacity }}>
-                {chartEmpty ? (
-                  <View style={styles.chartEmptyBlock}>
-                    <MaterialCommunityIcons name="chart-timeline-variant" size={36} color={colors.lightTitle} />
-                    <Text style={styles.chartEmpty}>该时间段暂无支出记录</Text>
-                  </View>
-                ) : null}
-                <View style={styles.chartPlot}>
-                  <View style={styles.chartBaseline} />
-                  <View style={styles.chartRow}>
-                    {points.map((pt, idx) => {
-                      const h = maxAmount > 0 ? (pt.amount / maxAmount) * 132 : 0;
-                      return (
-                        <View key={`${pt.label}-${idx}`} style={styles.barCol}>
-                          <View
-                            style={[
-                              styles.bar,
-                              { height: Math.max(4, h) },
-                              pt.hasData ? styles.barOn : null,
-                            ]}
-                          />
-                          <Text style={styles.barLabel} numberOfLines={1}>
-                            {pt.label}
-                          </Text>
-                        </View>
-                      );
-                    })}
-                  </View>
-                </View>
-              </Animated.View>
-            </View>
-          </GroupedInset>
+          <View style={[{ marginHorizontal: 16, borderRadius: radii.card }, shadows.grouped]}>
+            <GlassEffectContainer intensity={58} borderRadius={radii.card} style={{ borderRadius: radii.card }}>
+              <View style={styles.trendInner}>
+                <Text style={styles.cardRange}>{rangeHint}</Text>
+                <Text style={styles.cardSubtitle}>
+                  与下方「分类构成」同一筛选；柱高为区间内相对值
+                </Text>
+                <Animated.View style={{ opacity: chartOpacity }}>
+                  {chartEmpty ? (
+                    <View style={styles.chartEmptyBlock}>
+                      <MaterialCommunityIcons name="chart-timeline-variant" size={36} color={colors.lightTitle} />
+                      <Text style={styles.chartEmpty}>该时间段暂无支出记录</Text>
+                    </View>
+                  ) : null}
+                  <Reanimated.View style={chartStyle}>
+                    <View style={styles.chartPlot}>
+                      <View style={styles.chartBaseline} />
+                      <View style={styles.chartRow}>
+                        {points.map((pt, idx) => {
+                          const h = maxAmount > 0 ? (pt.amount / maxAmount) * 132 : 0;
+                          return (
+                            <View key={`${pt.label}-${idx}`} style={styles.barCol}>
+                              <View
+                                style={[
+                                  styles.bar,
+                                  { height: Math.max(4, h) },
+                                  pt.hasData ? styles.barShadow : null,
+                                ]}
+                              >
+                                {pt.hasData ? (
+                                  <>
+                                    <LinearGradient
+                                      colors={[colors.expense, "rgba(255,59,48,0.45)"]}
+                                      start={{ x: 0, y: 0 }}
+                                      end={{ x: 0.35, y: 1 }}
+                                      style={styles.barFill}
+                                    />
+                                    <View style={styles.barHighlight} />
+                                    <View style={styles.barRim} pointerEvents="none" />
+                                  </>
+                                ) : null}
+                              </View>
+                              <Text style={styles.barLabel} numberOfLines={1}>
+                                {pt.label}
+                              </Text>
+                            </View>
+                          );
+                        })}
+                      </View>
+                    </View>
+                  </Reanimated.View>
+                </Animated.View>
+              </View>
+            </GlassEffectContainer>
+          </View>
           <Text style={styles.sectionTitleSpaced}>分类构成</Text>
           <GroupedInset>
             <View style={styles.listInner}>
@@ -408,7 +476,15 @@ export function ChartScreen(): React.ReactElement {
                   <View style={styles.catMid}>
                     <Text style={styles.catName}>{c.name}</Text>
                     <View style={styles.progressBg}>
-                      <View style={[styles.progressFg, { width: `${Math.round(c.ratio * 100)}%` }]} />
+                      <View style={[styles.progressFg, { width: `${Math.round(c.ratio * 100)}%` }]}>
+                        <LinearGradient
+                          colors={[colors.expense, "rgba(255,59,48,0.55)"]}
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          style={StyleSheet.absoluteFill}
+                        />
+                        <View style={styles.progressHighlight} />
+                      </View>
                     </View>
                   </View>
                   <Text style={styles.catAmt}>¥{formatAmountDisplay(c.amount)}</Text>

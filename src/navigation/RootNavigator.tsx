@@ -15,6 +15,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { BillsRefreshProvider } from "../context/BillsRefreshContext";
+import { UiPrefsProvider } from "../context/UiPrefsContext";
 import { IOSChromeGlassBackground } from "../components/ios/IOSChromeGlassBackground";
 import { AssetScreen } from "../screens/AssetScreen";
 import { BillDetailScreen } from "../screens/BillDetailScreen";
@@ -218,9 +219,11 @@ function ThemedNavigation(): React.ReactElement {
 export function RootNavigator(): React.ReactElement {
   return (
     <SafeAreaProvider>
-      <BillsRefreshProvider>
-        <ThemedNavigation />
-      </BillsRefreshProvider>
+      <UiPrefsProvider>
+        <BillsRefreshProvider>
+          <ThemedNavigation />
+        </BillsRefreshProvider>
+      </UiPrefsProvider>
     </SafeAreaProvider>
   );
 }

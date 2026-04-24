@@ -5,21 +5,27 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   FlatList,
   Platform,
-  Pressable,
   StyleSheet,
   Text,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoryIcon } from "../components/CategoryIcon";
-import { GroupedInset, SegmentedTwo } from "../components/ios";
+import {
+  GlassEffectContainer,
+  GroupedInset,
+  SegmentedTwo,
+  VibrantText,
+} from "../components/ios";
+import { SpringPressable } from "../components/SpringPressable";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
 import { queryBillsForCalendarDay, queryBillsInRange } from "../db/billRepo";
 import type { HomeStackParamList } from "../navigation/types";
 import type { AppPalette } from "../theme/palette";
 import { useAppTheme } from "../theme/ThemeContext";
 import type { Bill } from "../types/models";
-import { pressedOpacity, radii, shadows } from "../theme/layout";
+import { radii, shadows } from "../theme/layout";
+import { haptic } from "../utils/haptics";
 import { getRangeFromInclusiveStartEndDay } from "../utils/billTimeRange";
 import { formatTimeShort } from "../utils/dates";
 import { formatAmountDisplay, parseAmount } from "../utils/money";
@@ -88,12 +94,23 @@ function buildBillQueryStyles(colors: AppPalette) {
     emptyText: { color: colors.lightTitle, textAlign: "center" },
     pickerOverlay: {
       ...StyleSheet.absoluteFillObject,
-      backgroundColor: "rgba(0,0,0,0.35)",
+      backgroundColor: colors.modalScrim,
       justifyContent: "flex-end",
     },
-    pickerCard: { backgroundColor: colors.surface, paddingBottom: 24 },
-    pickerToolbar: { alignItems: "flex-end", padding: 12 },
-    pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "600" },
+    pickerCard: {
+      marginHorizontal: 12,
+      marginBottom: 12,
+      borderRadius: 20,
+      overflow: "hidden",
+      paddingBottom: 16,
+    },
+    pickerToolbar: {
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      paddingHorizontal: 16,
+      paddingVertical: 10,
+    },
+    pickerDone: { color: colors.accent, fontSize: 17, fontWeight: "700" },
   });
 }
 
@@ -211,8 +228,10 @@ export function BillQueryScreen(): React.ReactElement {
       const isExpense = item.type === 1;
       const prefix = isExpense ? "-" : "+";
       return (
-        <Pressable
-          style={({ pressed }) => [styles.row, pressed ? { opacity: pressedOpacity } : null]}
+        <SpringPressable
+          style={styles.row}
+          hapticOn="pressIn"
+          hapticIntensity="light"
           onPress={() => {
             navigation.navigate("BillDetail", { billId: item.id });
           }}
@@ -226,7 +245,7 @@ export function BillQueryScreen(): React.ReactElement {
             {prefix}
             {formatAmountDisplay(parseAmount(item.amount))}
           </Text>
-        </Pressable>
+        </SpringPressable>
       );
     },
     [navigation, styles],
@@ -251,8 +270,10 @@ export function BillQueryScreen(): React.ReactElement {
       />
 
       {mode === "day" ? (
-        <Pressable
-          style={({ pressed }) => [styles.dateBar, pressed ? { opacity: pressedOpacity } : null]}
+        <SpringPressable
+          style={styles.dateBar}
+          hapticOn="pressIn"
+          hapticIntensity="light"
           onPress={() => {
             openDateField("day");
           }}
@@ -261,11 +282,13 @@ export function BillQueryScreen(): React.ReactElement {
           <Text style={styles.dateBarValue}>
             {dayAnchor.getFullYear()}年{dayAnchor.getMonth() + 1}月{dayAnchor.getDate()}日
           </Text>
-        </Pressable>
+        </SpringPressable>
       ) : (
         <View style={styles.rangeRow}>
-          <Pressable
-            style={({ pressed }) => [styles.dateHalf, pressed ? { opacity: pressedOpacity } : null]}
+          <SpringPressable
+            style={styles.dateHalf}
+            hapticOn="pressIn"
+            hapticIntensity="light"
             onPress={() => {
               setRangeError(null);
               openDateField("start");
@@ -277,10 +300,12 @@ export function BillQueryScreen(): React.ReactElement {
                 ? `${rangeStart.getFullYear()}-${String(rangeStart.getMonth() + 1).padStart(2, "0")}-${String(rangeStart.getDate()).padStart(2, "0")}`
                 : "点选日期"}
             </Text>
-          </Pressable>
+          </SpringPressable>
           <Text style={styles.rangeDash}>—</Text>
-          <Pressable
-            style={({ pressed }) => [styles.dateHalf, pressed ? { opacity: pressedOpacity } : null]}
+          <SpringPressable
+            style={styles.dateHalf}
+            hapticOn="pressIn"
+            hapticIntensity="light"
             onPress={() => {
               setRangeError(null);
               openDateField("end");
@@ -292,7 +317,7 @@ export function BillQueryScreen(): React.ReactElement {
                 ? `${rangeEnd.getFullYear()}-${String(rangeEnd.getMonth() + 1).padStart(2, "0")}-${String(rangeEnd.getDate()).padStart(2, "0")}`
                 : "点选日期"}
             </Text>
-          </Pressable>
+          </SpringPressable>
         </View>
       )}
 
@@ -317,16 +342,21 @@ export function BillQueryScreen(): React.ReactElement {
       </GroupedInset>
       {Platform.OS === "ios" && iosOpen ? (
         <View style={styles.pickerOverlay}>
-          <View style={styles.pickerCard}>
+          <GlassEffectContainer
+            intensity={70}
+            borderRadius={20}
+            style={styles.pickerCard}
+          >
             <View style={styles.pickerToolbar}>
-              <Pressable
+              <SpringPressable
                 onPress={() => {
+                  void haptic.select();
                   setIosOpen(false);
                 }}
-                style={({ pressed }) => [pressed ? { opacity: pressedOpacity } : null]}
+                hapticOn={false}
               >
-                <Text style={styles.pickerDone}>完成</Text>
-              </Pressable>
+                <VibrantText style={styles.pickerDone}>完成</VibrantText>
+              </SpringPressable>
             </View>
             <DateTimePicker
               value={
@@ -337,12 +367,14 @@ export function BillQueryScreen(): React.ReactElement {
                     : (rangeEnd ?? new Date())
               }
               mode="date"
-              display="spinner"
+              display="inline"
+              accentColor={colors.accent}
+              themeVariant={colors.canvas === "#000000" ? "dark" : "light"}
               onChange={(_e, d) => {
                 onIosChange(d);
               }}
             />
-          </View>
+          </GlassEffectContainer>
         </View>
       ) : null}
     </SafeAreaView>

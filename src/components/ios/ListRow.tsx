@@ -1,7 +1,9 @@
 import React, { useMemo } from "react";
-import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+
+import { SpringPressable } from "../SpringPressable";
 import { useAppTheme } from "../../theme/ThemeContext";
-import { listContentInset, pressedOpacity } from "../../theme/layout";
+import { listContentInset } from "../../theme/layout";
 
 type Props = {
   children: React.ReactNode;
@@ -10,7 +12,12 @@ type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export function ListRow({ children, onPress, isLast, style }: Props): React.ReactElement {
+export function ListRow({
+  children,
+  onPress,
+  isLast,
+  style,
+}: Props): React.ReactElement {
   const { colors } = useAppTheme();
   const styles = useMemo(
     () =>
@@ -30,16 +37,19 @@ export function ListRow({ children, onPress, isLast, style }: Props): React.Reac
   );
 
   const inner = (
-    <View style={[styles.inner, !isLast ? styles.borderBottom : null, style]}>{children}</View>
+    <View style={[styles.inner, !isLast ? styles.borderBottom : null, style]}>
+      {children}
+    </View>
   );
   if (onPress !== undefined) {
     return (
-      <Pressable
+      <SpringPressable
         onPress={onPress}
-        style={({ pressed }) => [pressed ? { opacity: pressedOpacity } : null]}
+        hapticOn="pressIn"
+        hapticIntensity="light"
       >
         {inner}
-      </Pressable>
+      </SpringPressable>
     );
   }
   return inner;

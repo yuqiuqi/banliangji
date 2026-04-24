@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: iOS 26 动效·交互·组件全面质感打磨（Phase 14）
 status: executing
-last_updated: "2026-04-24T04:37:48.954Z"
+last_updated: "2026-04-24T04:53:18.189Z"
 progress:
   total_phases: 1
   completed_phases: 1
@@ -16,11 +16,11 @@ progress:
 
 ## Current Position
 
-Phase: **16**（design-guide-v1.2）— **设计宪法 v1.2 发布**（Codex + Gemini 交叉评审闭环）
-Plan: **3/3** 已执行
-Status: Ready to execute
+Phase: **20**（ui-polish）— **UI 精修**（按压隔离/毛玻璃 Modal/inline DatePicker/SegmentedThumb/柱图立体）
+Plan: **1/1** 已执行
+Status: Complete
 
-- **Resume：** `16-VERIFICATION.md` 20 条全勾 · 可开始 Phase 17 源码骨架
+- **Resume：** `20-VERIFICATION.md` 6 条用户反馈全部闭环 · 陀螺仪高光推迟 Phase 21
 
 ## Current Status
 
@@ -51,6 +51,7 @@ Status: Ready to execute
 - Phase 15 added: ui的动画已经完美可是ui的美观度非常的差，你要以一个专业的美工角度去修正
 - Phase 16 added: iOS 26 设计宪法 v1.2 修订 — 依据 `.planning/IOS26-DESIGN-GUIDE-REVIEW.md` 的 P0/P1/P2 清单，修正 4 处事实错误、补 `glassEffectUnion` / App Icon / 控件 Extra-Large 三章、解决 3 处规范冲突、给所有规则加「官方 / 归纳 / RN 近似 / 依赖」四栏标签
 - Phase 17 added: iOS 26 设计宪法落地 — 源码骨架与资产建立（v1.2 §18.2 必补资产），范围待 `/gsd-discuss-phase 17` 讨论（A/B/C/D 四档候选）
+- Phase 18 added: iOS 26 玻璃体系 — Container/Union/VibrantText/Shimmer + 3 Hook + expo-linear-gradient（v1.2 §3.10/§3.10bis/§3.8/§3.9/§3.12）
 
 - **v3.0 实现：** `src/theme/motion.ts`、`src/components/SpringPressable.tsx`、`src/hooks/useReduceMotion.ts`、`src/utils/haptics.ts`、`expo-haptics`
 
