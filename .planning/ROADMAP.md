@@ -74,7 +74,7 @@
 | 13 | 2/2 | Executed（LG-02 Done；v2.4 收口） | 2026-04-23 |
 | **14** | **3/3** | **Executed** | 2026-04-23 |
 | **15** | **3/3** | **Executed（已 revert）** | 2026-04-23 |
-| **16** | **0/3** | **Ready to execute** — `16-CONTEXT.md` + `16-01..03-PLAN.md` 已产出 | — |
+| **16** | **3/3** | **Executed** — v1.2 发布，20 条 REVIEW 全闭环 | 2026-04-24 |
 
 ### Phase 15: ui的动画已经完美可是ui的美观度非常的差，你要以一个专业的美工角度去修正
 
@@ -112,9 +112,11 @@ Plans:
 **Plans:** 3 plans（3 Wave：P0 / P1 / P2）
 
 Plans:
-- [ ] `16-01-PLAN.md` — P0 止血：事实错误与规范冲突 5 条
-- [ ] `16-02-PLAN.md` — P1 新增 4 章节 + RN 文案降级 8 条
-- [ ] `16-03-PLAN.md` — P2 工程化 + 四栏标签 + `16-VERIFICATION.md`
+- [x] `16-01-PLAN.md` — P0 止血：事实错误与规范冲突 5 条 ✅
+- [x] `16-02-PLAN.md` — P1 新增 4 章节 + RN 文案降级 8 条 ✅
+- [x] `16-03-PLAN.md` — P2 工程化 + 四栏标签 + `16-VERIFICATION.md` ✅
+
+**产物：** `IOS26-DESIGN-GUIDE.md` v1.2（1731 行，+287）· `16-VERIFICATION.md` 20 条全勾 · `npm run verify` 绿
 
 ---
 

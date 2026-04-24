@@ -1,14 +1,14 @@
 ---
 gsd_state_version: 1.0
 milestone: v3.0
-milestone_name: iOS 26 动效·交互·组件全面质感打磨（Phase 14）
+milestone_name: iOS 26 动效·交互·组件全面质感打磨（Phases 14–16）
 status: executing
-last_updated: "2026-04-24T04:02:07.492Z"
+last_updated: "2026-04-24T04:20:00.000Z"
 progress:
-  total_phases: 1
-  completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  total_phases: 3
+  completed_phases: 3
+  total_plans: 9
+  completed_plans: 9
   percent: 100
 ---
 
@@ -16,11 +16,11 @@ progress:
 
 ## Current Position
 
-Phase: **14**（ios26-motion-polish）— **v3.0 动效/交互/触觉已落地**（`npm run verify` 绿）  
-Plan: **3/3** 已执行  
-Status: Ready to execute
+Phase: **16**（design-guide-v1.2）— **设计宪法 v1.2 发布**（Codex + Gemini 交叉评审闭环）
+Plan: **3/3** 已执行
+Status: Complete
 
-- **Resume：** `14-VERIFICATION.md` · 结转 DATA-02 / 11-VERIFICATION
+- **Resume：** `16-VERIFICATION.md` 20 条全勾 · 可开始 Phase 17 源码骨架
 
 ## Current Status
 
