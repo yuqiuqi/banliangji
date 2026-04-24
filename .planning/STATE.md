@@ -1,15 +1,15 @@
 ---
 gsd_state_version: 1.0
-milestone: v3.1
-milestone_name: 验证闭合与 Liquid Glass 纵深收尾
-status: defining
-last_updated: "2026-04-24T14:00:00.000Z"
+milestone: v1.0
+milestone_name: milestone
+status: Defining requirements → **Ready for `/gsd-discuss-phase 21`**
+last_updated: "2026-04-24T05:52:17.870Z"
+last_activity: 2026-04-24 — Milestone **v3.1** initialized（`/gsd-new-milestone`）
 progress:
-  total_phases: 2
+  total_phases: 7
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
-  percent: 0
 ---
 
 # Project State
