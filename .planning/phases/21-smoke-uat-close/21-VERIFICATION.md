@@ -15,7 +15,7 @@
 
 ## 自动化
 
-npm run verify: exit 0, 2026-04-24, git 9c04554
+npm run verify: exit 0, 2026-04-24, git a54d153
 
 > 上列 `git` 短哈希为**执行本段 verify 时**工作区之 `HEAD`；若随后有新的规划提交，以 `git log -1` 为准复核。
 

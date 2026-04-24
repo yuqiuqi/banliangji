@@ -5,7 +5,7 @@
 | 项 | 值 |
 |----|-----|
 | **Date** | 2026-04-24（文书复核；Kill 手测仍待设备） |
-| **Git** | `9c04554`（Phase 21 文书提交；手测 PASS/FAIL 后请更新为当时提交） |
+| **Git** | `a54d153`（Phase 21 文书提交；手测 PASS/FAIL 后请更新为当时提交） |
 | **Expo** | `~54.0.33` |
 | **react-native** | `0.81.5` |
 | **iOS target** | `BLOCKED`：设备杀进程手测尚未执行；须补 **Simulator 机型+runtime** 或 **真机型号**（停 Metro 不算杀进程） |
