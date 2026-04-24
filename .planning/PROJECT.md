@@ -10,25 +10,13 @@
 
 ## Current State（shipped）
 
-**v2.2 — iOS 26 全局 Chrome（2026-04-22）** 已封板：全站语义色与 Liquid Glass 取向、`src/components/ios/` 原语、根目录 **`UI-SPEC.md`**、宽屏居中；归档见 `.planning/milestones/v2.2-ROADMAP.md` / `v2.2-REQUIREMENTS.md`。
+**v3.0 — iOS 26 动效·交互·组件全面质感打磨（2026-04-24）** 已封板：Phase 14–20（动效/触觉、设计宪法 v1.2、玻璃原语、全仓 UI 集成与精修）；归档见 `.planning/milestones/v3.0-ROADMAP.md` · `.planning/milestones/v3.0-REQUIREMENTS.md`。Git 标签：`v3.0`（及此前 `v3.0.0-dev`）。
 
-## Current Milestone: v3.0 — iOS 26 动效·交互·组件全面质感打磨
+**v2.2 — iOS 26 全局 Chrome（2026-04-22）**：`.planning/milestones/v2.2-ROADMAP.md` / `v2.2-REQUIREMENTS.md`。
 
-**Goal:** 以 **iOS 26 / Liquid Glass** 物理动效与交互范式为锚，将 **半两记所有屏幕与组件** 从「视觉对齐」升级为「感知对齐」——弹簧动效、触觉反馈、分段滑动指示器、图表 stagger 生长、列表入场、Modal Spring 进出场、大标题折叠，统一 `motion.ts` 弹簧常量，全局 Reduce Motion 降级。**一个集中阶段，所有界面，彻底贴合 Apple iOS 26 手感。**
+## Next milestone
 
-**Target features:**
-
-- **ANIM-01** — `motion.ts` 全局弹簧常量（`SPRING.UI / THUMB / SHEET / GESTURE`），替代散落参数；Reduce Motion 全局 hook  
-- **ANIM-02** — 分段控件 **Spring Thumb**：选中指示器以弹簧滑行，适用图表周/月/年与全局 `SegmentedTwo`  
-- **ANIM-03** — 图表柱图 **Staggered Spring 生长**：切换周期时各柱错时弹起；整区 Reanimated fade 替代 `Animated.timing`  
-- **ANIM-04** — 列表项 **Stagger FadeIn**：分类列表、账单列表数据从无到有时错时入场  
-- **ANIM-05** — Modal/Sheet **Spring 进出场**：卡片弹入 + Scrim 淡入联动；关闭弹出  
-- **ANIM-06** — 副路径屏 **Scroll Header Collapse**：大标题随滚动弹性收缩，顶栏材质协同  
-- **INT-01** — **useSpringPress** 全站统一：所有 `Pressable` 改 Reanimated `withSpring` scale + opacity  
-- **HAP-01** — **expo-haptics 全局触觉**：分段切换 selection、保存成功 notification、删除 error、边界 light；封装 `haptics.ts`  
-- **MOT-01** — **Reduce Motion 全局降级**：`useReduceMotion` hook，所有动效场景接受降级参数
-
-**范围说明：** 不新增业务功能；不改数据库；允许全量重写各屏动效与按压代码；`src/theme/motion.ts`（新文件）为单一弹簧来源；允许 Accepted deviation（记入 `14-VERIFICATION`）。
+**未立项。** 请运行 **`/gsd-new-milestone`** 生成下一版本范围与新的 `REQUIREMENTS.md`。候选方向（非承诺）：Phase 21 陀螺仪高光 / `useMaterialize` 全面接入 Modal、`GlassShimmer` 与 FAB 集成（见 `20-VERIFICATION.md` 推迟表）。
 
 ---
 
@@ -59,10 +47,13 @@
 - [x] **v2.0 里程碑（Phase 3–7）**：CHART/QA/REF-01~04 等已收束（见 `MILESTONES.md` / 各相 `*SUMMARY.md`）。
 - [x] **v2.1（Phase 8）— 账单流 · 查账 · 我的**：V21-01～03、V21Q-01（账单子流、按日/区间查账、本地我的；当时 UI 为 Tesla，已由 v2.2 覆盖为 iOS 26 Chrome）。
 - [x] **v2.2（Phase 9）— iOS 26 全局 Chrome**：IOS26-CHROME / UX / COMP / IPAD / VERIFY（工程交付见 `09-SUMMARY.md`；设备与 Figma 像素对照可为后续补丁）。
+- [x] **v3.0（Phases 14–20）— 动效·触觉·设计宪法·玻璃·UI 集成与精修**：ANIM/INT/HAP/MOT 与设计资产落地（见 `v3.0-REQUIREMENTS.md` 追溯表）。
 
-### Active（v2.4 + v2.3 结转）
+### Active（v2.3 / v2.4 结转 · 仍未勾选）
 
-- 以 `.planning/REQUIREMENTS.md` 为准：**LG-02**（副路径四屏）、**DATA-02**、**THEME-01**、**A11Y-01**、**LG-01**；**QA-04** 已完成。
+**来源：** 已归档的 `v3.0-REQUIREMENTS.md`；下一里程碑 `REQUIREMENTS.md` 须重新承接或显式关闭：
+
+- **DATA-02**（BLOCKED）、**THEME-01**、**A11Y-01**、**LG-01**；**LG-02** 已在 v3.0 归档需求中 Done。
 
 ### Follow-up（并入 v2.3 后，此处仅作历史提示）
 
@@ -105,6 +96,7 @@
 | v2.1 不拆多 Phase 编号 | 产品希望同一发布列车交付 V21-01~03 | 单 **Phase 8** 内以多 plan 切波 |
 | 视觉 Tesla 向 | 用户选定 getdesign Tesla，替代黄/Clay 主色 | 见 `DESIGN.md`、`colors.ts`（v2.2 起由 Phase 9 过渡到 **iOS 26 Chrome**） |
 | v2.2 全站 iOS 26 Chrome | 全屏 UI/UX 与 Figma / HIG 对齐，作为下一突破 | **已 ship**；`UI-SPEC.md`、`09-SUMMARY.md` |
+| v3.0 感知对齐专项 | 动效/触觉/玻璃/设计宪法 + 全仓集成 | **已 ship**；`IOS26-DESIGN-GUIDE.md` v1.2、`milestones/v3.0-*` |
 
 ## Evolution
 
@@ -126,4 +118,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state  
 
 ---
-*Last updated: 2026-04-23 — 启动 **v2.4**（Phase 13 扩大：副路径四屏 iOS 26 Chrome 全量对齐）；官方参考见 `.planning/research/IOS26-LIQUID-GLASS-REFERENCE.md`*
+*Last updated: 2026-04-24 — **v3.0 里程碑封板**；下一里程碑请 `/gsd-new-milestone`。*

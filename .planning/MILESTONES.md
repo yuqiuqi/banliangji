@@ -1,8 +1,33 @@
 # Milestones: 半两记
 
-## v2.4 — iOS 26 Chrome 副路径全量对齐（进行中）
+## v3.0 — iOS 26 动效·交互·组件全面质感打磨
 
-**Started:** 2026-04-23 · **Scope:** **Phase 13**（扩大）：**图表 / 预算 / 资产 / 我的** 四屏与 **iOS 26 Liquid Glass + HIG**（色彩、材质/透明度、动效、交互）系统性一致；结转 **DATA-02**、**THEME/A11Y/LG-01**；新增 **LG-02**。权威参考：`.planning/research/IOS26-LIQUID-GLASS-REFERENCE.md`。
+**Shipped:** 2026-04-24  
+**Scope:** Phases **14–20**（全局动效/触觉、`IOS26-DESIGN-GUIDE` v1.2、玻璃体系、UI 集成与精修；Phase 15 曾执行后整段 revert，历史见归档）
+
+**Stats:** 7 phase 编号区段（14–20），含设计/资产/集成多波交付；计划与验证见各相 `*-VERIFICATION.md`。
+
+**Key accomplishments:**
+
+- `motion.ts`、`SpringPressable`、`haptics`、`useReduceMotion` 与全店主路径按压/动效收敛。
+- `IOS26-DESIGN-GUIDE.md` v1.2 与 Phase 17–18 玻璃原语（`GlassEffectContainer` 等）。
+- Phase 19–20：多屏接入、顶栏按压隔离、毛玻璃 Modal/日期选择、图表质感与持机透视等（以 `master` 与 `20-VERIFICATION.md` 为准）。
+
+**Known gaps at close（未勾选需求 · 详见归档）：**
+
+- **DATA-02** 仍 BLOCKED；**THEME-01** / **A11Y-01** / **LG-01** 手测签字待补。
+- **未跑里程碑审计：** 无 `v3.0-MILESTONE-AUDIT.md`；可后补 `/gsd-audit-milestone` 仅作文档闭环。
+- **ROADMAP Backlog 999.x：** 部分 Phase 无 `SUMMARY.md` / 计划未落盘，保留为技术债。
+
+**Archive:** [v3.0-ROADMAP.md](milestones/v3.0-ROADMAP.md) · [v3.0-REQUIREMENTS.md](milestones/v3.0-REQUIREMENTS.md)
+
+**Git tag:** `v3.0`（建议与 `v3.0.0-dev` 并存，分别指向封板与开发锚点）
+
+---
+
+## v2.4 — iOS 26 Chrome 副路径全量对齐（Phase 13 · 已交付）
+
+**Shipped（Phase 13）：** 2026-04-23 · **Scope:** 图表 / 预算 / 资产 / 我的 四屏与 iOS 26 Chrome 对齐；**LG-02** Done。结转项延续至 v3.0 归档需求。权威参考：`.planning/research/IOS26-LIQUID-GLASS-REFERENCE.md`。
 
 ---
 
@@ -55,4 +80,4 @@
 
 ---
 
-*当前里程碑：v2.3（进行中）。*
+*当前里程碑：**待立项** — 请 `/gsd-new-milestone`。上一 shipped：**v3.0**（2026-04-24）。*
