@@ -8,7 +8,7 @@
 > 3. Apple Developer — [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
 > 4. Apple Newsroom — [A delightful and elegant new software design (2025-06-09)](https://www.apple.com/newsroom/2025/06/apple-introduces-a-delightful-and-elegant-new-software-design/)
 > 5. 仓库研究产物：`.planning/research/IOS26-LIQUID-GLASS-REFERENCE.md`、`.planning/research/IOS26-MOTION-INTERACTION-SPEC.md`
-> **RN/Expo 边界：** SwiftUI 私有 `.glassEffect()` / `GlassEffectContainer` / `glassEffectID` 等 API 无法直接迁移；本文为每条规范提供 **React Native 工程近似** 与 **Accepted Deviation** 判定标准。
+> **RN/Expo 边界：** SwiftUI **公开 API** `.glassEffect(_:in:)` / `GlassEffectContainer` / `glassEffectID(_:in:)` / `glassEffectUnion(id:namespace:)` 均为 iOS 26 SwiftUI 官方文档化接口（见 [Liquid Glass Overview](https://developer.apple.com/documentation/TechnologyOverviews/liquid-glass)），但**无 React Native 原生对应**；本文为每条规范提供 **React Native 工程近似** 与 **Accepted Deviation** 判定标准。 🍎 OFF
 
 ---
 
@@ -67,11 +67,11 @@ iOS 26 的设计语言可以归结为 **三大原则** × **一种材质** × **
 
 | # | 潜规则 | 违反后果 |
 |---|--------|-----------|
-| R1 | **玻璃只用于导航层，绝不用于内容** | 列表行本体、卡片体、图表背景若加玻璃，将与控件视觉混战，信息层级崩塌。 |
+| R1 | **玻璃只用于 Layer 2（导航 / 控件 / 浮层），不用于 Layer 1 内容** 🍎 OFF | 列表行本体、卡片体、图表背景（Layer 1）若加玻璃，将与控件视觉混战、信息层级崩塌；Layer 2 涵盖 Toolbar / TabBar / Sheet / FAB / Popover / 分段控件 —— 见 §2 分层模型表格。 |
 | R2 | **色彩节制（Restrained Color）** | 控件与导航的饱和度要让位给内容，避免「彩色 Chrome」喧宾夺主。 |
 | R3 | **同心圆角（Concentric Corners）** | 子元素圆角 = 父容器圆角 − 内边距；破坏同心 → 视觉「错位」。 |
 | R4 | **动效是物理，而非时序** | 所有状态切换优先走弹簧（Spring），`timing` 只用于 opacity / Scrim 类辅助。 |
-| R5 | **视觉 × 触觉 × 声音 同帧触发** | 任何交互的视觉反馈出现时，触觉必须**同一帧**触发；异步 → 廉价感。 |
+| R5 | **视觉 × 触觉 同帧触发**（声音交给系统，不自建） 📝 AUTH | 任何交互的视觉反馈出现时，触觉必须**同一帧**触发；异步 > 50ms 即为缺陷。音效遵守 §14 原则 —— 默认不引入自定义声音，由系统触觉附带的微声承担。 |
 
 ---
 
@@ -443,11 +443,13 @@ function GlassEffectContainer({ children, intensity = 60, style }: Props) {
 </GlassEffectContainer>
 ```
 
-**应用场景（强制）：**
+**应用场景（建议）：** 🍎 OFF（SwiftUI 官方行为） 🛠️ RN-T2（近似，非物理等价）
 - TabBar（多 Tab 图标）
 - 工具栏多按钮（如 Chart 周/月/年分段 + 粒度分段并列时）
 - FAB 展开菜单（主 FAB + 子 FAB 同为玻璃态时）
 - Modal 内的分段控件组
+
+**降级路径：** 若 `GlassEffectContainer` 模式的工程复杂度（多层嵌套、跨导航路由）不允许，按 **§21 D2 Accepted Deviation** 使用独立 `BlurView`，但须在对应相位 `VERIFICATION.md` 登记偏差原因。
 
 **禁区：**
 - ❌ 容器内再嵌 `BlurView`（打破共享采样原则）
@@ -655,7 +657,7 @@ PR 若涉及玻璃控件，**必须**逐项勾：
 
 ### 5.3 排版铁律
 
-1. **最小正文 17pt**（HIG 硬性要求 + 可访问性）—— `body` 以下（13 / 12）仅用于辅助。
+1. **推荐正文 17pt**（Apple Typography 默认值，见 [HIG Typography](https://developer.apple.com/design/human-interface-guidelines/typography) 🍎 OFF）；**技术最小 11pt**（系统允许），**本仓库下限 12pt**（仅 `caption1` 使用），13pt 以上（`footnote`）为辅助信息区，17pt（`body` / `navTitle`）为主信息区。
 2. **行高 / 字号 = 1.2 ~ 1.35**（已在上表固化）。
 3. **等宽数字（Tabular Numerals）** 用于金额：
    ```ts
@@ -1128,10 +1130,11 @@ ScrollView 顶/底边界的「橡皮筋」—— iOS 原生自动，RN 需：
 ### 15.1 即时反馈三位一体
 
 ```
-用户操作 → 视觉（按压/移动）  ──┐
-          → 触觉（同帧）      ─ 100ms 内全部到位
-          → 声音（可选/系统） ──┘
+用户操作 → 视觉（按压/移动） ──┐
+          → 触觉（同帧）     ─ 100ms 内双轨到位
 ```
+
+（声音：默认交给系统触觉附带的微声；自定义音效见 §14 —— 非常规情况不引入）
 
 ### 15.2 状态叙事（State Storytelling）
 
