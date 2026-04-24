@@ -75,7 +75,7 @@
 | **14** | **3/3** | **Executed** | 2026-04-23 |
 | **15** | **3/3** | **Executed（已 revert）** | 2026-04-23 |
 | **16** | **3/3** | **Executed** — v1.2 发布，20 条 REVIEW 全闭环 | 2026-04-24 |
-| **17** | **0/1** | **Ready to execute** — `17-CONTEXT.md` + `17-01-PLAN.md` 已产出（Option A） | — |
+| **17** | **1/1** | **Executed** — Wave 1 Option A 完成（5 资产 + expo-haptics），verify 绿 | 2026-04-24 |
 
 ### Phase 15: ui的动画已经完美可是ui的美观度非常的差，你要以一个专业的美工角度去修正
 
@@ -136,7 +136,10 @@ Plans:
 **Plans:** 0 plans — 待 `/gsd-plan-phase 17` 拆分
 
 Plans:
-- [ ] `17-01-PLAN.md` — Option A：motion/haptics/SpringPressable + expo-haptics 重装（7 tasks）
+- [x] `17-01-PLAN.md` — Option A：motion/haptics/SpringPressable + expo-haptics 重装（7 tasks）✅
+
+**产物：** `src/theme/motion.ts` · `src/hooks/useReduceMotion.ts` · `src/utils/haptics.ts` (+ .test.ts) · `src/components/SpringPressable.tsx` · `expo-haptics ~15.0.8` · `17-VERIFICATION.md`
+**verify：** 4 test files / 17 tests passed
 
 ---
 

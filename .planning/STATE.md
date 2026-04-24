@@ -16,11 +16,11 @@ progress:
 
 ## Current Position
 
-Phase: **16**（design-guide-v1.2）— **设计宪法 v1.2 发布**（Codex + Gemini 交叉评审闭环）
-Plan: **3/3** 已执行
-Status: Ready to execute
+Phase: **17**（design-ground）— **基础资产落地**（motion/haptics/SpringPressable）
+Plan: **1/1** 已执行
+Status: Complete
 
-- **Resume：** `16-VERIFICATION.md` 20 条全勾 · 可开始 Phase 17 源码骨架
+- **Resume：** `17-VERIFICATION.md` 7 task 全勾 · 可开始 Phase 18（玻璃体系 Option B）
 
 ## Current Status
 
