@@ -17,8 +17,8 @@
 
 ### Liquid Glass · 推迟项落地 (GLASS)
 
-- [ ] **GLASS-01**: 将 **`useMaterialize`**（或等效协调的 opacity/scale/spring）应用于 **预算/资产** 等使用 `Modal` 的进出场，替代仅 `animationType` 的默认观感；**Reduce Motion** 路径须降级（见 v1.2 / `useReduceMotion`）。
-- [ ] **GLASS-02**: 将 **`GlassShimmer`** 接入 **`Fab`**（及必要时一处主路径 CTA）；不得显著降低点击热区与对比度；需通过 `npm run verify`。
+- [x] **GLASS-01**: 将 **`useMaterialize`**（或等效协调的 opacity/scale/spring）应用于 **预算/资产** 等使用 `Modal` 的进出场，替代仅 `animationType` 的默认观感；**Reduce Motion** 路径须降级（见 v1.2 / `useReduceMotion`）。
+- [x] **GLASS-02**: 将 **`GlassShimmer`** 接入 **`Fab`**（及必要时一处主路径 CTA）；不得显著降低点击热区与对比度；需通过 `npm run verify`。
 
 ---
 
@@ -49,8 +49,8 @@
 | UAT-02 | Phase 21 | Blocked — THEME-01 手测未执行，已登记 Deferred UAT，见 `11-VERIFICATION.md` |
 | UAT-03 | Phase 21 | Blocked — A11Y-01 手测未执行，同上 |
 | UAT-04 | Phase 21 | Blocked — LG-01 手测未执行，同上 |
-| GLASS-01 | Phase 22 | Pending |
-| GLASS-02 | Phase 22 | Pending |
+| GLASS-01 | Phase 22 | Done — 见 `22-VERIFICATION.md`、`MaterializeModal` + Budget/Asset |
+| GLASS-02 | Phase 22 | Done — 见 `22-VERIFICATION.md`、`Fab` + `npm run verify` |
 
 **Coverage:** v3.1 需求 6 条；已映射 6 条；Unmapped: 0。
 

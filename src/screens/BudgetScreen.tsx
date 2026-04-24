@@ -2,16 +2,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  Modal,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { GroupedInset } from "../components/ios";
+import { GroupedInset, MaterializeModal } from "../components/ios";
 import { SpringPressable } from "../components/SpringPressable";
 import { sumExpenseForCalendarMonth } from "../budget/monthExpense";
 import { useBillsRefresh } from "../context/BillsRefreshContext";
@@ -81,12 +74,6 @@ function buildBudgetStyles(colors: AppPalette) {
       ...shadows.card,
     },
     secondaryBtnText: { color: colors.title, fontSize: 15, fontWeight: "600" },
-    modalBackdrop: {
-      flex: 1,
-      backgroundColor: colors.modalScrim,
-      justifyContent: "center",
-      padding: 24,
-    },
     modalCard: {
       backgroundColor: colors.surface,
       borderRadius: radii.sheet,
@@ -225,45 +212,50 @@ export function BudgetScreen(): React.ReactElement {
         )}
       </ScrollView>
 
-      <Modal visible={modalOpen} transparent animationType="fade">
-        <View style={styles.modalBackdrop}>
-          <View style={styles.modalCard}>
-            <Text style={styles.modalTitle}>本月预算金额</Text>
-            <TextInput
-              style={styles.input}
-              value={capInput}
-              onChangeText={setCapInput}
-              keyboardType="decimal-pad"
-              placeholder="0"
-              placeholderTextColor={colors.lightTitle}
-            />
-            <View style={styles.modalActions}>
-              <SpringPressable
-                onPress={() => setModalOpen(false)}
-                style={styles.modalCancel}
-                accessibilityRole="button"
-                accessibilityLabel="取消"
-                hapticOn="pressIn"
-                hapticIntensity="light"
-              >
-                <Text style={styles.modalCancelText}>取消</Text>
-              </SpringPressable>
-              <SpringPressable
-                onPress={() => {
-                  void haptic.success();
-                  saveCap();
-                }}
-                style={styles.modalSave}
-                accessibilityRole="button"
-                accessibilityLabel="保存预算"
-                hapticOn={false}
-              >
-                <Text style={styles.modalSaveText}>保存</Text>
-              </SpringPressable>
-            </View>
+      <MaterializeModal
+        visible={modalOpen}
+        onRequestClose={() => {
+          setModalOpen(false);
+        }}
+      >
+        <View style={styles.modalCard}>
+          <Text style={styles.modalTitle}>本月预算金额</Text>
+          <TextInput
+            style={styles.input}
+            value={capInput}
+            onChangeText={setCapInput}
+            keyboardType="decimal-pad"
+            placeholder="0"
+            placeholderTextColor={colors.lightTitle}
+          />
+          <View style={styles.modalActions}>
+            <SpringPressable
+              onPress={() => {
+                setModalOpen(false);
+              }}
+              style={styles.modalCancel}
+              accessibilityRole="button"
+              accessibilityLabel="取消"
+              hapticOn="pressIn"
+              hapticIntensity="light"
+            >
+              <Text style={styles.modalCancelText}>取消</Text>
+            </SpringPressable>
+            <SpringPressable
+              onPress={() => {
+                void haptic.success();
+                saveCap();
+              }}
+              style={styles.modalSave}
+              accessibilityRole="button"
+              accessibilityLabel="保存预算"
+              hapticOn={false}
+            >
+              <Text style={styles.modalSaveText}>保存</Text>
+            </SpringPressable>
           </View>
         </View>
-      </Modal>
+      </MaterializeModal>
     </SafeAreaView>
   );
 }

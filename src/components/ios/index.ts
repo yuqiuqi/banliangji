@@ -8,5 +8,6 @@ export { HeaderIconButton } from "./HeaderIconButton";
 export { MonthYearPickerSheet } from "./MonthYearPickerSheet";
 export { IOSChromeGlassBackground } from "./IOSChromeGlassBackground";
 export { ListRow } from "./ListRow";
+export { MaterializeModal } from "./MaterializeModal";
 export { SegmentedTwo } from "./SegmentedTwo";
 export { VibrantText } from "./VibrantText";
