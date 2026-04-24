@@ -14,9 +14,20 @@
 
 **v2.2 — iOS 26 全局 Chrome（2026-04-22）**：`.planning/milestones/v2.2-ROADMAP.md` / `v2.2-REQUIREMENTS.md`。
 
-## Next milestone
+## Current Milestone: v3.1 — 验证闭合与 Liquid Glass 纵深收尾
 
-**未立项。** 请运行 **`/gsd-new-milestone`** 生成下一版本范围与新的 `REQUIREMENTS.md`。候选方向（非承诺）：Phase 21 陀螺仪高光 / `useMaterialize` 全面接入 Modal、`GlassShimmer` 与 FAB 集成（见 `20-VERIFICATION.md` 推迟表）。
+**Goal:** 在 **不削弱 v3.0 感知质量** 的前提下，关闭跨版本结转 **设备/冒烟验证**，并把 v1.2 / `20-VERIFICATION` 中推迟的 **Modal 材质化（`useMaterialize`）** 与 **GlassShimmer → FAB/主 CTA** 落到代码。
+
+**Target features:**
+
+- **UAT-01 — DATA-02**：杀进程冷启动后账单仍可查（更新 `DATA-02-SMOKE.md` 为 PASS 或记录阻塞原因与日期）。
+- **UAT-02 — THEME-01**：系统深色下关键屏可读（`11-VERIFICATION` 手测签字或等效记录）。
+- **UAT-03 — A11Y-01**：「降低透明度」下主路径可用（同上）。
+- **UAT-04 — LG-01**：Tier-1 动效/材质 spot-check（同上）。
+- **GLASS-01**：预算/资产等 **RN `Modal` 进出场** 接入 `useMaterialize`（或等效 Reanimated 材质化），对齐 v1.2 §3.12；Reduce Motion 降级保留。
+- **GLASS-02**：**`GlassShimmer`** 接入 **FAB**（及必要时主列表 CTA），按压/可见性不破坏无障碍。
+
+**范围说明：** 不包含 Skia 柱图 Tier-3；图表持机透视已在现网由加速度计近似，本里程碑不强制新增 `useGyroHighlight`，除非 UAT 单列 REQ。
 
 ---
 
@@ -30,7 +41,7 @@
 
 ## Prior milestone（结转）: v2.3 — 质量验证与系统外观
 
-**Goal:** 关闭可验证债务并推进 **Tier-1** Liquid Glass 纵深；**未完全闭合项**并入 **v2.4 / Phase 13**（见 `.planning/REQUIREMENTS.md`）。
+**Goal:** 关闭可验证债务并推进 **Tier-1** Liquid Glass 纵深；**未完全闭合项**并入 **v2.4 / Phase 13**（结转需求见 **v3.1** 的 `.planning/REQUIREMENTS.md`）。
 
 **Target features（仍为产品承诺直至勾选）：**
 
@@ -118,4 +129,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state  
 
 ---
-*Last updated: 2026-04-24 — **v3.0 里程碑封板**；下一里程碑请 `/gsd-new-milestone`。*
+*Last updated: 2026-04-24 — **v3.1 里程碑已立项**（`/gsd-new-milestone`）；执行自 Phase 21 起。*

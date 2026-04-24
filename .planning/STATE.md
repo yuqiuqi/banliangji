@@ -1,11 +1,11 @@
 ---
 gsd_state_version: 1.0
-milestone: TBD
-milestone_name: （下一里程碑待 /gsd-new-milestone）
-status: planning
-last_updated: "2026-04-24T12:00:00.000Z"
+milestone: v3.1
+milestone_name: 验证闭合与 Liquid Glass 纵深收尾
+status: defining
+last_updated: "2026-04-24T14:00:00.000Z"
 progress:
-  total_phases: 0
+  total_phases: 2
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -16,21 +16,17 @@ progress:
 
 ## Current Position
 
-- **上一里程碑：** **v3.0** 已于 **2026-04-24** 封板（归档：`milestones/v3.0-ROADMAP.md`、`v3.0-REQUIREMENTS.md`）。
-- **当前：** 无活动阶段；请 **`/gsd-new-milestone`** 开启下一版本。
+**Phase:** 未开始（路线图已建立，待 discuss/plan）  
+**下一执行：** **Phase 21** — 设备验证与 DATA-02 冒烟闭环  
+**Status:** Defining requirements → **Ready for `/gsd-discuss-phase 21`**  
+**Last activity:** 2026-04-24 — Milestone **v3.1** initialized（`/gsd-new-milestone`）
 
-## Deferred Items（结转 · 见归档需求）
+## Accumulated Context
 
-| 类别 | 项 | 说明 |
-|------|----|------|
-| DATA-02 | 杀进程冒烟 | 仍 **BLOCKED**（`DATA-02-SMOKE.md`） |
-| 手测签字 | THEME-01 / A11Y-01 / LG-01 | 见 `11-VERIFICATION` |
-| 文档 | 999.x backlog | `ROADMAP.md` **Backlog** |
-
-## Pre-flight（本封板）
-
-- **未运行** `/gsd-audit-milestone`：无 `.planning/v3.0-MILESTONE-AUDIT.md`；缺口与结转已在 `MILESTONES.md` / `PROJECT.md` 标注。
+- **v3.0 已封板：** 见 `milestones/v3.0-ROADMAP.md`、`v3.0-REQUIREMENTS.md`。
+- **Research：** 本里程碑跳过并行 domain research（结转验证 + 工程内 Glass 集成）。
+- **阶段编号：** 自 Phase **21** 起续编（未使用 `--reset-phase-numbers`）。
 
 ---
 
-*Last updated: 2026-04-24 — `/gsd-complete-milestone` v3.0*
+*Last updated: 2026-04-24 — `/gsd-new-milestone` v3.1*

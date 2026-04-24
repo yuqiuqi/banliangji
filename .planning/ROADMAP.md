@@ -11,17 +11,37 @@
 | **v2.3** | 质量验证与系统外观 | Phases 10–12 + 结转 | 结转 v2.4 |
 | **v2.4** | iOS 26 Chrome 副路径全量对齐 | Phase 13 | 2026-04-23 |
 | ✅ **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phases 14–20** | **2026-04-24** |
+| **v3.1** | **验证闭合与 Liquid Glass 纵深收尾** | **Phases 21–22** | — |
 
 - **v1–v2.2 全文归档：** [`.planning/milestones/v2.2-ROADMAP.md`](milestones/v2.2-ROADMAP.md)  
 - **v3.0 路线图全文归档：** [`.planning/milestones/v3.0-ROADMAP.md`](milestones/v3.0-ROADMAP.md)  
 - **v3.0 需求全文归档：** [`.planning/milestones/v3.0-REQUIREMENTS.md`](milestones/v3.0-REQUIREMENTS.md)  
-- **下一里程碑：** 运行 `/gsd-new-milestone` 后更新本表并新建 `REQUIREMENTS.md`。
+- **当前里程碑需求：** [`.planning/REQUIREMENTS.md`](REQUIREMENTS.md)（**v3.1**）
 
 ---
 
-## 当前焦点
+## 当前焦点（v3.1）
 
-下一里程碑尚未在路线图立项。请先 **`/gsd-new-milestone`**，再展开阶段规划。
+**Phase 21** — 设备与文档化验证（**UAT-01～04**）：DATA-02 冒烟；THEME / A11Y / LG-01 与 `11-VERIFICATION` 对齐的签字或等效记录。  
+**Phase 22** — **GLASS-01 / GLASS-02**：`useMaterialize` 接入 Modal 进出场；`GlassShimmer` 接入 FAB/主 CTA。
+
+### Phase 21: 验证闭合（smoke-uat-close）
+
+| 项 | 内容 |
+|----|------|
+| **Goal** | 关闭 v2.3/v2.4 结转：**DATA-02**、**THEME-01**、**A11Y-01**、**LG-01**；更新对应 `*-VERIFICATION.md` / `DATA-02-SMOKE.md`。 |
+| **Requirements** | UAT-01, UAT-02, UAT-03, UAT-04 |
+| **Success criteria** | 1) `DATA-02-SMOKE.md` 的 `Result:` 为 **PASS** 或 **BLOCKED** 且含日期与说明 2) `11-VERIFICATION`（或指定替代清单）对 THEME/A11Y/LG-01 有 **Signed / 等效记录** 或明确延期条目 3) `REQUIREMENTS.md` 追溯表中 Phase 21 行可标 Done 或 Blocked+理由 4) 不引入 `npm run verify` 回归 |
+
+### Phase 22: Modal 材质化与 Shimmer/FAB（glass-deferred）
+
+| 项 | 内容 |
+|----|------|
+| **Goal** | 落实 `20-VERIFICATION` 推迟项：**useMaterialize → Modal**；**GlassShimmer → Fab**（及必要时一处 CTA）。 |
+| **Requirements** | GLASS-01, GLASS-02 |
+| **Success criteria** | 1) 至少 **BudgetScreen / AssetScreen**（及清单中其他 RN `Modal`）进出场使用 `useMaterialize` 协调动画，Reduce Motion 降级可用 2) `Fab`（或约定 CTA）集成 `GlassShimmer`，主路径可点、无障碍标签保留 3) `npm run verify` 绿 4) 关键行为记入 `22-VERIFICATION.md`（或本相验证文档） |
+
+**Depends on:** Phase 21（验证可与开发并行时，以 PROJECT 决策为准；默认顺序先 21 再 22 以降低回归风险）。
 
 <details>
 <summary>✅ v3.0（Phases 14–20）— 已于 2026-04-24 封板</summary>
@@ -71,6 +91,8 @@
 | 12 | 2/2 | Executed（DATA-02 仍 BLOCKED） | 2026-04-23 |
 | 13 | 2/2 | Executed（LG-02 Done） | 2026-04-23 |
 | 14–20 | 见归档 | **Complete（v3.0 封板）** | 2026-04-24 |
+| **21** | **TBD** | **Not started** | — |
+| **22** | **TBD** | **Not started** | — |
 
 ---
 
@@ -143,4 +165,4 @@
 
 ---
 
-*Phase 1–20 执行目录仍位于 `.planning/phases/`；v3.0 详情见 `milestones/v3.0-ROADMAP.md`。*
+*Phase 1–20 执行目录仍位于 `.planning/phases/`；v3.0 详情见 `milestones/v3.0-ROADMAP.md`。v3.1 自 Phase 21 起新增目录（待 `/gsd-plan-phase`）。*
