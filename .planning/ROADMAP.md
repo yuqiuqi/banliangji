@@ -187,4 +187,73 @@ Plans:
 
 ---
 
+## Backlog
+
+### Phase 999.1: Follow-up — Phase 15 plans without SUMMARY (BACKLOG)
+
+**Goal:** Resolve plans that ran without producing summaries during Phase 15 execution.
+
+**Source phase:** 15（`15-ui-ui`）
+
+**Deferred at:** 2026-04-23 during /gsd-next（选项 C）advancement to v3.0 Phase 20 closeout
+
+**Plans:**
+
+- [ ] 15-01: ran, no `15-01-SUMMARY.md`
+- [ ] 15-02: ran, no `15-02-SUMMARY.md`
+- [ ] 15-03: ran, no `15-03-SUMMARY.md`
+
+### Phase 999.2: Follow-up — Phase 16 plans without SUMMARY (BACKLOG)
+
+**Goal:** Resolve plans that ran without producing summaries during Phase 16 execution.
+
+**Source phase:** 16（`16-design-guide-v1.2`）
+
+**Deferred at:** 2026-04-23 during /gsd-next（选项 C）advancement to v3.0 Phase 20 closeout
+
+**Plans:**
+
+- [ ] 16-01: ran, no `16-01-SUMMARY.md`
+- [ ] 16-02: ran, no `16-02-SUMMARY.md`
+- [ ] 16-03: ran, no `16-03-SUMMARY.md`
+
+### Phase 999.3: Follow-up — Phase 17 plan without SUMMARY (BACKLOG)
+
+**Goal:** Resolve plans that ran without producing summaries during Phase 17 execution.
+
+**Source phase:** 17（`17-design-ground`）
+
+**Deferred at:** 2026-04-23 during /gsd-next（选项 C）advancement to v3.0 Phase 20 closeout
+
+**Plans:**
+
+- [ ] 17-01: ran, no `17-01-SUMMARY.md`
+
+### Phase 999.4: Follow-up — Phase 18 plans without SUMMARY (BACKLOG)
+
+**Goal:** Resolve plans that ran without producing summaries during Phase 18 execution.
+
+**Source phase:** 18（`18-glass-system`）
+
+**Deferred at:** 2026-04-23 during /gsd-next（选项 C）advancement to v3.0 Phase 20 closeout
+
+**Plans:**
+
+- [ ] 18-01: ran, no `18-01-SUMMARY.md`
+- [ ] 18-02: ran, no `18-02-SUMMARY.md`
+
+### Phase 999.5: Follow-up — Phase 19 planning artifacts (BACKLOG)
+
+**Goal:** A phase directory has `CONTEXT.md` but no `*-PLAN.md` files; record formal plans or document why verify-only is canonical.
+
+**Source phase:** 19（`19-ui-integration`）
+
+**Deferred at:** 2026-04-23 during /gsd-next（选项 C）advancement to v3.0 Phase 20 closeout
+
+**Plans:**
+
+- [ ] Phase 19: has `19-CONTEXT.md` + `19-VERIFICATION.md`, no `19-*-PLAN.md` (planning not recorded on disk)
+
+---
+
 *Phase 1–13 历史目录保留在 `.planning/phases/`；v3.0 从 Phase 14 起续编。*
