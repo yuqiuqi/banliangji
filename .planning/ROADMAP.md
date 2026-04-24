@@ -10,7 +10,7 @@
 | ✅ **v2.2** | **iOS 26 全局 Chrome（Liquid Glass）** | **Phase 9** | **2026-04-22** |
 | **v2.3** | 质量验证与系统外观 | Phases 10–12 + 结转 | 结转 v2.4 |
 | **v2.4** | iOS 26 Chrome 副路径全量对齐 | Phase 13 | 2026-04-23 |
-| **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phases 14–16** | — |
+| **v3.0** | **iOS 26 动效·交互·组件全面质感打磨** | **Phases 14–17** | — |
 
 - **完整路线图（v1–v2.2 全文）：** [`.planning/milestones/v2.2-ROADMAP.md`](milestones/v2.2-ROADMAP.md)  
 - **v2.4 需求快照：** 已并入下方 v3.0 结转  
@@ -75,6 +75,7 @@
 | **14** | **3/3** | **Executed** | 2026-04-23 |
 | **15** | **3/3** | **Executed（已 revert）** | 2026-04-23 |
 | **16** | **3/3** | **Executed** — v1.2 发布，20 条 REVIEW 全闭环 | 2026-04-24 |
+| **17** | **0/0** | **Planned — 讨论中（`/gsd-discuss-phase 17`）** | — |
 
 ### Phase 15: ui的动画已经完美可是ui的美观度非常的差，你要以一个专业的美工角度去修正
 
@@ -117,6 +118,25 @@ Plans:
 - [x] `16-03-PLAN.md` — P2 工程化 + 四栏标签 + `16-VERIFICATION.md` ✅
 
 **产物：** `IOS26-DESIGN-GUIDE.md` v1.2（1731 行，+287）· `16-VERIFICATION.md` 20 条全勾 · `npm run verify` 绿
+
+### Phase 17: iOS 26 设计宪法落地 — 源码骨架与资产（design-ground）
+
+**目录：** [`.planning/phases/17-design-ground/`](phases/17-design-ground/)
+
+**输入：** [`.planning/IOS26-DESIGN-GUIDE.md`](IOS26-DESIGN-GUIDE.md) v1.2 §18.2「缺失资产」表 + §19 组件级实现规范
+
+**Goal:** 承接 v1.2「必补资产」清单，为仓库建立 iOS 26 设计语言的基础源码骨架（motion tokens / hooks / 组件原语），让 Phase 18+ 的页面级重构有可引用的 import。
+
+**候选范围（`/gsd-discuss-phase 17` 待定）：** A / B / C / D 四档，对应 v1.2 §18.2 的渐进/整合策略。
+
+**Requirements**: DESIGN-GROUND-01（Phase 17 Plan 阶段补入 REQUIREMENTS.md）
+
+**Depends on:** Phase 16（v1.2 设计宪法）
+
+**Plans:** 0 plans — 待 `/gsd-plan-phase 17` 拆分
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 17 to break down)
 
 ---
 

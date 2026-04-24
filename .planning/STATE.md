@@ -50,6 +50,7 @@ Status: Complete
 
 - Phase 15 added: ui的动画已经完美可是ui的美观度非常的差，你要以一个专业的美工角度去修正
 - Phase 16 added: iOS 26 设计宪法 v1.2 修订 — 依据 `.planning/IOS26-DESIGN-GUIDE-REVIEW.md` 的 P0/P1/P2 清单，修正 4 处事实错误、补 `glassEffectUnion` / App Icon / 控件 Extra-Large 三章、解决 3 处规范冲突、给所有规则加「官方 / 归纳 / RN 近似 / 依赖」四栏标签
+- Phase 17 added: iOS 26 设计宪法落地 — 源码骨架与资产建立（v1.2 §18.2 必补资产），范围待 `/gsd-discuss-phase 17` 讨论（A/B/C/D 四档候选）
 
 - **v3.0 实现：** `src/theme/motion.ts`、`src/components/SpringPressable.tsx`、`src/hooks/useReduceMotion.ts`、`src/utils/haptics.ts`、`expo-haptics`
 
