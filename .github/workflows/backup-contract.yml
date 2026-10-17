@@ -2,13 +2,13 @@ name: Backup data contract
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
     paths:
       - 'src/db/backup*.ts'
       - 'src/db/database.ts'
       - '.github/workflows/backup-contract.yml'
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - 'src/db/backup*.ts'
       - 'src/db/database.ts'
